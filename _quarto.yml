@@ -1,0 +1,18 @@
+project:
+  type: book
+
+book:
+  title: "Packages in the omopverse"
+  author: "Edward Burn, Martí Català"
+  date: today
+  chapters:
+  - index.qmd
+  - principles.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+
+editor: visual

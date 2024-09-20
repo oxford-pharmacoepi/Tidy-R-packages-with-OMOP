@@ -1,0 +1,9 @@
+# Principles
+
+- scope of the package
+- error messages
+  - Why?
+  - How?
+- naming
+  - functions
+  - arguments
