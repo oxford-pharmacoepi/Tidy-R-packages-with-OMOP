@@ -14,7 +14,7 @@
     "href": "principles.html",
     "title": "2  Principles",
     "section": "",
-    "text": "scope of the package\nerror messages\n\nWhy?\nHow?\n\nnaming\n\nfunctions\narguments",
+    "text": "Before developing the package\n\nscope\nhow it fits within the ecosystem\n\nerror messages\n\nWhy?\nHow?\n\nnaming\n\nfunctions\narguments",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Principles</span>"
     ]
