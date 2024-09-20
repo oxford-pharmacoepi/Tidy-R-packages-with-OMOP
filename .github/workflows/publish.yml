@@ -21,10 +21,7 @@ jobs:
       - name: Install R libraries in renv
         uses: r-lib/actions/setup-renv@v2
 
-      - name: Render Quarto site
-        run: |
-          quarto render
-
-      - name: Publish to Github pages
-        run: |
-          quarto publish gh-pages
+      - name: Render and Publish
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
