@@ -1,0 +1,7 @@
+output:
+  html:
+    publish:
+      gh-pages:
+        action: workflow
+        branch: gh-pages
+        repo: oxford-pharmacoepi/DeveloperBook
