@@ -1,0 +1,22 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Packages in the omopverse",
+    "section": "",
+    "text": "1 Geeting started\nThis is an opinionated book on how we develop packages in the omopverse.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Geeting started</span>"
+    ]
+  },
+  {
+    "objectID": "principles.html",
+    "href": "principles.html",
+    "title": "2  Principles",
+    "section": "",
+    "text": "scope of the package\nerror messages\n\nWhy?\nHow?\n\nnaming\n\nfunctions\narguments",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Principles</span>"
+    ]
+  }
+]
