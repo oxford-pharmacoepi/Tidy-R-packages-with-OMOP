@@ -1,9 +1,11 @@
 # Principles
 
-- scope of the package
-- error messages
-  - Why?
-  - How?
-- naming
-  - functions
-  - arguments
+- Before developing the package
+  - scope
+  - how it fits within the ecosystem
+-   error messages
+    -   Why?
+    -   How?
+-   naming
+    -   functions
+    -   arguments
