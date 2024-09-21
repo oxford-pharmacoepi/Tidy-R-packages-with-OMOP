@@ -14,7 +14,7 @@
     "href": "principles.html",
     "title": "2  Principles",
     "section": "",
-    "text": "Before developing the package\n\nscope\nhow it fits within the ecosystem\n\nerror messages\n\nWhy?\nHow?\n\nnaming\n\nfunctions\narguments",
+    "text": "Before developing the package\n\nscope\nhow it fits within the ecosystem\n\nclasses (they are deffined in omopgenerics)\nerror messages\n\nWhy?\nHow?\n\nnaming\n\nfunctions\nstrcutures: generate...CohortSet, ...Cohort, add..., summarise..., plot..., table...,\narguments\n\ninput validation\ntesting\nreexport",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Principles</span>"
     ]
