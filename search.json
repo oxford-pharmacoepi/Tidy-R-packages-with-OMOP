@@ -2,11 +2,11 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Packages in the omopverse",
+    "title": "Building tidy R packages for the OMOP common data model",
     "section": "",
-    "text": "1 Geeting started\nThis is an opinionated book on how we develop packages in the omopverse.",
+    "text": "1 Getting started\nThis is an opinionated book on how we develop packages in the omopverse.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Geeting started</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Getting started</span>"
     ]
   },
   {
@@ -16,7 +16,74 @@
     "section": "",
     "text": "Before developing the package\n\nscope\nhow it fits within the ecosystem\n\nclasses (they are deffined in omopgenerics)\nerror messages\n\nWhy?\nHow?\n\nnaming\n\nfunctions\nstrcutures: generate...CohortSet, ...Cohort, add..., summarise..., plot..., table...,\narguments\n\ninput validation\ntesting\nreexport",
     "crumbs": [
+      "Principles",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Principles</span>"
+    ]
+  },
+  {
+    "objectID": "contributing.html",
+    "href": "contributing.html",
+    "title": "6  Contributing to a package",
+    "section": "",
+    "text": "6.1 GitHub issues",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Contributing to a package</span>"
+    ]
+  },
+  {
+    "objectID": "contributing.html#github-issues",
+    "href": "contributing.html#github-issues",
+    "title": "6  Contributing to a package",
+    "section": "",
+    "text": "6.1.1 Opening GitHub issues\nThe first step to contributing to an existing package is by opening issues on its GitHub repository. These issues could be about bugs you encountered when using the package, requests for additional functionality (that you might even want to add yourself), or clarification questions on package documentation.\n\n\n6.1.2 What makes a good issue\nIf reporting a bug, then a reprex makes the maintainers life much, much easier (and in turn increases the likelihood of a quick fix being introduced much higher!). This reprex will allow the developer to quickly reproduce the issue. This is already halfway to solving it, given the old adage &gt; “A problem well stated is half solved.”\nOften an issue may arise when running code against a database with real patient-level data which can make it challenging to quickly create a reprex (as the patient data for which the bug was seen cannot be shared). In this situation it may be possible to reproduce the problem on an available synthetic dataset like Eunomia, in which case the package developer will be able to reproduce the bug with the synthetic data. However, it may be that you only encounter the issue for some particular set of patients with specific characteristics which are not seen in the synthetic data. In this case you can, for example, use the omock package to create a set of synthetic patients with these characteristics so that the developer can use this same data to reproduce the problem.\nAlthough of course it would be ideal to include a reprex, this may not always be possible. In such cases please do make sure to provide a bug report, with as much information as possible, as this will still be extremely useful and appreciated.\nIf opening an issue to ask for clarifications on documentation or with requests for additional functionality, the more precise and specific the issue the better. If you have a long laundry list of feature requests, it would generally be better to open each as separate issues so they can be addressed incrementally.\nNote, even if you are not the maintainer of package but want to open a pull request to change documentation or add functionality then try to always open an issue to discuss this first. Even some seemingly trivial changes might be out of scope for the package (or they might have already been added in development branches of the repo). However well-intentioned, “drive-by pull requests” are often challenging for package maintainers to deal with.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Contributing to a package</span>"
+    ]
+  },
+  {
+    "objectID": "contributing.html#responding-to-github-issues",
+    "href": "contributing.html#responding-to-github-issues",
+    "title": "6  Contributing to a package",
+    "section": "6.2 Responding to GitHub issues",
+    "text": "6.2 Responding to GitHub issues\nOn the other side of the equation if you are the maintainer of package, receiving issues is one the main ways you will receive feedback on the package. Get used to starting with somewhat vague issues that will need some back and forth to get to the route of the problem or request for additional functionality.\nWhen a bug is fixed in the package as a rule you should also add a corresponding test to make sure that it will stay fixed into the future. One benefit of being given a reprex is that not only will it help you to fix the problem but the reprex itself can be used as the test for the package. By receiving and acting on issues raised, which will often be somewhat exotic edge cases or people using the package in some way that you hadn’t expected, the package will become hardened over time.\nWhen it comes to requests for adding functionality, or even offers to add it, this is a tricky balancing act. Remember that you will be the one maintaining the package in the long-term. It is often the case that the quick addition of something seemingly useful can make a package more difficult to maintain or extend in the future. Typically it is worth waiting a day or two at least before agreeing to add something to a package so that you don’t rush into making an addition or change that you will later come to regret.\nAnother point to keep in mind when considering issues with requests for functionality is whether to add more general functionality than is being asked for. A well-intentioned user may be asking for something very specific to be added, but often underlying this request will be a broader need for more general functionality. This my tie in to other requests received, or may even need more discussion with users to better understand whether there is a broader need at play. general solutions\nRemember that sadly few people be opening issues with praise if they’ve used your package successfully. The majority of users will use the code you’ve written without a problem and likely without even realising how much work has gone into it. And the people that do open issues are providing an extemely valuable service that will lead to the software getting better and better over time. So try to keep this in mind when tackling the seemingly never-ending list of issues you’ll get if your software is being used.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Contributing to a package</span>"
+    ]
+  },
+  {
+    "objectID": "contributing.html#contributing-code-or-documentation",
+    "href": "contributing.html#contributing-code-or-documentation",
+    "title": "6  Contributing to a package",
+    "section": "6.3 Contributing code or documentation",
+    "text": "6.3 Contributing code or documentation\nContributing documentation is one of the best ways to improve a package. Fixing typos, adding clarifications, and even writing whole vignettes will almost always be highly welcomed by the maintainer and improve the experience of other users.\nContributing code is a more involved task. Before starting, make sure you’ve at the very least interacted with the maintainer so that they will be in favour of the changes or additions you are planning. If fixing a bug, make sure to add tests alongside code changes to show that it is truly fixed. When fixing a bug existing tests should typically be unchanged (unless there is an issue with the test itself). If you are having to change existing tests to fix a bug this is normally a sign that there might be some more profound issue and will likely need back and forth between you and the maintainer for this to be addressed.\nIf adding functionality this again should be accompanied with tests to show that it adds the desired behaviour. Moreover, updates to package documentation, including changes or additions to vignettes might be needed. Expect back and forth with the package maintainer, as they might well have feedback on the implementation you propose.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Contributing to a package</span>"
+    ]
+  },
+  {
+    "objectID": "contributing.html#opening-pull-requests",
+    "href": "contributing.html#opening-pull-requests",
+    "title": "6  Contributing to a package",
+    "section": "6.4 Opening pull requests",
+    "text": "6.4 Opening pull requests\nChanges to packages should come via pull requests. Create a branch or a fork of the code, make your change, and open your pull request. If opening a pull request, more than anything try to create a pull request that will be easy for the package maintainer to review and merge. A pull request will be better for everyone involved when it addresses just one specific issue. One quick way to create complexity for the maintainer is to open a pull request that addresses multiple issues at the same time. Although this could be more efficient for the person opening the pull request, it often slows down the review by increasing the complexity of the review for the maintainer.\nAs the bare minimum a",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Contributing to a package</span>"
+    ]
+  },
+  {
+    "objectID": "contributing.html#reviewing-pull-requests",
+    "href": "contributing.html#reviewing-pull-requests",
+    "title": "6  Contributing to a package",
+    "section": "6.5 Reviewing pull requests",
+    "text": "6.5 Reviewing pull requests\n\n6.5.1 Documenting the package\nRun the below to update and check package documentation:\ndevtools::document() \ndevtools::run_examples()\ndevtools::build_readme()\ndevtools::build_vignettes()\ndevtools::check_man()\nNote that devtools::check_man() should not return any warnings. If your commit is limited to only package documentation, running the above should be sufficient (although running devtools::check() will always generally be a good idea before submitting a pull request.\n\n\n6.5.2 Run tests\nBefore starting to contribute any code, first make sure the package tests are all passing. If not raise an issue before going any further (although please first make sure you have all the packages from imports and suggests installed). As you then contribute code, make sure that all the current tests and any you add continue to pass. All package tests can be run together with:\ndevtools::test()\nCode to add new functionality should be accompanied by tests. Code coverage can be checked using:\n# note, you may first have to detach the package\n# detach(\"package:IncidencePrevalence\", unload=TRUE)\ndevtools::test_coverage()\n\n\n6.5.3 Adhere to code style\nPlease adhere to the code style when adding any new code. Do not though restyle any code unrelated to your pull request as this will make code review more difficult.\nlintr::lint_package(\".\",\n                    linters = lintr::linters_with_defaults(\n                      lintr::object_name_linter(styles = \"camelCase\")\n                    )\n)\n\n\n6.5.4 Run check() before opening a pull request\nBefore opening any pull request please make sure to run:\ndevtools::check() \nNo warnings should be seen.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Contributing to a package</span>"
     ]
   }
 ]
