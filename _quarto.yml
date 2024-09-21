@@ -2,12 +2,33 @@ project:
   type: book
 
 book:
-  title: "Packages in the omopverse"
+  title: "Building tidy R packages for the OMOP common data model"
   author: "Edward Burn, Martí Català"
   date: today
   chapters:
   - index.qmd
-  - principles.qmd
+  - part: part_one.qmd
+    chapters:
+    - principles.qmd
+    - omop_packages.qmd
+    - function_interfaces.qmd
+    - function_outputs.qmd
+    - contributing.qmd
+  - part: part_two.qmd
+    chapters:
+    - documenting_functions.qmd
+    - readme.qmd
+    - vignettes.qmd
+  - part: part_three.qmd
+    chapters:
+    - unit_testing.qmd
+  - part: part_four.qmd
+    chapters:
+    - input_validation.qmd
+    - optimising_code.qmd
+  - part: part_five.qmd
+    chapters:
+    - releasing.qmd
 
 bibliography: references.bib
 

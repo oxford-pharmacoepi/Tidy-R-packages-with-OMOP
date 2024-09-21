@@ -1,3 +1,3 @@
-# Geeting started
+# Getting started
 
 This is an **opinionated** book on how we develop packages in the omopverse.

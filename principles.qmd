@@ -1,16 +1,16 @@
 # Principles
 
-- Before developing the package
-  - scope
-  - how it fits within the ecosystem
+-   Before developing the package
+    -   scope
+    -   how it fits within the ecosystem
 -   classes (they are deffined in omopgenerics)
 -   error messages
     -   Why?
     -   How?
 -   naming
     -   functions
-      -  strcutures: `generate...CohortSet`, `...Cohort`, `add...`, `summarise...`, `plot...`, `table...`, 
+    -   strcutures: `generate...CohortSet`, `...Cohort`, `add...`, `summarise...`, `plot...`, `table...`,
     -   arguments
-- input validation
-- testing
-- reexport
+-   input validation
+-   testing
+-   reexport
