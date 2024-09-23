@@ -6,10 +6,10 @@ book:
   author: "Edward Burn, Martí Català"
   date: today
   chapters:
-  - index.qmd
+  - introduction.qmd
+  - gettingstarted.qmd
   - part: part_one.qmd
     chapters:
-    - principles.qmd
     - omop_packages.qmd
     - function_interfaces.qmd
     - function_outputs.qmd

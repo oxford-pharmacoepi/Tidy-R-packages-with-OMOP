@@ -1,0 +1,30 @@
+# Introduction {.unnumbered}
+
+This is an **opinionated** book on how we develop packages in the omopverse.
+
+R packages
+
+For general R package development we recommend the following book: [R Packages; Learn how to create a package, the fundamental unit of shareable, reusable, and reproducible R code](https://r-pkgs.org).
+
+The book is divided in four parts:
+
+- **Part one**: covers the main ...
+- **Part two**: covers the main ...
+- **Part three**: covers the main ...
+- **Part four**: covers the main ...
+- **Part five**: covers the main ...
+
+-   Before developing the package
+    -   scope
+    -   how it fits within the ecosystem
+-   classes (they are deffined in omopgenerics)
+-   error messages
+    -   Why?
+    -   How?
+-   naming
+    -   functions
+    -   strcutures: `generate...CohortSet`, `...Cohort`, `add...`, `summarise...`, `plot...`, `table...`,
+    -   arguments
+-   input validation
+-   testing
+-   reexport
