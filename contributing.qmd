@@ -110,8 +110,13 @@ Once you've made sure that you are happy with the code you want to contribute, y
 
 - Write a meaningful title, titles of pull requests are later used to document the changes done. Make sure that the title of the pull request describes the issue that is fixed, therefore the documentation of the changes will be easier.
 
-- Link the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request using any of the [gitub closing words]()
+- Link the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request using any of the [gitub closing words](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) or you can do it manually in the *development* section (bottom of the right sidebar).
+
+- Describe any potential issue you want to remark. Help the maintainer review your pull request indicating if there is anything you are not sure about or that you want some feedback on. Don't hesitate to ask any question if needed.
 
 ## Reviewing pull requests
 
-Reviewing
+Reviewing pull requests is a very important step that the maintainers have to do. When doing so bear in mind the following:
+
+- Be kind, we want to encourage people to contribute to our packages.
+- Be strict, you will be the ultimate responsible for that code. So review it carefully and only accept if you are happy about it and you feel confortable maintaining that code.
