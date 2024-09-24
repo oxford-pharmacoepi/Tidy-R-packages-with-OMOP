@@ -12,6 +12,7 @@ book:
     - principles.qmd
     - omop_packages.qmd
     - function_interfaces.qmd
+    - conventions.qmd
     - function_outputs.qmd
     - contributing.qmd
   - part: part_two.qmd

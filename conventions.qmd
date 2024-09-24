@@ -1,0 +1,7 @@
+# Conventions
+
+Our code adheres to some style conventions as decribed in this chapter.
+
+## Casing
+
+In general we use [**camelCase**](https://www.freecodecamp.org/news/snake-case-vs-camel-case-vs-pascal-case-vs-kebab-case-whats-the-difference/) naming for arguments and functions.
