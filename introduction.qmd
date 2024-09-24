@@ -28,3 +28,4 @@ The book is divided in four parts:
 -   input validation
 -   testing
 -   reexport
+-   main branch should be protected

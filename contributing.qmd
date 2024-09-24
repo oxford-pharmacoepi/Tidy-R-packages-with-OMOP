@@ -48,27 +48,49 @@ If adding functionality this again should be accompanied with tests to show that
 
 ## Opening pull requests
 
-Changes to packages should come via pull requests. Create a branch or a fork of the code, make your change, and open your pull request. If opening a pull request, more than anything try to create a pull request that will be easy for the package maintainer to review and merge. A pull request will be better for everyone involved when it addresses just one specific issue. One quick way to create complexity for the maintainer is to open a pull request that addresses multiple issues at the same time. Although this could be more efficient for the person opening the pull request, it often slows down the review by increasing the complexity of the review for the maintainer.
+Changes to packages should come via pull requests. Create a branch or a fork of the code, make your change, and open your pull request. If opening a pull request, more than anything try to create a pull request that will be easy for the package maintainer to review and merge. A pull request will be better for everyone involved when it addresses just one specific issue and affects less than 250 lines of code. One quick way to create complexity for the maintainer is to open a pull request that addresses multiple issues at the same time. Although this could be more efficient for the person opening the pull request, it often slows down the review by increasing the complexity of the review for the maintainer.
 
-As the bare minimum a
+Before starting to contribute any code, first make sure the package tests are all passing. To do so after cloning run the following code:
+```{r, eval=FALSE}
+devtools::check()
+```
 
-### Documenting the package
+The output should be:
+```{r, echo=FALSE}
+paste0(
+  "0 errors ", cli::symbol$tick, " | 0 warnings ", cli::symbol$tick, 
+  " | 0 notes ", cli::symbol$tick
+) |>
+  cli::col_green() |>
+  cli::cli_inform()
+```
+
+If not raise an issue before going any further (although please first make sure you have all the packages from imports and suggests installed).
+
+Now you are ready to do your code contribution. Add the relevant code and when you are happy with the changes that you have made, please follow these steps to open a pull request:
+
+### Initial checks
 
 Run the below to update and check package documentation:
-
 ``` r
-devtools::document() 
-devtools::run_examples()
-devtools::build_readme()
-devtools::build_vignettes()
+devtools::document()
 devtools::check_man()
 ```
 
-Note that `devtools::check_man()` should not return any warnings. If your commit is limited to only package documentation, running the above should be sufficient (although running `devtools::check()` will always generally be a good idea before submitting a pull request.
+Test that the examples work:
+``` r
+devtools::run_examples()
+```
+
+Test that the readme and vignettes work and update the results if the output of any function has changed:
+``` r
+devtools::build_readme()
+devtools::build_vignettes()
+```
 
 ### Run tests
 
-Before starting to contribute any code, first make sure the package tests are all passing. If not raise an issue before going any further (although please first make sure you have all the packages from imports and suggests installed). As you then contribute code, make sure that all the current tests and any you add continue to pass. All package tests can be run together with:
+As you then contribute code, make sure that all the current tests and any you add continue to pass. All package tests can be run together with:
 
 ``` r
 devtools::test()
@@ -87,11 +109,9 @@ devtools::test_coverage()
 Please adhere to the code style when adding any new code. Do not though restyle any code unrelated to your pull request as this will make code review more difficult.
 
 ``` r
-lintr::lint_package(".",
-                    linters = lintr::linters_with_defaults(
-                      lintr::object_name_linter(styles = "camelCase")
-                    )
-)
+lintr::lint_package(linters = lintr::linters_with_defaults(
+  lintr::object_name_linter(styles = "camelCase")
+))
 ```
 
 ### Run check() before opening a pull request
@@ -102,21 +122,28 @@ Before opening any pull request please make sure to run:
 devtools::check() 
 ```
 
-No warnings should be seen.
+Please make sure that the output is the expected:
+```{r, echo=FALSE}
+paste0(
+  "0 errors ", cli::symbol$tick, " | 0 warnings ", cli::symbol$tick, 
+  " | 0 notes ", cli::symbol$tick
+) |>
+  cli::col_green() |>
+  cli::cli_inform()
+```
+
+Any error or warning will make your pull request actions fail. Although notes can pass the github action tests we encourage to fix all the notes as this is a requirement to keep the package on cran.
 
 ### Opening the pull request
 
-Once you've made sure that you are happy with the code you want to contribute, you can open the pull request but bare in mind the following:
+Once you've made sure that checks are passing and you are happy with your code additions you can open the pull request. When opening the pull request you must take into account the following:
 
 - Write a meaningful title, titles of pull requests are later used to document the changes done. Make sure that the title of the pull request describes the issue that is fixed, therefore the documentation of the changes will be easier.
 
-- Link the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request using any of the [gitub closing words](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) or you can do it manually in the *development* section (bottom of the right sidebar).
+- Link the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request and an issue using any of the [gitub closing words](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) or you can do it manually in the *development* section (bottom of the right sidebar).
 
 - Describe any potential issue you want to remark. Help the maintainer review your pull request indicating if there is anything you are not sure about or that you want some feedback on. Don't hesitate to ask any question if needed.
 
 ## Reviewing pull requests
 
-Reviewing pull requests is a very important step that the maintainers have to do. When doing so bear in mind the following:
-
-- Be kind, we want to encourage people to contribute to our packages.
-- Be strict, you will be the ultimate responsible for that code. So review it carefully and only accept if you are happy about it and you feel confortable maintaining that code.
+Reviewing pull requests is a very important step that the maintainers have to do. When reviewing a pull request you have to find a good equilibrium between being kind (we want to encourage people to contribute to our packages) and being strict (you -as a maintainer- will be the ultimate responsible for that code; so review it carefully and only accept if you are happy about it and you feel comfortable maintaining that code).
