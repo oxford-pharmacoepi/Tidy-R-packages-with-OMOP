@@ -7,9 +7,9 @@
 The first step to contributing to an existing package is by opening issues on its GitHub repository. These issues could be about bugs you encountered when using the package, requests for additional functionality (that you might even want to add yourself), or clarification questions on package documentation.
 
 ### What makes a good issue
-If reporting a bug, then a [reprex](https://reprex.tidyverse.org/) makes the maintainers life much, much easier (and in turn increases the likelihood of a quick fix being introduced much higher!). This reprex will allow the developer to quickly reproduce the issue. This is already halfway to solving it, given the old adage
-> "A problem well stated is half solved."
- 
+
+If reporting a bug, then a [reprex](https://reprex.tidyverse.org/) makes the maintainers life much, much easier (and in turn increases the likelihood of a quick fix being introduced much higher!). This reprex will allow the developer to quickly reproduce the issue. This is already halfway to solving it, given the old adage \> "A problem well stated is half solved."
+
 Often an issue may arise when running code against a database with real patient-level data which can make it challenging to quickly create a reprex (as the patient data for which the bug was seen cannot be shared). In this situation it may be possible to reproduce the problem on an available synthetic dataset like Eunomia, in which case the package developer will be able to reproduce the bug with the synthetic data. However, it may be that you only encounter the issue for some particular set of patients with specific characteristics which are not seen in the synthetic data. In this case you can, for example, use the omock package to create a set of synthetic patients with these characteristics so that the developer can use this same data to reproduce the problem.
 
 Although of course it would be ideal to include a reprex, this may not always be possible. In such cases please do make sure to provide a bug report, with as much information as possible, as this will still be extremely useful and appreciated.
@@ -18,58 +18,86 @@ If opening an issue to ask for clarifications on documentation or with requests 
 
 Note, even if you are not the maintainer of package but want to open a pull request to change documentation or add functionality then try to always open an issue to discuss this first. Even some seemingly trivial changes might be out of scope for the package (or they might have already been added in development branches of the repo). However well-intentioned, "drive-by pull requests" are often challenging for package maintainers to deal with.
 
-
 ## Responding to GitHub issues
 
-On the other side of the equation if you are the maintainer of package, receiving issues is one the main ways you will receive feedback on the package. Get used to starting with somewhat vague issues that will need some back and forth to get to the route of the problem or request for additional functionality. 
+On the other side of the equation if you are the maintainer of package, receiving issues is one the main ways you will receive feedback on the package. Get used to starting with somewhat vague issues that will need some back and forth to get to the route of the problem or request for additional functionality.
 
-When a bug is fixed in the package as a rule you should also add a corresponding test to make sure that it will stay fixed into the future. One benefit of being given a reprex is that not only will it help you to fix the problem but the reprex itself can be used as the test for the package. By receiving and acting on issues raised, which will often be somewhat exotic edge cases or people using the package in some way that you hadn't expected, the package will become hardened over time. 
+When a bug is fixed in the package as a rule you should also add a corresponding test to make sure that it will stay fixed into the future. One benefit of being given a reprex is that not only will it help you to fix the problem but the reprex itself can be used as the test for the package. By receiving and acting on issues raised, which will often be somewhat exotic edge cases or people using the package in some way that you hadn't expected, the package will become hardened over time.
 
 When it comes to requests for adding functionality, or even offers to add it, this is a tricky balancing act. Remember that you will be the one maintaining the package in the long-term. It is often the case that the quick addition of something seemingly useful can make a package more difficult to maintain or extend in the future. Typically it is worth waiting a day or two at least before agreeing to add something to a package so that you don't rush into making an addition or change that you will later come to regret.
 
-Another point to keep in mind when considering issues with requests for functionality is whether to add more general functionality than is being asked for. A well-intentioned user may be asking for something very specific to be added, but often underlying this request will be a broader need for more general functionality. This my tie in to other requests received, or may even need more discussion with users to better understand whether there is a broader need at play.
-general solutions
+Another point to keep in mind when considering issues with requests for functionality is whether to add more general functionality than is being asked for. A well-intentioned user may be asking for something very specific to be added, but often underlying this request will be a broader need for more general functionality. This my tie in to other requests received, or may even need more discussion with users to better understand whether there is a broader need at play. general solutions
 
-Remember that sadly few people be opening issues with praise if they've used your package successfully. The majority of users will use the code you've written without a problem and likely without even realising how much work has gone into it. And the people that do open issues are providing an extemely valuable service that will lead to the software getting better and better over time. So try to keep this in mind when tackling the seemingly never-ending list of issues you'll get if your software is being used.  
- 
-## Contributing code or documentation
+Remember that sadly few people be opening issues with praise if they've used your package successfully. The majority of users will use the code you've written without a problem and likely without even realising how much work has gone into it. And the people that do open issues are providing an extemely valuable service that will lead to the software getting better and better over time. So try to keep this in mind when tackling the seemingly never-ending list of issues you'll get if your software is being used.
 
-Contributing documentation is one of the best ways to improve a package. Fixing typos, adding clarifications, and even writing whole vignettes will almost always be highly welcomed by the maintainer and improve the experience of other users. 
+## Contributing code
 
-Contributing code is a more involved task. Before starting, make sure you've at the very least interacted with the maintainer so that they will be in favour of the changes or additions you are planning. 
-If fixing a bug, make sure to add tests alongside code changes to show that it is truly fixed. When fixing a bug existing tests should typically be unchanged (unless there is an issue with the test itself). If you are having to change existing tests to fix a bug this is normally a sign that there might be some more profound issue and will likely need back and forth between you and the maintainer for this to be addressed.
+### Contribute documentation {.unnumbered}
+
+Contributing documentation is one of the best ways to improve a package. Fixing typos, adding clarifications, and even writing whole vignettes will almost always be highly welcomed by the maintainer and improve the experience of other users. You can find issues related to documentation searching for the label *documentation*. Also you can open an issue if you think that somethings is not documented properly and propose the maintainer to fix it yourself.
+
+You can read more details on how the documentation of the packages is done in the relevant chapters.
+
+### Fixing a bug {.unnumbered}
+
+Contributing code is a more involved task. Before starting, make sure you've at the very least interacted with the maintainer so that they will be in favour of the changes or additions you are planning. You can do that replying to the issue you want to fix. Apart from fixing the bug, make sure to add tests alongside code changes to show that it is truly fixed. When fixing a bug existing tests should typically be unchanged (unless there is an issue with the test itself). If you are having to change existing tests to fix a bug this is normally a sign that there might be some more profound issue and will likely need back and forth between you and the maintainer for this to be addressed.
+
+### Adding new functionality {.unnumbered}
 
 If adding functionality this again should be accompanied with tests to show that it adds the desired behaviour. Moreover, updates to package documentation, including changes or additions to vignettes might be needed. Expect back and forth with the package maintainer, as they might well have feedback on the implementation you propose.
 
 ## Opening pull requests
 
-Changes to packages should come via pull requests. Create a branch or a fork of the code, make your change, and open your pull request. If opening a pull request, more than anything try to create a pull request that will be easy for the package maintainer to review and merge. A pull request will be better for everyone involved when it addresses just one specific issue. One quick way to create complexity for the maintainer is to open a pull request that addresses multiple issues at the same time. Although this could be more efficient for the person opening the pull request, it often slows down the review by increasing the complexity of the review for the maintainer.  
+Changes to packages should come via pull requests. Create a branch or a fork of the code, make your change, and open your pull request. If opening a pull request, more than anything try to create a pull request that will be easy for the package maintainer to review and merge. A pull request will be better for everyone involved when it addresses just one specific issue and affects less than 250 lines of code. One quick way to create complexity for the maintainer is to open a pull request that addresses multiple issues at the same time. Although this could be more efficient for the person opening the pull request, it often slows down the review by increasing the complexity of the review for the maintainer.
 
-As the bare minimum a 
+Before starting to contribute any code, first make sure the package tests are all passing. To do so after cloning run the following code:
+```{r, eval=FALSE}
+devtools::check()
+```
 
+The output should be:
+```{r, echo=FALSE}
+paste0(
+  "0 errors ", cli::symbol$tick, " | 0 warnings ", cli::symbol$tick, 
+  " | 0 notes ", cli::symbol$tick
+) |>
+  cli::col_green() |>
+  cli::cli_inform()
+```
 
-## Reviewing pull requests
+If not raise an issue before going any further (although please first make sure you have all the packages from imports and suggests installed).
 
+Now you are ready to do your code contribution. Add the relevant code and when you are happy with the changes that you have made, please follow these steps to open a pull request:
 
-###  Documenting the package
+### Initial checks
+
 Run the below to update and check package documentation:
 ``` r
-devtools::document() 
-devtools::run_examples()
-devtools::build_readme()
-devtools::build_vignettes()
+devtools::document()
 devtools::check_man()
 ```
 
-Note that `devtools::check_man()` should not return any warnings. If your commit is limited to only package documentation, running the above should be sufficient (although running `devtools::check()` will always generally be a good idea before submitting a pull request.
+Test that the examples work:
+``` r
+devtools::run_examples()
+```
+
+Test that the readme and vignettes work and update the results if the output of any function has changed:
+``` r
+devtools::build_readme()
+devtools::build_vignettes()
+```
 
 ### Run tests
-Before starting to contribute any code, first make sure the package tests are all passing. If not raise an issue before going any further (although please first make sure you have all the packages from imports and suggests installed). As you then contribute code, make sure that all the current tests and any you add continue to pass. All package tests can be run together with:
+
+As you then contribute code, make sure that all the current tests and any you add continue to pass. All package tests can be run together with:
+
 ``` r
 devtools::test()
 ```
 
-Code to add new functionality should be accompanied by tests. Code coverage can be checked using: 
+Code to add new functionality should be accompanied by tests. Code coverage can be checked using:
+
 ``` r
 # note, you may first have to detach the package
 # detach("package:IncidencePrevalence", unload=TRUE)
@@ -77,20 +105,45 @@ devtools::test_coverage()
 ```
 
 ### Adhere to code style
-Please adhere to the code style when adding any new code. Do not though restyle any code unrelated to your pull request as this will make code review more difficult.  
+
+Please adhere to the code style when adding any new code. Do not though restyle any code unrelated to your pull request as this will make code review more difficult.
 
 ``` r
-lintr::lint_package(".",
-                    linters = lintr::linters_with_defaults(
-                      lintr::object_name_linter(styles = "camelCase")
-                    )
-)
+lintr::lint_package(linters = lintr::linters_with_defaults(
+  lintr::object_name_linter(styles = "camelCase")
+))
 ```
 
 ### Run check() before opening a pull request
-Before opening any pull request please make sure to run: 
+
+Before opening any pull request please make sure to run:
+
 ``` r
 devtools::check() 
 ```
-No warnings should be seen. 
 
+Please make sure that the output is the expected:
+```{r, echo=FALSE}
+paste0(
+  "0 errors ", cli::symbol$tick, " | 0 warnings ", cli::symbol$tick, 
+  " | 0 notes ", cli::symbol$tick
+) |>
+  cli::col_green() |>
+  cli::cli_inform()
+```
+
+Any error or warning will make your pull request actions fail. Although notes can pass the github action tests we encourage to fix all the notes as this is a requirement to keep the package on cran.
+
+### Opening the pull request
+
+Once you've made sure that checks are passing and you are happy with your code additions you can open the pull request. When opening the pull request you must take into account the following:
+
+- Write a meaningful title, titles of pull requests are later used to document the changes done. Make sure that the title of the pull request describes the issue that is fixed, therefore the documentation of the changes will be easier.
+
+- Link the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request and an issue using any of the [gitub closing words](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) or you can do it manually in the *development* section (bottom of the right sidebar).
+
+- Describe any potential issue you want to remark. Help the maintainer review your pull request indicating if there is anything you are not sure about or that you want some feedback on. Don't hesitate to ask any question if needed.
+
+## Reviewing pull requests
+
+Reviewing pull requests is a very important step that the maintainers have to do. When reviewing a pull request you have to find a good equilibrium between being kind (we want to encourage people to contribute to our packages) and being strict (you -as a maintainer- will be the ultimate responsible for that code; so review it carefully and only accept if you are happy about it and you feel comfortable maintaining that code).
