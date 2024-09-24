@@ -2,6 +2,8 @@ on:
   workflow_dispatch:
   push:
     branches: main
+  pull_request:
+    branches: main
 
 name: Quarto Publish
 
@@ -21,7 +23,13 @@ jobs:
       - name: Install R libraries in renv
         uses: r-lib/actions/setup-renv@v2
 
-      - name: Render and Publish
+      - name: Render # if it is a pull request
+        if: github.event_name == 'pull_request'
+        run: quarto render
+
+      - name: Render and Publish # if you are pushing to main
+        if: github.event_name == 'push'
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+
