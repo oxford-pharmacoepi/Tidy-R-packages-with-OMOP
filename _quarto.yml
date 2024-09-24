@@ -6,7 +6,7 @@ book:
   author: "Edward Burn, Martí Català"
   date: today
   chapters:
-  - introduction.qmd
+  - index.qmd
   - gettingstarted.qmd
   - part: part_one.qmd
     chapters:
