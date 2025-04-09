@@ -24,7 +24,7 @@
     "href": "conventions.html",
     "title": "3  Conventions",
     "section": "",
-    "text": "3.1 Casing\nIn general we use camelCase naming for arguments and functions.",
+    "text": "3.1 Casing\nOur code adheres to some style conventions as decribed in this chapter.\nIn general we use camelCase naming for arguments and functions.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Conventions</span>"
@@ -94,6 +94,72 @@
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Contributing to a package</span>"
+    ]
+  },
+  {
+    "objectID": "documenting_functions.html",
+    "href": "documenting_functions.html",
+    "title": "6  Documenting functions",
+    "section": "",
+    "text": "6.1 Title\nWe use the roxygen2 package for documenting our functions. Using this package will help us to write the .Rd files in the man directory which is what will be rendered when users call ?my_function or help(\"my_function\") and peruse a package website.\nAbove each exported function we’ll create a roxygen block, with lines starting with #'. The general structure is shown below and we’ll go through each in turn.\nWe want to provide a concise yet informative title for our function. The title should typically be written in sentence case but without any full stop at the end.\nIf we run help(package = \"mypackage\") we can see all the functions and their titles for a package. From this we can quickly see how informative our titles are.",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Documenting functions</span>"
+    ]
+  },
+  {
+    "objectID": "documenting_functions.html#description",
+    "href": "documenting_functions.html#description",
+    "title": "6  Documenting functions",
+    "section": "6.2 Description",
+    "text": "6.2 Description\nEvery function should have a desription. This could be a sentence or two for a simple function, or multiple paragraphs for a more complex function. The description should summarise the purpose of the function and explain any internal assumptions or decisions made to implement it.\nWhen writing the description we can use markdown commands, for example to add bullet points, italics, etc. This will often help make longer desriptions more readable.",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Documenting functions</span>"
+    ]
+  },
+  {
+    "objectID": "documenting_functions.html#parameters",
+    "href": "documenting_functions.html#parameters",
+    "title": "6  Documenting functions",
+    "section": "6.3 Parameters",
+    "text": "6.3 Parameters\nAfter our description of the function as a whole, we will then describe each of the inputs to the function. In general we should be able to describe an argument in a few sentences. We should use them to tell the user what is allowed as an input and then what the input will be used for.\nIf we’re working on a package where we have multiple arguments with the same argument we can document arguments just once. We can create a helper like below for parameter x.\n\n#' Helper for consistent documentation of `x`.\n#'\n#' @param x \n#'\n#' @name xDoc\n#' @keywords internal\n\nWe can then reuse this documentation across the package by using @inheritParams\n\n#' Title\n#' \n#' @description\n#'\n#' @inheritParams xDoc\n#' @param y \n#'\n#' @returns \n#' @export\n#'\n#' @examples",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Documenting functions</span>"
+    ]
+  },
+  {
+    "objectID": "documenting_functions.html#returns",
+    "href": "documenting_functions.html#returns",
+    "title": "6  Documenting functions",
+    "section": "6.4 Returns",
+    "text": "6.4 Returns\nWe must also document what the function will return. For example, we can tell a user that our function will return a tibble with a certain set of columns. If our function has side-effects then we chould also document these.",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Documenting functions</span>"
+    ]
+  },
+  {
+    "objectID": "documenting_functions.html#export",
+    "href": "documenting_functions.html#export",
+    "title": "6  Documenting functions",
+    "section": "6.5 Export",
+    "text": "6.5 Export\nBy including the @export tag our documentation will be generated as an .Rd file and users will see it in the package website, etc. If instead we want to document an internal function then we can replace this with @noRd.",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Documenting functions</span>"
+    ]
+  },
+  {
+    "objectID": "documenting_functions.html#examples",
+    "href": "documenting_functions.html#examples",
+    "title": "6  Documenting functions",
+    "section": "6.6 Examples",
+    "text": "6.6 Examples\nLast but by no means least are a set of examples where we provide R code that shows how the function can be used in practice. These examples are quite possible the most important piece of documentation, as it is many users will look at these before reading any of the above.\nTypically we should try to give a number of informative examples that show users how the function can be used and provides some intuition on the impact of different arguments.",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
