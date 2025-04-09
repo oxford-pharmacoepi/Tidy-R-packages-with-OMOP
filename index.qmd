@@ -8,24 +8,38 @@ For general R package development we recommend the following book: [R Packages; 
 
 The book is divided in four parts:
 
-- **Part one**: covers the main ...
-- **Part two**: covers the main ...
-- **Part three**: covers the main ...
-- **Part four**: covers the main ...
-- **Part five**: covers the main ...
+-   **Part one**: covers the main ...
+
+-   **Part two**: covers the main ...
+
+-   **Part three**: covers the main ...
+
+-   **Part four**: covers the main ...
+
+-   **Part five**: covers the main ...
 
 -   Before developing the package
+
     -   scope
     -   how it fits within the ecosystem
+
 -   classes (they are deffined in omopgenerics)
+
 -   error messages
+
     -   Why?
     -   How?
+
 -   naming
+
     -   functions
     -   strcutures: `generate...CohortSet`, `...Cohort`, `add...`, `summarise...`, `plot...`, `table...`,
     -   arguments
+
 -   input validation
+
 -   testing
+
 -   reexport
+
 -   main branch should be protected

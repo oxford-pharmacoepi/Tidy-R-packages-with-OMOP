@@ -1,1 +1,77 @@
 # Documenting functions
+
+We use the [roxygen2](https://roxygen2.r-lib.org) package for documenting our functions. Using this package will help us to write the .Rd files in the man directory which is what will be rendered when users call `?my_function` or `help("my_function")` and peruse a package website. 
+
+Above each exported function we'll create a roxygen **block**, with lines starting with `#'`. The general structure is shown below and we'll go through each in turn.
+
+```{r}
+#' Title
+#' 
+#' @description
+#'
+#' @param x 
+#' @param y
+#'
+#' @returns 
+#' @export
+#'
+#' @examples 
+```
+
+## Title
+
+We want to provide a concise yet informative title for our function. The title should typically be written in sentence case but without any full stop at the end.
+
+If we run `help(package = "mypackage")` we can see all the functions and their titles for a package. From this we can quickly see how informative our titles are.
+
+## Description
+
+Every function should have a desription. This could be a sentence or two for a simple function, or multiple paragraphs for a more complex function. The description should summarise the purpose of the function and explain any internal assumptions or decisions made to implement it.
+
+When writing the description we can use markdown commands, for example to add bullet points, italics, etc. This will often help make longer desriptions more readable.
+
+## Parameters
+
+After our description of the function as a whole, we will then describe each of the inputs to the function. In general we should be able to describe an argument in a few sentences. We should use them to tell the user what is allowed as an input and then what the input will be used for.
+
+If we're working on a package where we have multiple arguments with the same argument we can document arguments just once. We can create a helper like below for parameter x.  
+
+```{r}
+#' Helper for consistent documentation of `x`.
+#'
+#' @param x 
+#'
+#' @name xDoc
+#' @keywords internal
+```
+
+We can then reuse this documentation across the package by using `@inheritParams`
+
+```{r}
+#' Title
+#' 
+#' @description
+#'
+#' @inheritParams xDoc
+#' @param y 
+#'
+#' @returns 
+#' @export
+#'
+#' @examples 
+```
+
+
+## Returns
+
+We must also document what the function will return. For example, we can tell a user that our function will return a tibble with a certain set of columns. If our function has side-effects then we chould also document these.
+
+## Export
+
+By including the `@export` tag our documentation will be generated as an `.Rd` file and users will see it in the package website, etc. If instead we want to document an internal function then we can replace this with `@noRd`.
+
+## Examples
+
+Last but by no means least are a set of examples where we provide R code that shows how the function can be used in practice. These examples are quite possible the most important piece of documentation, as it is many users will look at these before reading any of the above.
+
+Typically we should try to give a number of informative examples that show users how the function can be used and provides some intuition on the impact of different arguments.
