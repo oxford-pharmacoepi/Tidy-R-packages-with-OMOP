@@ -36,5 +36,10 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+  titlepage-pdf:
+    titlepage: formal
+    documentclass: scrbook
+    classoption: ["oneside", "open=any"]
+    keep-tex: true
 
 editor: visual
