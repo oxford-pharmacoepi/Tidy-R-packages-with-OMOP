@@ -42,7 +42,7 @@ jobs:
 
       - name: Move pdf back to _site folder
         run: |
-          mv "Building-tidy-R-packages-for-the-OMOP-common-data-model" "_site/Building-tidy-R-packages-for-the-OMOP-common-data-model"
+          mv "Building-tidy-R-packages-for-the-OMOP-common-data-model" "_site/Building-tidy-R-packages-for-the-OMOP-common-data-model.pdf"
 
       # Publish HTML and pdf from _site to GitHub Pages
       - name: Publish to GitHub Pages
