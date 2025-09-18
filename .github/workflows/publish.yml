@@ -30,11 +30,11 @@ jobs:
 
       - name: Render book in pdf
         run: |
-          quarto render --to pdf --output developer_book.pdf
+          quarto render --to pdf --output Building-tidy-R-packages-for-the-OMOP-common-data-model
 
       - name: Move pdf to data folder
         run: |
-          mv "_site/developer_book.pdf" "developer_book.pdf"
+          mv "_site/Building-tidy-R-packages-for-the-OMOP-common-data-model" "Building-tidy-R-packages-for-the-OMOP-common-data-model"
 
       - name: Render book in html
         run: |
@@ -42,7 +42,7 @@ jobs:
 
       - name: Move pdf back to _site folder
         run: |
-          mv "developer_book.pdf" "_site/developer_book.pdf"
+          mv "Building-tidy-R-packages-for-the-OMOP-common-data-model" "_site/Building-tidy-R-packages-for-the-OMOP-common-data-model"
 
       # Publish HTML and pdf from _site to GitHub Pages
       - name: Publish to GitHub Pages
