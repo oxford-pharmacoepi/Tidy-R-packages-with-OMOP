@@ -51,11 +51,13 @@ If adding functionality this again should be accompanied with tests to show that
 Changes to packages should come via pull requests. Create a branch or a fork of the code, make your change, and open your pull request. If opening a pull request, more than anything try to create a pull request that will be easy for the package maintainer to review and merge. A pull request will be better for everyone involved when it addresses just one specific issue and affects less than 250 lines of code. One quick way to create complexity for the maintainer is to open a pull request that addresses multiple issues at the same time. Although this could be more efficient for the person opening the pull request, it often slows down the review by increasing the complexity of the review for the maintainer.
 
 Before starting to contribute any code, first make sure the package tests are all passing. To do so after cloning run the following code:
+
 ```{r, eval=FALSE}
 devtools::check()
 ```
 
 The output should be:
+
 ```{r, echo=FALSE}
 paste0(
   "0 errors ", cli::symbol$tick, " | 0 warnings ", cli::symbol$tick, 
@@ -72,17 +74,20 @@ Now you are ready to do your code contribution. Add the relevant code and when y
 ### Initial checks
 
 Run the below to update and check package documentation:
+
 ``` r
 devtools::document()
 devtools::check_man()
 ```
 
 Test that the examples work:
+
 ``` r
 devtools::run_examples()
 ```
 
 Test that the readme and vignettes work and update the results if the output of any function has changed:
+
 ``` r
 devtools::build_readme()
 devtools::build_vignettes()
@@ -123,6 +128,7 @@ devtools::check()
 ```
 
 Please make sure that the output is the expected:
+
 ```{r, echo=FALSE}
 paste0(
   "0 errors ", cli::symbol$tick, " | 0 warnings ", cli::symbol$tick, 
@@ -138,11 +144,11 @@ Any error or warning will make your pull request actions fail. Although notes ca
 
 Once you've made sure that checks are passing and you are happy with your code additions you can open the pull request. When opening the pull request you must take into account the following:
 
-- Write a meaningful title, titles of pull requests are later used to document the changes done. Make sure that the title of the pull request describes the issue that is fixed, therefore the documentation of the changes will be easier.
+-   Write a meaningful title, titles of pull requests are later used to document the changes done. Make sure that the title of the pull request describes the issue that is fixed, therefore the documentation of the changes will be easier.
 
-- Link the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request and an issue using any of the [gitub closing words](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) or you can do it manually in the *development* section (bottom of the right sidebar).
+-   Link the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request and an issue using any of the [gitub closing words](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) or you can do it manually in the *development* section (bottom of the right sidebar).
 
-- Describe any potential issue you want to remark. Help the maintainer review your pull request indicating if there is anything you are not sure about or that you want some feedback on. Don't hesitate to ask any question if needed.
+-   Describe any potential issue you want to remark. Help the maintainer review your pull request indicating if there is anything you are not sure about or that you want some feedback on. Don't hesitate to ask any question if needed.
 
 ## Reviewing pull requests
 

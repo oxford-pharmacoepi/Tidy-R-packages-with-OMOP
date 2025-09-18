@@ -1,4 +1,4 @@
-# Getting started {.unnumbered}
+# Set up your environment
 
 To build an R package you will need [R](https://cran.r-project.org/bin/windows/base/) installed and an IDE: preferably [R Studio](https://posit.co/download/rstudio-desktop/) or [Positron](https://github.com/posit-dev/positron/releases).
 
@@ -11,11 +11,10 @@ pkg_install("usethis")
 pkg_install("devtools")
 ```
 
-
 To work with the omopverse, you will also need to install the [omopgenerics](https://darwin-eu-dev.github.io/omopgenerics/) package. Alongside with other packages that may be useful:
 
-- [PatientProfiles](https://darwin-eu-dev.github.io/PatientProfiles/) for data manipulation.
-- [CodelistDiagnostics](https://darwin-eu.github.io/CodelistDiagnostics/) to query the vocabularies.
-- [visOmopResults](https://darwin-eu.github.io/visOmopResults/) for data visualisation.
+-   [PatientProfiles](https://darwin-eu-dev.github.io/PatientProfiles/) for data manipulation.
+-   [CodelistDiagnostics](https://darwin-eu.github.io/CodelistDiagnostics/) to query the vocabularies.
+-   [visOmopResults](https://darwin-eu.github.io/visOmopResults/) for data visualisation.
 
 You can see the list of the omopverse packages in our [website](https://oxford-pharmacoepi.github.io/Oxinfer/packages.html).
