@@ -2,6 +2,3 @@
 
 ## How the package fits in the ecosystem
 
-## omopgenerics: classes and methods
-
-## Other useful packages
