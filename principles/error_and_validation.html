@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Error messages and input validation – Building tidy R packages for the OMOP common data model</title>
+<title>9&nbsp; Error messages and input validation – Building tidy R packages for the OMOP common data model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -83,7 +118,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/error_and_validation.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Error messages and input validation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/error_and_validation.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Error messages and input validation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -127,26 +162,26 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../getting_started/setup.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Set up your environment</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../getting_started/scope.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Scope</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Scope</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../getting_started/ecosystem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ecosystem</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ecosystem</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../getting_started/contributing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Contributing to a package</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Contributing to a package</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../getting_started/setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Set up your environment</span></span></a>
   </div>
 </li>
       </ul>
@@ -162,38 +197,44 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../principles/core_dependencies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Core dependencies</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../principles/function_interfaces.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Function interfaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Function interfaces</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../principles/conventions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Conventions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conventions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../principles/function_outputs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Function outputs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Function outputs</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../principles/error_and_validation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Error messages and input validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Error messages and input validation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../principles/styling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Styling your code</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Styling your code</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../principles/reexports.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Reexporting from other packages</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reexporting from other packages</span></span></a>
   </div>
 </li>
       </ul>
@@ -210,31 +251,31 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../documentation/code.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Documenting code</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Documenting code</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../documentation/functions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Documenting functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Documenting functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../documentation/readme.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Readme</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Readme</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../documentation/vignettes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Vignettes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Vignettes</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../documentation/website.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Documentation website</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Documentation website</span></span></a>
   </div>
 </li>
       </ul>
@@ -251,25 +292,25 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../testing/unit_testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Unit testing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Unit testing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../testing/test_dbms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Testing across multiple systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Testing across multiple systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../testing/efficient_testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Efficient testing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Efficient testing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../testing/documenting_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Documenting tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Documenting tests</span></span></a>
   </div>
 </li>
       </ul>
@@ -286,31 +327,31 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../github/setup_github.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Set up GitHub</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Set up GitHub</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../github/automatic_checks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Automatic R-CDM checks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Automatic R-CDM checks</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../github/automatic_website.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Website deployment</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Website deployment</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../github/test_coverage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Test coverage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Test coverage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../github/testing_multiple_dbms.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Testing multiple DBMS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Testing multiple DBMS</span></span></a>
   </div>
 </li>
       </ul>
@@ -327,7 +368,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../maintainance/releasing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Submit to CRAN</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Submit to CRAN</span></span></a>
   </div>
 </li>
       </ul>
@@ -337,15 +378,24 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#omopgenerics-validatin-functions" id="toc-omopgenerics-validatin-functions" class="nav-link active" data-scroll-target="#omopgenerics-validatin-functions"><span class="header-section-number">9.1</span> omopgenerics validatin functions</a></li>
+  <li><a href="#omopgenerics-assert-functions" id="toc-omopgenerics-assert-functions" class="nav-link" data-scroll-target="#omopgenerics-assert-functions"><span class="header-section-number">9.2</span> omopgenerics assert functions</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">9.3</span> Examples</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions"><span class="header-section-number">9.4</span> Conclusions</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/error_and_validation.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Error messages and input validation</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/error_and_validation.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Error messages and input validation</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Error messages and input validation</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Error messages and input validation</span></h1>
 </div>
 
 
@@ -362,8 +412,140 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Giving users good and informative error messages is key for a good user experience. To do so it is important that we perform an input validation at the beginning of each function. On the other hand we do not want to spend more time checking the input than executing the function, so don’t overdo it. In general we would check that any input function has the desired type and length and that the desired evaluation looks feasible with the current input parameters.</p>
+<section id="omopgenerics-validatin-functions" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="omopgenerics-validatin-functions"><span class="header-section-number">9.1</span> omopgenerics validatin functions</h2>
+<p>Some arguments that are consistent across different functions and packages have their own <em>validate</em> functions in the <strong>omopgenerics</strong> package:</p>
+<ul>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateAgeGroupArgument.html"><code>validatevalidateAgeGroupArgument()</code></a> is used to validate the <code>ageGroup</code> argument. The output <code>ageGroup</code> will always be formatted as a named list (name of the age group) and each age group will be defined by named intervals.</li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateCdmArgument.html"><code>validateCdmArgument()</code></a> is used to validate the <code>cdm</code> argument. By default only the class is validated as this can take time, but specific checks can be triggered if needed.</li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateCohortArgument.html"><code>validateCohortArgument()</code></a> is used to validate <code>cohort</code> argument, very used in many packages, this validates that the input is a properly formatted cohort. Extra checks can be triggered if needed.</li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateCohortIdArgument.html"><code>validateCohortIdArgument()</code></a> is used to validate <code>cohortId</code> argument</li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateConceptSetArgument.html"><code>validateConceptSetArgument()</code></a></li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateNameArgument.html"><code>validateNameArgument()</code></a></li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateNameStyle.html"><code>validateNameStyle()</code></a></li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateResultArgument.html"><code>validateResultArgument()</code></a></li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateStrataArgument.html"><code>validateStrataArgument()</code></a></li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/reference/validateWindowArgument.html"><code>validateWindowArgument()</code></a></li>
+</ul>
+<p>It is important that we assign the output to the variable as the object might change during the validation process to ensure different allowed inputs but as the output of the validation process will always be the same this simplifys the code as you do not have to think about the different allowed inputs.</p>
+<p>the <code>ageGroup</code> argument can be a good example of this behavior:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(omopgenerics, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ageGroup <span class="ot">&lt;-</span> <span class="fu">validateAgeGroupArgument</span>(<span class="at">ageGroup =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>)))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ageGroup</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$age_group
+$age_group$`0 to 1`
+[1] 0 1
+
+$age_group$`10 to 20`
+[1] 10 20</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ageGroup <span class="ot">&lt;-</span> <span class="fu">validateAgeGroupArgument</span>(<span class="at">ageGroup =</span> <span class="fu">list</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">my_column =</span> <span class="fu">list</span>(<span class="st">"young"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">19</span>), <span class="dv">20</span>, <span class="fu">c</span>(<span class="dv">21</span>, <span class="cn">Inf</span>)), </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">9</span>), <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">19</span>), <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">29</span>), <span class="fu">c</span>(<span class="dv">30</span>, <span class="cn">Inf</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ageGroup</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$my_column
+$my_column$young
+[1]  0 19
+
+$my_column$`20 to 20`
+[1] 20 20
+
+$my_column$`21 or above`
+[1]  21 Inf
 
 
+$age_group_2
+$age_group_2$`0 to 9`
+[1] 0 9
+
+$age_group_2$`10 to 19`
+[1] 10 19
+
+$age_group_2$`20 to 29`
+[1] 20 29
+
+$age_group_2$`30 or above`
+[1]  30 Inf</code></pre>
+</div>
+</div>
+<p>As you can see the output is always a named list that contains named intervals the function itself will also throw explanatory errors if they are not properly formatted:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">validateAgeGroupArgument</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ageGroup =</span> <span class="fu">list</span>(<span class="at">age_group1 =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">19</span>), <span class="fu">c</span>(<span class="dv">20</span>, <span class="cn">Inf</span>)), <span class="at">age_group2 =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">Inf</span>))),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">multipleAgeGroup =</span> <span class="cn">FALSE</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error:
+! Multiple age group are not allowed</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">validateAgeGroupArgument</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ageGroup =</span> <span class="fu">list</span>(<span class="at">age_group1 =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">19</span>), <span class="fu">c</span>(<span class="dv">20</span>, <span class="cn">Inf</span>)))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `purrr::map()`:
+ℹ In index: 1.
+ℹ With name: age_group1.
+Caused by error:
+! Elements of `ageGroup` argument must be greater or equal to "0".</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">validateAgeGroupArgument</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ageGroup =</span> <span class="cn">NULL</span>, <span class="at">null =</span> <span class="cn">FALSE</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error:
+! `ageGroup` argument can not be NULL.</code></pre>
+</div>
+</div>
+</section>
+<section id="omopgenerics-assert-functions" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="omopgenerics-assert-functions"><span class="header-section-number">9.2</span> omopgenerics assert functions</h2>
+<p>The omopgenerics package contains some functions for simple validation steps this can be useful helpers to validate an input with a single line of code, they also contain arguments to check if they have</p>
+</section>
+<section id="examples" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="examples"><span class="header-section-number">9.3</span> Examples</h2>
+<p>Let’s say we have a function with four arguments (<code>cohort</code>, <code>cohortId</code>, <code>window</code> and <code>overlap</code>), we could easily validate the input arguments of the function with 4 lines of code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(cohort, <span class="at">cohortId =</span> <span class="cn">NULL</span>, <span class="at">window =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">Inf</span>), <span class="at">overlap =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input check</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  cohort <span class="ot">&lt;-</span> omopgenerics<span class="sc">::</span><span class="fu">validateCohortArgument</span>(<span class="at">cohort =</span> cohort)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  cohortId <span class="ot">&lt;-</span> omopgenerics<span class="sc">::</span><span class="fu">validateCohortIdArgument</span>(<span class="at">cohortId =</span> {{cohortId}}, <span class="at">cohort =</span> cohort)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  window <span class="ot">&lt;-</span> omopgenerics<span class="sc">::</span><span class="fu">validateWindowArgument</span>(<span class="at">window =</span> window)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  omopgenerics<span class="sc">::</span><span class="fu">assertLogical</span>(overlap, <span class="at">length =</span> <span class="dv">1</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># code ...</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Note the <code>{{</code> symbols are needed to be able to use <a href="https://tidyselect.r-lib.org">tidyselect</a> verbs such as <code>starts_with()</code> or <code>contains()</code>.</p>
+<p>A second example that needs some custom extra code can be:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(cdm, conceptSet, <span class="at">days =</span> <span class="dv">180</span>L, <span class="at">startDate =</span> <span class="cn">NULL</span>, <span class="at">overlap =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input check</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  cdm <span class="ot">&lt;-</span> omopgenerics<span class="sc">::</span><span class="fu">validateCdmArgument</span>(<span class="at">cdm =</span> cdm)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  conceptSet <span class="ot">&lt;-</span> omopgenerics<span class="sc">::</span><span class="fu">validateCdmArgument</span>(<span class="at">conceptSet =</span> conceptSet)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  omopgenerics<span class="sc">::</span><span class="fu">assertNumeric</span>(days, <span class="at">integerish =</span> <span class="cn">TRUE</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">length =</span> <span class="dv">1</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  omopgenerics<span class="sc">::</span><span class="fu">assertDate</span>(startDate, <span class="at">length =</span> <span class="dv">1</span>, <span class="at">null =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (overlap <span class="sc">&amp;</span> days <span class="sc">&gt;</span> <span class="dv">365</span>) {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    cli<span class="sc">::</span><span class="fu">cli_abort</span>(<span class="fu">c</span>(<span class="at">x =</span> <span class="st">"{.var days} is can not be &gt;= 365 if {.var overlap} is TRUE."</span>))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># code ...</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You can throw custom error and warning messages using the <a href="https://cli.r-lib.org"><strong>cli</strong></a> package.</p>
+</section>
+<section id="conclusions" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="conclusions"><span class="header-section-number">9.4</span> Conclusions</h2>
+<p>Validating arguments is a very important step to give user a good experience and prevent running undesired code in big datasets. The <a href="https://darwin-eu.github.io/omopgenerics/"><strong>omopgenerics</strong></a> provides you with some functionality to keep the validation step short and consistent with other packages.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -769,12 +951,12 @@ ul.task-list li input[type="checkbox"] {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../principles/function_outputs.html" class="pagination-link" aria-label="Function outputs">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Function outputs</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Function outputs</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../principles/styling.html" class="pagination-link" aria-label="Styling your code">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Styling your code</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Styling your code</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

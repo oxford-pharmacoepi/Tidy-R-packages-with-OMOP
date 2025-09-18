@@ -4,218 +4,360 @@
     "href": "index.html",
     "title": "Building tidy R packages for the OMOP common data model",
     "section": "",
-    "text": "Introduction\nThis is an opinionated book on how we develop packages in the omopverse.\nR packages\nFor general R package development we recommend the following book: R Packages; Learn how to create a package, the fundamental unit of shareable, reusable, and reproducible R code.\nThe book is divided in four parts:\n\nPart one: covers the main …\nPart two: covers the main …\nPart three: covers the main …\nPart four: covers the main …\nPart five: covers the main …\nBefore developing the package\n\nscope\nhow it fits within the ecosystem\n\nclasses (they are deffined in omopgenerics)\nerror messages\n\nWhy?\nHow?\n\nnaming\n\nfunctions\nstrcutures: generate...CohortSet, ...Cohort, add..., summarise..., plot..., table...,\narguments\n\ninput validation\ntesting\nreexport\nmain branch should be protected",
+    "text": "Introduction\nThis is an opinionated book on how we develop packages working in the Tidy OMOP CDM space.\nAlthough some parts are also covered in our book for general R package development we recommend the following book: R Packages; Learn how to create a package, the fundamental unit of shareable, reusable, and reproducible R code.\nThe book is divided in four parts:\n\n(I) Getting started: covers how to start with an empty package, and helps you think about which is the scope of your package or guide you on how to contribute to existing packages.\n(II) Principles: this is the most important part of the book as it covers which packages to use…\n(III) Documentation: covers the main …\n(IV) Testing:\n(V) GitHub: covers the main …\n(VI) Maintaining a package: once a package is ready for a first release you will have to maintain it, this packages covers how to submit to cran for first time and maintain the package for the future.",
     "crumbs": [
       "Introduction"
     ]
   },
   {
-    "objectID": "getting_started/setup.html",
-    "href": "getting_started/setup.html",
-    "title": "1  Set up your environment",
+    "objectID": "getting_started/index.html",
+    "href": "getting_started/index.html",
+    "title": "Getting started",
     "section": "",
-    "text": "To build an R package you will need R installed and an IDE: preferably R Studio or Positron.\nThere are some packages that you will need devtools and usethis they are key to follow the different steps on this package building tutorial.\n\ninstall.packages(\"pak\")\nlibrary(pak)\npkg_install(\"usethis\")\npkg_install(\"devtools\")\n\nTo work with the omopverse, you will also need to install the omopgenerics package. Alongside with other packages that may be useful:\n\nPatientProfiles for data manipulation.\nCodelistDiagnostics to query the vocabularies.\nvisOmopResults for data visualisation.\n\nYou can see the list of the omopverse packages in our website.",
+    "text": "In this first part it is covered how to …",
     "crumbs": [
-      "Getting started",
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Set up your environment</span>"
+      "Getting started"
     ]
   },
   {
     "objectID": "getting_started/scope.html",
     "href": "getting_started/scope.html",
-    "title": "2  Scope",
+    "title": "1  Scope",
     "section": "",
-    "text": "2.1 Is this package needed?",
+    "text": "1.1 Is this package needed?\nBefore deciding to develop a package you must ask yourself many questions starting with: Is this package needed? A package must cover need and be refined.",
     "crumbs": [
       "Getting started",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Scope</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Scope</span>"
     ]
   },
   {
     "objectID": "getting_started/ecosystem.html",
     "href": "getting_started/ecosystem.html",
-    "title": "3  Ecosystem",
+    "title": "2  Ecosystem",
     "section": "",
-    "text": "3.1 How the package fits in the ecosystem",
+    "text": "2.1 How the package fits in the ecosystem",
     "crumbs": [
       "Getting started",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecosystem</span>"
-    ]
-  },
-  {
-    "objectID": "getting_started/ecosystem.html#omopgenerics-classes-and-methods",
-    "href": "getting_started/ecosystem.html#omopgenerics-classes-and-methods",
-    "title": "3  Ecosystem",
-    "section": "3.2 omopgenerics: classes and methods",
-    "text": "3.2 omopgenerics: classes and methods",
-    "crumbs": [
-      "Getting started",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecosystem</span>"
-    ]
-  },
-  {
-    "objectID": "getting_started/ecosystem.html#other-useful-packages",
-    "href": "getting_started/ecosystem.html#other-useful-packages",
-    "title": "3  Ecosystem",
-    "section": "3.3 Other useful packages",
-    "text": "3.3 Other useful packages",
-    "crumbs": [
-      "Getting started",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Ecosystem</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ecosystem</span>"
     ]
   },
   {
     "objectID": "getting_started/contributing.html",
     "href": "getting_started/contributing.html",
-    "title": "4  Contributing to a package",
+    "title": "3  Contributing to a package",
     "section": "",
-    "text": "4.1 GitHub issues",
+    "text": "3.1 GitHub issues",
     "crumbs": [
       "Getting started",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Contributing to a package</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Contributing to a package</span>"
     ]
   },
   {
     "objectID": "getting_started/contributing.html#github-issues",
     "href": "getting_started/contributing.html#github-issues",
-    "title": "4  Contributing to a package",
+    "title": "3  Contributing to a package",
     "section": "",
-    "text": "4.1.1 Opening GitHub issues\nThe first step to contributing to an existing package is by opening issues on its GitHub repository. These issues could be about bugs you encountered when using the package, requests for additional functionality (that you might even want to add yourself), or clarification questions on package documentation.\n\n\n4.1.2 What makes a good issue\nIf reporting a bug, then a reprex makes the maintainers life much, much easier (and in turn increases the likelihood of a quick fix being introduced much higher!). This reprex will allow the developer to quickly reproduce the issue. This is already halfway to solving it, given the old adage &gt; “A problem well stated is half solved.”\nOften an issue may arise when running code against a database with real patient-level data which can make it challenging to quickly create a reprex (as the patient data for which the bug was seen cannot be shared). In this situation it may be possible to reproduce the problem on an available synthetic dataset like Eunomia, in which case the package developer will be able to reproduce the bug with the synthetic data. However, it may be that you only encounter the issue for some particular set of patients with specific characteristics which are not seen in the synthetic data. In this case you can, for example, use the omock package to create a set of synthetic patients with these characteristics so that the developer can use this same data to reproduce the problem.\nAlthough of course it would be ideal to include a reprex, this may not always be possible. In such cases please do make sure to provide a bug report, with as much information as possible, as this will still be extremely useful and appreciated.\nIf opening an issue to ask for clarifications on documentation or with requests for additional functionality, the more precise and specific the issue the better. If you have a long laundry list of feature requests, it would generally be better to open each as separate issues so they can be addressed incrementally.\nNote, even if you are not the maintainer of package but want to open a pull request to change documentation or add functionality then try to always open an issue to discuss this first. Even some seemingly trivial changes might be out of scope for the package (or they might have already been added in development branches of the repo). However well-intentioned, “drive-by pull requests” are often challenging for package maintainers to deal with.",
+    "text": "3.1.1 Opening GitHub issues\nThe first step to contributing to an existing package is by opening issues on its GitHub repository. These issues could be about bugs you encountered when using the package, requests for additional functionality (that you might even want to add yourself), or clarification questions on package documentation.\n\n\n3.1.2 What makes a good issue\nIf reporting a bug, then a reprex makes the maintainers life much, much easier (and in turn increases the likelihood of a quick fix being introduced much higher!). This reprex will allow the developer to quickly reproduce the issue. This is already halfway to solving it, given the old adage &gt; “A problem well stated is half solved.”\nOften an issue may arise when running code against a database with real patient-level data which can make it challenging to quickly create a reprex (as the patient data for which the bug was seen cannot be shared). In this situation it may be possible to reproduce the problem on an available synthetic dataset like Eunomia, in which case the package developer will be able to reproduce the bug with the synthetic data. However, it may be that you only encounter the issue for some particular set of patients with specific characteristics which are not seen in the synthetic data. In this case you can, for example, use the omock package to create a set of synthetic patients with these characteristics so that the developer can use this same data to reproduce the problem.\nAlthough of course it would be ideal to include a reprex, this may not always be possible. In such cases please do make sure to provide a bug report, with as much information as possible, as this will still be extremely useful and appreciated.\nIf opening an issue to ask for clarifications on documentation or with requests for additional functionality, the more precise and specific the issue the better. If you have a long laundry list of feature requests, it would generally be better to open each as separate issues so they can be addressed incrementally.\nNote, even if you are not the maintainer of package but want to open a pull request to change documentation or add functionality then try to always open an issue to discuss this first. Even some seemingly trivial changes might be out of scope for the package (or they might have already been added in development branches of the repo). However well-intentioned, “drive-by pull requests” are often challenging for package maintainers to deal with.",
     "crumbs": [
       "Getting started",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Contributing to a package</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Contributing to a package</span>"
     ]
   },
   {
     "objectID": "getting_started/contributing.html#responding-to-github-issues",
     "href": "getting_started/contributing.html#responding-to-github-issues",
-    "title": "4  Contributing to a package",
-    "section": "4.2 Responding to GitHub issues",
-    "text": "4.2 Responding to GitHub issues\nOn the other side of the equation if you are the maintainer of package, receiving issues is one the main ways you will receive feedback on the package. Get used to starting with somewhat vague issues that will need some back and forth to get to the route of the problem or request for additional functionality.\nWhen a bug is fixed in the package as a rule you should also add a corresponding test to make sure that it will stay fixed into the future. One benefit of being given a reprex is that not only will it help you to fix the problem but the reprex itself can be used as the test for the package. By receiving and acting on issues raised, which will often be somewhat exotic edge cases or people using the package in some way that you hadn’t expected, the package will become hardened over time.\nWhen it comes to requests for adding functionality, or even offers to add it, this is a tricky balancing act. Remember that you will be the one maintaining the package in the long-term. It is often the case that the quick addition of something seemingly useful can make a package more difficult to maintain or extend in the future. Typically it is worth waiting a day or two at least before agreeing to add something to a package so that you don’t rush into making an addition or change that you will later come to regret.\nAnother point to keep in mind when considering issues with requests for functionality is whether to add more general functionality than is being asked for. A well-intentioned user may be asking for something very specific to be added, but often underlying this request will be a broader need for more general functionality. This my tie in to other requests received, or may even need more discussion with users to better understand whether there is a broader need at play. general solutions\nRemember that sadly few people be opening issues with praise if they’ve used your package successfully. The majority of users will use the code you’ve written without a problem and likely without even realising how much work has gone into it. And the people that do open issues are providing an extemely valuable service that will lead to the software getting better and better over time. So try to keep this in mind when tackling the seemingly never-ending list of issues you’ll get if your software is being used.",
+    "title": "3  Contributing to a package",
+    "section": "3.2 Responding to GitHub issues",
+    "text": "3.2 Responding to GitHub issues\nOn the other side of the equation if you are the maintainer of package, receiving issues is one the main ways you will receive feedback on the package. Get used to starting with somewhat vague issues that will need some back and forth to get to the route of the problem or request for additional functionality.\nWhen a bug is fixed in the package as a rule you should also add a corresponding test to make sure that it will stay fixed into the future. One benefit of being given a reprex is that not only will it help you to fix the problem but the reprex itself can be used as the test for the package. By receiving and acting on issues raised, which will often be somewhat exotic edge cases or people using the package in some way that you hadn’t expected, the package will become hardened over time.\nWhen it comes to requests for adding functionality, or even offers to add it, this is a tricky balancing act. Remember that you will be the one maintaining the package in the long-term. It is often the case that the quick addition of something seemingly useful can make a package more difficult to maintain or extend in the future. Typically it is worth waiting a day or two at least before agreeing to add something to a package so that you don’t rush into making an addition or change that you will later come to regret.\nAnother point to keep in mind when considering issues with requests for functionality is whether to add more general functionality than is being asked for. A well-intentioned user may be asking for something very specific to be added, but often underlying this request will be a broader need for more general functionality. This my tie in to other requests received, or may even need more discussion with users to better understand whether there is a broader need at play. general solutions\nRemember that sadly few people be opening issues with praise if they’ve used your package successfully. The majority of users will use the code you’ve written without a problem and likely without even realising how much work has gone into it. And the people that do open issues are providing an extemely valuable service that will lead to the software getting better and better over time. So try to keep this in mind when tackling the seemingly never-ending list of issues you’ll get if your software is being used.",
     "crumbs": [
       "Getting started",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Contributing to a package</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Contributing to a package</span>"
     ]
   },
   {
     "objectID": "getting_started/contributing.html#contributing-code",
     "href": "getting_started/contributing.html#contributing-code",
-    "title": "4  Contributing to a package",
-    "section": "4.3 Contributing code",
-    "text": "4.3 Contributing code\n\nContribute documentation\nContributing documentation is one of the best ways to improve a package. Fixing typos, adding clarifications, and even writing whole vignettes will almost always be highly welcomed by the maintainer and improve the experience of other users. You can find issues related to documentation searching for the label documentation. Also you can open an issue if you think that somethings is not documented properly and propose the maintainer to fix it yourself.\nYou can read more details on how the documentation of the packages is done in the relevant chapters.\n\n\nFixing a bug\nContributing code is a more involved task. Before starting, make sure you’ve at the very least interacted with the maintainer so that they will be in favour of the changes or additions you are planning. You can do that replying to the issue you want to fix. Apart from fixing the bug, make sure to add tests alongside code changes to show that it is truly fixed. When fixing a bug existing tests should typically be unchanged (unless there is an issue with the test itself). If you are having to change existing tests to fix a bug this is normally a sign that there might be some more profound issue and will likely need back and forth between you and the maintainer for this to be addressed.\n\n\nAdding new functionality\nIf adding functionality this again should be accompanied with tests to show that it adds the desired behaviour. Moreover, updates to package documentation, including changes or additions to vignettes might be needed. Expect back and forth with the package maintainer, as they might well have feedback on the implementation you propose.",
+    "title": "3  Contributing to a package",
+    "section": "3.3 Contributing code",
+    "text": "3.3 Contributing code\n\nContribute documentation\nContributing documentation is one of the best ways to improve a package. Fixing typos, adding clarifications, and even writing whole vignettes will almost always be highly welcomed by the maintainer and improve the experience of other users. You can find issues related to documentation searching for the label documentation. Also you can open an issue if you think that somethings is not documented properly and propose the maintainer to fix it yourself.\nYou can read more details on how the documentation of the packages is done in the relevant chapters.\n\n\nFixing a bug\nContributing code is a more involved task. Before starting, make sure you’ve at the very least interacted with the maintainer so that they will be in favour of the changes or additions you are planning. You can do that replying to the issue you want to fix. Apart from fixing the bug, make sure to add tests alongside code changes to show that it is truly fixed. When fixing a bug existing tests should typically be unchanged (unless there is an issue with the test itself). If you are having to change existing tests to fix a bug this is normally a sign that there might be some more profound issue and will likely need back and forth between you and the maintainer for this to be addressed.\n\n\nAdding new functionality\nIf adding functionality this again should be accompanied with tests to show that it adds the desired behaviour. Moreover, updates to package documentation, including changes or additions to vignettes might be needed. Expect back and forth with the package maintainer, as they might well have feedback on the implementation you propose.",
     "crumbs": [
       "Getting started",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Contributing to a package</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Contributing to a package</span>"
     ]
   },
   {
     "objectID": "getting_started/contributing.html#opening-pull-requests",
     "href": "getting_started/contributing.html#opening-pull-requests",
-    "title": "4  Contributing to a package",
-    "section": "4.4 Opening pull requests",
-    "text": "4.4 Opening pull requests\nChanges to packages should come via pull requests. Create a branch or a fork of the code, make your change, and open your pull request. If opening a pull request, more than anything try to create a pull request that will be easy for the package maintainer to review and merge. A pull request will be better for everyone involved when it addresses just one specific issue and affects less than 250 lines of code. One quick way to create complexity for the maintainer is to open a pull request that addresses multiple issues at the same time. Although this could be more efficient for the person opening the pull request, it often slows down the review by increasing the complexity of the review for the maintainer.\nBefore starting to contribute any code, first make sure the package tests are all passing. To do so after cloning run the following code:\n\ndevtools::check()\n\nThe output should be:\n\n\n0 errors ✔ | 0 warnings ✔ | 0 notes ✔\n\n\nIf not raise an issue before going any further (although please first make sure you have all the packages from imports and suggests installed).\nNow you are ready to do your code contribution. Add the relevant code and when you are happy with the changes that you have made, please follow these steps to open a pull request:\n\n4.4.1 Initial checks\nRun the below to update and check package documentation:\ndevtools::document()\ndevtools::check_man()\nTest that the examples work:\ndevtools::run_examples()\nTest that the readme and vignettes work and update the results if the output of any function has changed:\ndevtools::build_readme()\ndevtools::build_vignettes()\n\n\n4.4.2 Run tests\nAs you then contribute code, make sure that all the current tests and any you add continue to pass. All package tests can be run together with:\ndevtools::test()\nCode to add new functionality should be accompanied by tests. Code coverage can be checked using:\n# note, you may first have to detach the package\n# detach(\"package:IncidencePrevalence\", unload=TRUE)\ndevtools::test_coverage()\n\n\n4.4.3 Adhere to code style\nPlease adhere to the code style when adding any new code. Do not though restyle any code unrelated to your pull request as this will make code review more difficult.\nlintr::lint_package(linters = lintr::linters_with_defaults(\n  lintr::object_name_linter(styles = \"camelCase\")\n))\n\n\n4.4.4 Run check() before opening a pull request\nBefore opening any pull request please make sure to run:\ndevtools::check() \nPlease make sure that the output is the expected:\n\n\n0 errors ✔ | 0 warnings ✔ | 0 notes ✔\n\n\nAny error or warning will make your pull request actions fail. Although notes can pass the github action tests we encourage to fix all the notes as this is a requirement to keep the package on cran.\n\n\n4.4.5 Opening the pull request\nOnce you’ve made sure that checks are passing and you are happy with your code additions you can open the pull request. When opening the pull request you must take into account the following:\n\nWrite a meaningful title, titles of pull requests are later used to document the changes done. Make sure that the title of the pull request describes the issue that is fixed, therefore the documentation of the changes will be easier.\nLink the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request and an issue using any of the gitub closing words or you can do it manually in the development section (bottom of the right sidebar).\nDescribe any potential issue you want to remark. Help the maintainer review your pull request indicating if there is anything you are not sure about or that you want some feedback on. Don’t hesitate to ask any question if needed.",
+    "title": "3  Contributing to a package",
+    "section": "3.4 Opening pull requests",
+    "text": "3.4 Opening pull requests\nChanges to packages should come via pull requests. Create a branch or a fork of the code, make your change, and open your pull request. If opening a pull request, more than anything try to create a pull request that will be easy for the package maintainer to review and merge. A pull request will be better for everyone involved when it addresses just one specific issue and affects less than 250 lines of code. One quick way to create complexity for the maintainer is to open a pull request that addresses multiple issues at the same time. Although this could be more efficient for the person opening the pull request, it often slows down the review by increasing the complexity of the review for the maintainer.\nBefore starting to contribute any code, first make sure the package tests are all passing. To do so after cloning run the following code:\n\ndevtools::check()\n\nThe output should be:\n\n\n0 errors ✔ | 0 warnings ✔ | 0 notes ✔\n\n\nIf not raise an issue before going any further (although please first make sure you have all the packages from imports and suggests installed).\nNow you are ready to do your code contribution. Add the relevant code and when you are happy with the changes that you have made, please follow these steps to open a pull request:\n\n3.4.1 Initial checks\nRun the below to update and check package documentation:\ndevtools::document()\ndevtools::check_man()\nTest that the examples work:\ndevtools::run_examples()\nTest that the readme and vignettes work and update the results if the output of any function has changed:\ndevtools::build_readme()\ndevtools::build_vignettes()\n\n\n3.4.2 Run tests\nAs you then contribute code, make sure that all the current tests and any you add continue to pass. All package tests can be run together with:\ndevtools::test()\nCode to add new functionality should be accompanied by tests. Code coverage can be checked using:\n# note, you may first have to detach the package\n# detach(\"package:IncidencePrevalence\", unload=TRUE)\ndevtools::test_coverage()\n\n\n3.4.3 Adhere to code style\nPlease adhere to the code style when adding any new code. Do not though restyle any code unrelated to your pull request as this will make code review more difficult.\nlintr::lint_package(linters = lintr::linters_with_defaults(\n  lintr::object_name_linter(styles = \"camelCase\")\n))\n\n\n3.4.4 Run check() before opening a pull request\nBefore opening any pull request please make sure to run:\ndevtools::check() \nPlease make sure that the output is the expected:\n\n\n0 errors ✔ | 0 warnings ✔ | 0 notes ✔\n\n\nAny error or warning will make your pull request actions fail. Although notes can pass the github action tests we encourage to fix all the notes as this is a requirement to keep the package on cran.\n\n\n3.4.5 Opening the pull request\nOnce you’ve made sure that checks are passing and you are happy with your code additions you can open the pull request. When opening the pull request you must take into account the following:\n\nWrite a meaningful title, titles of pull requests are later used to document the changes done. Make sure that the title of the pull request describes the issue that is fixed, therefore the documentation of the changes will be easier.\nLink the issue that your pull request is closing (we strongly encourage to fix issues one by one and do not include multiple issues in the same pull request). You can link a pull request and an issue using any of the gitub closing words or you can do it manually in the development section (bottom of the right sidebar).\nDescribe any potential issue you want to remark. Help the maintainer review your pull request indicating if there is anything you are not sure about or that you want some feedback on. Don’t hesitate to ask any question if needed.",
     "crumbs": [
       "Getting started",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Contributing to a package</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Contributing to a package</span>"
     ]
   },
   {
     "objectID": "getting_started/contributing.html#reviewing-pull-requests",
     "href": "getting_started/contributing.html#reviewing-pull-requests",
-    "title": "4  Contributing to a package",
-    "section": "4.5 Reviewing pull requests",
-    "text": "4.5 Reviewing pull requests\nReviewing pull requests is a very important step that the maintainers have to do. When reviewing a pull request you have to find a good equilibrium between being kind (we want to encourage people to contribute to our packages) and being strict (you -as a maintainer- will be the ultimate responsible for that code; so review it carefully and only accept if you are happy about it and you feel comfortable maintaining that code).",
+    "title": "3  Contributing to a package",
+    "section": "3.5 Reviewing pull requests",
+    "text": "3.5 Reviewing pull requests\nReviewing pull requests is a very important step that the maintainers have to do. When reviewing a pull request you have to find a good equilibrium between being kind (we want to encourage people to contribute to our packages) and being strict (you -as a maintainer- will be the ultimate responsible for that code; so review it carefully and only accept if you are happy about it and you feel comfortable maintaining that code).",
     "crumbs": [
       "Getting started",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Contributing to a package</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Contributing to a package</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html",
+    "href": "getting_started/setup.html",
+    "title": "4  Set up your environment",
+    "section": "",
+    "text": "4.1 Create an empty package\nTo build an R package you will need R installed and an IDE: preferably R Studio or Positron.\nThere are some packages that you will need devtools and usethis they are key to follow the different steps on this package building tutorial.\nTo work with the omopverse, you will also need to install the omopgenerics package. Alongside with other packages that may be useful:\nYou can see the list of the omopverse packages in our website.\nTo create an empty package you can do it with usethis:\nlibrary(usethis)\n\ncreate_package(path = \"path/to/folder\")\nThe package will be named by the name of the folder.",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html#add-a-license",
+    "href": "getting_started/setup.html#add-a-license",
+    "title": "4  Set up your environment",
+    "section": "4.2 Add a license",
+    "text": "4.2 Add a license\nAdding licenses is very important so you are protected and users how they can use your product in general we release using the Apache 2.0 license, but if you prefer there are other options such as:\n\nMore permissive:\n\nMIT: simple and permissive.\nApache 2.0: MIT + provides patent protection.\n\nCopyleft:\n\nGPL v2: requires sharing of improvements.\nGPL v3: requires sharing of improvements.\nAGPL v3: requires sharing of improvements.\nLGPL v2.1: requires sharing of improvements.\nLGPL v3: requires sharing of improvements.\n\nCreative commons licenses appropriate for data packages:\n\nCC0: dedicated to public domain.\nCC-BY: Free to share and adapt, must give appropriate credit.\n\n\nyou can add a license easily with usethis:\n\nuse_apl2_license()\n\nThis will add the LICENSE.md file and populate the DESCRIPTION file with the relevant license field.",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html#set-up-github",
+    "href": "getting_started/setup.html#set-up-github",
+    "title": "4  Set up your environment",
+    "section": "4.3 Set up GitHub",
+    "text": "4.3 Set up GitHub\nGitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to GitHub and GitHub Actions at that stage you will learn how to use github for:\n\nAutomatic checking your package\nAutomatic deployment of a documentation website for your package\nAutomatic assessment of test coverage\nAutomatic testing across multiple sources",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "principles/core_dependencies.html",
+    "href": "principles/core_dependencies.html",
+    "title": "5  Core dependencies",
+    "section": "",
+    "text": "5.1 omopgenerics\nThe Tidy R OMOP CDM packages rely on dplyr and the tidyverse packages to manipulate the data from the cdm object. The cdm object is an object that contains all the tables available and is central for the data manipulation. This cdm object is defined in omopgenerics.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Core dependencies</span>"
+    ]
+  },
+  {
+    "objectID": "principles/core_dependencies.html#omopgenerics",
+    "href": "principles/core_dependencies.html#omopgenerics",
+    "title": "5  Core dependencies",
+    "section": "",
+    "text": "5.1.1 Classes\n\n\n5.1.2 Methods\n\n\n5.1.3 Input validation functions\n\n\n5.1.4 Manipulate a cdm_reference object\n\n\n5.1.5 Manipulate a summarised_result object",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Core dependencies</span>"
+    ]
+  },
+  {
+    "objectID": "principles/core_dependencies.html#other-useful-packages",
+    "href": "principles/core_dependencies.html#other-useful-packages",
+    "title": "5  Core dependencies",
+    "section": "5.2 Other useful packages",
+    "text": "5.2 Other useful packages\nThe omopverse has some core packages that will be useful to simplify the scope of your package:\n\nPatientProfiles: this package is very useful for data manipulation, you can find extract basic demographic information, intersections of cohorts and summarise data in a standard format. Take a look at the list of functions in PatientProfiles to prevent you from duplicating code.\nvisOmopResults: this package is very useful to create data visualisations (tables and plots) from standardised data. There are many different supported types of tables (r visOmopResults::tableType()) and with little customisation you can get quite pretty tables. For plots the support is a bit more limited but it creates some simple ggplot2 visualisations with very little effort. Take a look at the list of functions in visOmopResults to prevent you from duplicating code.\nCodelistGenerator: this package can be useful to query the vocabularies. Take a look at the list of functions in CodelistGenerator to prevent you from duplicating code.\nomock: this package can be very useful for testing. With very few lines of code you can create a mock CDM object with your desired specifications, specially useful can be the function mockCdmFromTables() that will create a viable CDM object from the supplied information. Take a look at the list of functions in omock to prevent you from duplicating code. This package is quite useful, but usually listed in Suggests as you will only need this package for testing purposes.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Core dependencies</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_interfaces.html",
+    "href": "principles/function_interfaces.html",
+    "title": "6  Function interfaces",
+    "section": "",
+    "text": "generate...CohortSet, ...Cohort, add..., summarise..., plot..., table...,",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Function interfaces</span>"
     ]
   },
   {
     "objectID": "principles/conventions.html",
     "href": "principles/conventions.html",
-    "title": "6  Conventions",
+    "title": "7  Conventions",
     "section": "",
-    "text": "6.1 Casing\nOur code adheres to some style conventions as decribed in this chapter.\nIn general we use camelCase naming for arguments and functions.",
+    "text": "7.1 Casing\nOur code adheres to some style conventions as decribed in this chapter.\nIn general we use camelCase naming for arguments and functions.",
     "crumbs": [
       "Principles",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Conventions</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#argument-naming",
+    "href": "principles/conventions.html#argument-naming",
+    "title": "7  Conventions",
+    "section": "7.2 Argument naming",
+    "text": "7.2 Argument naming",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/error_and_validation.html",
+    "href": "principles/error_and_validation.html",
+    "title": "9  Error messages and input validation",
+    "section": "",
+    "text": "9.1 omopgenerics validatin functions\nGiving users good and informative error messages is key for a good user experience. To do so it is important that we perform an input validation at the beginning of each function. On the other hand we do not want to spend more time checking the input than executing the function, so don’t overdo it. In general we would check that any input function has the desired type and length and that the desired evaluation looks feasible with the current input parameters.\nSome arguments that are consistent across different functions and packages have their own validate functions in the omopgenerics package:\nIt is important that we assign the output to the variable as the object might change during the validation process to ensure different allowed inputs but as the output of the validation process will always be the same this simplifys the code as you do not have to think about the different allowed inputs.\nthe ageGroup argument can be a good example of this behavior:\nlibrary(omopgenerics, warn.conflicts = FALSE)\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(c(0, 1), c(10, 20)))\nageGroup\n\n$age_group\n$age_group$`0 to 1`\n[1] 0 1\n\n$age_group$`10 to 20`\n[1] 10 20\n\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(\n  my_column = list(\"young\" = c(0, 19), 20, c(21, Inf)), \n  list(c(0, 9), c(10, 19), c(20, 29), c(30, Inf))\n))\nageGroup\n\n$my_column\n$my_column$young\n[1]  0 19\n\n$my_column$`20 to 20`\n[1] 20 20\n\n$my_column$`21 or above`\n[1]  21 Inf\n\n\n$age_group_2\n$age_group_2$`0 to 9`\n[1] 0 9\n\n$age_group_2$`10 to 19`\n[1] 10 19\n\n$age_group_2$`20 to 29`\n[1] 20 29\n\n$age_group_2$`30 or above`\n[1]  30 Inf\nAs you can see the output is always a named list that contains named intervals the function itself will also throw explanatory errors if they are not properly formatted:\nvalidateAgeGroupArgument(\n  ageGroup = list(age_group1 = list(c(0, 19), c(20, Inf)), age_group2 = list(c(0, Inf))),\n  multipleAgeGroup = FALSE\n)\n\nError:\n! Multiple age group are not allowed\n\nvalidateAgeGroupArgument(\n  ageGroup = list(age_group1 = list(c(-5, 19), c(20, Inf)))\n)\n\nError in `purrr::map()`:\nℹ In index: 1.\nℹ With name: age_group1.\nCaused by error:\n! Elements of `ageGroup` argument must be greater or equal to \"0\".\n\nvalidateAgeGroupArgument(\n  ageGroup = NULL, null = FALSE \n)\n\nError:\n! `ageGroup` argument can not be NULL.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+    ]
+  },
+  {
+    "objectID": "principles/error_and_validation.html#omopgenerics-validatin-functions",
+    "href": "principles/error_and_validation.html#omopgenerics-validatin-functions",
+    "title": "9  Error messages and input validation",
+    "section": "",
+    "text": "validatevalidateAgeGroupArgument() is used to validate the ageGroup argument. The output ageGroup will always be formatted as a named list (name of the age group) and each age group will be defined by named intervals.\nvalidateCdmArgument() is used to validate the cdm argument. By default only the class is validated as this can take time, but specific checks can be triggered if needed.\nvalidateCohortArgument() is used to validate cohort argument, very used in many packages, this validates that the input is a properly formatted cohort. Extra checks can be triggered if needed.\nvalidateCohortIdArgument() is used to validate cohortId argument\nvalidateConceptSetArgument()\nvalidateNameArgument()\nvalidateNameStyle()\nvalidateResultArgument()\nvalidateStrataArgument()\nvalidateWindowArgument()",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+    ]
+  },
+  {
+    "objectID": "principles/error_and_validation.html#omopgenerics-assert-functions",
+    "href": "principles/error_and_validation.html#omopgenerics-assert-functions",
+    "title": "9  Error messages and input validation",
+    "section": "9.2 omopgenerics assert functions",
+    "text": "9.2 omopgenerics assert functions\nThe omopgenerics package contains some functions for simple validation steps this can be useful helpers to validate an input with a single line of code, they also contain arguments to check if they have",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+    ]
+  },
+  {
+    "objectID": "principles/error_and_validation.html#examples",
+    "href": "principles/error_and_validation.html#examples",
+    "title": "9  Error messages and input validation",
+    "section": "9.3 Examples",
+    "text": "9.3 Examples\nLet’s say we have a function with four arguments (cohort, cohortId, window and overlap), we could easily validate the input arguments of the function with 4 lines of code:\n\nmyFunction &lt;- function(cohort, cohortId = NULL, window = c(0, Inf), overlap = FALSE) {\n  # input check\n  cohort &lt;- omopgenerics::validateCohortArgument(cohort = cohort)\n  cohortId &lt;- omopgenerics::validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)\n  window &lt;- omopgenerics::validateWindowArgument(window = window)\n  omopgenerics::assertLogical(overlap, length = 1)\n  \n  # code ...\n  \n}\n\nNote the {{ symbols are needed to be able to use tidyselect verbs such as starts_with() or contains().\nA second example that needs some custom extra code can be:\n\nmyFunction &lt;- function(cdm, conceptSet, days = 180L, startDate = NULL, overlap = TRUE) {\n  # input check\n  cdm &lt;- omopgenerics::validateCdmArgument(cdm = cdm)\n  conceptSet &lt;- omopgenerics::validateCdmArgument(conceptSet = conceptSet)\n  omopgenerics::assertNumeric(days, integerish = TRUE, min = 0, length = 1)\n  omopgenerics::assertDate(startDate, length = 1, null = TRUE)\n  if (overlap & days &gt; 365) {\n    cli::cli_abort(c(x = \"{.var days} is can not be &gt;= 365 if {.var overlap} is TRUE.\"))\n  }\n\n  # code ...\n  \n}\n\nYou can throw custom error and warning messages using the cli package.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+    ]
+  },
+  {
+    "objectID": "principles/error_and_validation.html#conclusions",
+    "href": "principles/error_and_validation.html#conclusions",
+    "title": "9  Error messages and input validation",
+    "section": "9.4 Conclusions",
+    "text": "9.4 Conclusions\nValidating arguments is a very important step to give user a good experience and prevent running undesired code in big datasets. The omopgenerics provides you with some functionality to keep the validation step short and consistent with other packages.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html",
     "href": "documentation/functions.html",
-    "title": "12  Documenting functions",
+    "title": "13  Documenting functions",
     "section": "",
-    "text": "12.1 Title\nWe use the roxygen2 package for documenting our functions. Using this package will help us to write the .Rd files in the man directory which is what will be rendered when users call ?my_function or help(\"my_function\") and peruse a package website.\nAbove each exported function we’ll create a roxygen block, with lines starting with #'. The general structure is shown below and we’ll go through each in turn.\nWe want to provide a concise yet informative title for our function. The title should typically be written in sentence case but without any full stop at the end.\nIf we run help(package = \"mypackage\") we can see all the functions and their titles for a package. From this we can quickly see how informative our titles are.",
+    "text": "13.1 Title\nWe use the roxygen2 package for documenting our functions. Using this package will help us to write the .Rd files in the man directory which is what will be rendered when users call ?my_function or help(\"my_function\") and peruse a package website.\nAbove each exported function we’ll create a roxygen block, with lines starting with #'. The general structure is shown below and we’ll go through each in turn.\nWe want to provide a concise yet informative title for our function. The title should typically be written in sentence case but without any full stop at the end.\nIf we run help(package = \"mypackage\") we can see all the functions and their titles for a package. From this we can quickly see how informative our titles are.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#description",
     "href": "documentation/functions.html#description",
-    "title": "12  Documenting functions",
-    "section": "12.2 Description",
-    "text": "12.2 Description\nEvery function should have a desription. This could be a sentence or two for a simple function, or multiple paragraphs for a more complex function. The description should summarise the purpose of the function and explain any internal assumptions or decisions made to implement it.\nWhen writing the description we can use markdown commands, for example to add bullet points, italics, etc. This will often help make longer desriptions more readable.",
+    "title": "13  Documenting functions",
+    "section": "13.2 Description",
+    "text": "13.2 Description\nEvery function should have a desription. This could be a sentence or two for a simple function, or multiple paragraphs for a more complex function. The description should summarise the purpose of the function and explain any internal assumptions or decisions made to implement it.\nWhen writing the description we can use markdown commands, for example to add bullet points, italics, etc. This will often help make longer desriptions more readable.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#parameters",
     "href": "documentation/functions.html#parameters",
-    "title": "12  Documenting functions",
-    "section": "12.3 Parameters",
-    "text": "12.3 Parameters\nAfter our description of the function as a whole, we will then describe each of the inputs to the function. In general we should be able to describe an argument in a few sentences. We should use them to tell the user what is allowed as an input and then what the input will be used for.\nIf we’re working on a package where we have multiple arguments with the same argument we can document arguments just once. We can create a helper like below for parameter x.\n\n#' Helper for consistent documentation of `x`.\n#'\n#' @param x \n#'\n#' @name xDoc\n#' @keywords internal\n\nWe can then reuse this documentation across the package by using @inheritParams\n\n#' Title\n#' \n#' @description\n#'\n#' @inheritParams xDoc\n#' @param y \n#'\n#' @returns \n#' @export\n#'\n#' @examples",
+    "title": "13  Documenting functions",
+    "section": "13.3 Parameters",
+    "text": "13.3 Parameters\nAfter our description of the function as a whole, we will then describe each of the inputs to the function. In general we should be able to describe an argument in a few sentences. We should use them to tell the user what is allowed as an input and then what the input will be used for.\nIf we’re working on a package where we have multiple arguments with the same argument we can document arguments just once. We can create a helper like below for parameter x.\n\n#' Helper for consistent documentation of `x`.\n#'\n#' @param x \n#'\n#' @name xDoc\n#' @keywords internal\n\nWe can then reuse this documentation across the package by using @inheritParams\n\n#' Title\n#' \n#' @description\n#'\n#' @inheritParams xDoc\n#' @param y \n#'\n#' @returns \n#' @export\n#'\n#' @examples",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#returns",
     "href": "documentation/functions.html#returns",
-    "title": "12  Documenting functions",
-    "section": "12.4 Returns",
-    "text": "12.4 Returns\nWe must also document what the function will return. For example, we can tell a user that our function will return a tibble with a certain set of columns. If our function has side-effects then we chould also document these.",
+    "title": "13  Documenting functions",
+    "section": "13.4 Returns",
+    "text": "13.4 Returns\nWe must also document what the function will return. For example, we can tell a user that our function will return a tibble with a certain set of columns. If our function has side-effects then we chould also document these.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#export",
     "href": "documentation/functions.html#export",
-    "title": "12  Documenting functions",
-    "section": "12.5 Export",
-    "text": "12.5 Export\nBy including the @export tag our documentation will be generated as an .Rd file and users will see it in the package website, etc. If instead we want to document an internal function then we can replace this with @noRd.",
+    "title": "13  Documenting functions",
+    "section": "13.5 Export",
+    "text": "13.5 Export\nBy including the @export tag our documentation will be generated as an .Rd file and users will see it in the package website, etc. If instead we want to document an internal function then we can replace this with @noRd.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#examples",
     "href": "documentation/functions.html#examples",
-    "title": "12  Documenting functions",
-    "section": "12.6 Examples",
-    "text": "12.6 Examples\nLast but by no means least are a set of examples where we provide R code that shows how the function can be used in practice. These examples are quite possible the most important piece of documentation, as it is many users will look at these before reading any of the above.\nTypically we should try to give a number of informative examples that show users how the function can be used and provides some intuition on the impact of different arguments.",
+    "title": "13  Documenting functions",
+    "section": "13.6 Examples",
+    "text": "13.6 Examples\nLast but by no means least are a set of examples where we provide R code that shows how the function can be used in practice. These examples are quite possible the most important piece of documentation, as it is many users will look at these before reading any of the above.\nTypically we should try to give a number of informative examples that show users how the function can be used and provides some intuition on the impact of different arguments.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
+    ]
+  },
+  {
+    "objectID": "documentation/readme.html",
+    "href": "documentation/readme.html",
+    "title": "14  Readme",
+    "section": "",
+    "text": "badges",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Readme</span>"
     ]
   },
   {
     "objectID": "testing/unit_testing.html",
     "href": "testing/unit_testing.html",
-    "title": "16  Unit testing",
+    "title": "17  Unit testing",
     "section": "",
     "text": "do not rely on mock data",
     "crumbs": [
       "Adding unit tests",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Unit testing</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Unit testing</span>"
+    ]
+  },
+  {
+    "objectID": "maintainance/releasing.html",
+    "href": "maintainance/releasing.html",
+    "title": "26  Submit to CRAN",
+    "section": "",
+    "text": "What version to release (major, minor or patch)\nForced releases by cran\nnews\nreverse dependency",
+    "crumbs": [
+      "Maintaing a package",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>Submit to CRAN</span>"
     ]
   }
 ]
