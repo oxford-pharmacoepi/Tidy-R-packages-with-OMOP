@@ -24,6 +24,9 @@ jobs:
         with:
           needs: website
 
+      - name: Install LaTeX (TinyTeX)
+        uses: r-lib/actions/setup-tinytex@v2
+
       - name: Render book in pdf
         run: |
           quarto render --to pdf --output developer_book.pdf
