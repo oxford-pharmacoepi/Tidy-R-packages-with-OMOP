@@ -1,1 +1,3 @@
 # Getting started
+
+In this first part it is covered how to ...

@@ -17,4 +17,55 @@ To work with the omopverse, you will also need to install the [omopgenerics](htt
 -   [CodelistDiagnostics](https://darwin-eu.github.io/CodelistDiagnostics/) to query the vocabularies.
 -   [visOmopResults](https://darwin-eu.github.io/visOmopResults/) for data visualisation.
 
-You can see the list of the omopverse packages in our [website](https://oxford-pharmacoepi.github.io/Oxinfer/packages.html).
+You can see the list of the omopverse packages in our [website](https://oxford-pharmacoepi.github.io/Oxinfer/packages/summary.html).
+
+## Create an empty package
+
+To create an empty package you can do it with *usethis*:
+
+```{r, eval=FALSE}
+library(usethis)
+
+create_package(path = "path/to/folder")
+```
+
+The package will be named by the name of the folder.
+
+## Add a license
+
+Adding licenses is very important so you are protected and users how they can use your product in general we release using the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license, but if you prefer there are other options such as: 
+
+- More permissive:
+
+  - [MIT](https://choosealicense.com/licenses/mit/): simple and permissive.
+  - [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/): MIT + provides patent protection.
+  
+- Copyleft:
+
+  - [GPL v2](https://choosealicense.com/licenses/gpl-2.0/): requires sharing of improvements.
+  - [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing of improvements.
+  - [AGPL v3](https://choosealicense.com/licenses/agpl-3.0/): requires sharing of improvements.
+  - [LGPL v2.1](https://choosealicense.com/licenses/lgpl-2.1/): requires sharing of improvements.
+  - [LGPL v3](https://choosealicense.com/licenses/lgpl-3.0/): requires sharing of improvements.
+
+- Creative commons licenses appropriate for data packages:
+
+  - [CC0](https://creativecommons.org/publicdomain/zero/1.0/): dedicated to public domain.
+  - [CC-BY](https://creativecommons.org/licenses/by/4.0/): Free to share and adapt, must give appropriate credit.
+
+you can add a license easily with usethis:
+
+```{r, eval=FALSE}
+use_apl2_license()
+```
+
+This will add the `LICENSE.md` file and populate the DESCRIPTION file with the relevant license field.
+
+## Set up GitHub
+
+GitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to [GitHub and GitHub Actions](../github/index.qmd) at that stage you will learn how to use github for:
+
+- [Automatic checking your package](../github/automatic_checks.qmd)
+- [Automatic deployment of a documentation website for your package](../github/automatic_website.qmd)
+- [Automatic assessment of test coverage](../github/test_coverage.qmd)
+- [Automatic testing across multiple sources](../github/testing_multiple_dbms.qmd)

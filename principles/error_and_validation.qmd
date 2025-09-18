@@ -1,1 +1,95 @@
 # Error messages and input validation
+
+Giving users good and informative error messages is key for a good user experience. To do so it is important that we perform an input validation at the beginning of each function. On the other hand we do not want to spend more time checking the input than executing the function, so don't overdo it. In general we would check that any input function has the desired type and length and that the desired evaluation looks feasible with the current input parameters.
+
+## omopgenerics validatin functions
+
+Some arguments that are consistent across different functions and packages have their own *validate* functions in the **omopgenerics** package:
+
+- [`validatevalidateAgeGroupArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateAgeGroupArgument.html) is used to validate the `ageGroup` argument. The output `ageGroup` will always be formatted as a named list (name of the age group) and each age group will be defined by named intervals.
+- [`validateCdmArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateCdmArgument.html) is used to validate the `cdm` argument. By default only the class is validated as this can take time, but specific checks can be triggered if needed.
+- [`validateCohortArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateCohortArgument.html) is used to validate `cohort` argument, very used in many packages, this validates that the input is a properly formatted cohort. Extra checks can be triggered if needed.
+- [`validateCohortIdArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateCohortIdArgument.html) is used to validate `cohortId` argument
+- [`validateConceptSetArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateConceptSetArgument.html)
+- [`validateNameArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateNameArgument.html)
+- [`validateNameStyle()`](https://darwin-eu.github.io/omopgenerics/reference/validateNameStyle.html)
+- [`validateResultArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateResultArgument.html)
+- [`validateStrataArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateStrataArgument.html)
+- [`validateWindowArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateWindowArgument.html)
+
+It is important that we assign the output to the variable as the object might change during the validation process to ensure different allowed inputs but as the output of the validation process will always be the same this simplifys the code as you do not have to think about the different allowed inputs. 
+
+the `ageGroup` argument can be a good example of this behavior:
+
+```{r}
+library(omopgenerics, warn.conflicts = FALSE)
+ageGroup <- validateAgeGroupArgument(ageGroup = list(c(0, 1), c(10, 20)))
+ageGroup
+ageGroup <- validateAgeGroupArgument(ageGroup = list(
+  my_column = list("young" = c(0, 19), 20, c(21, Inf)), 
+  list(c(0, 9), c(10, 19), c(20, 29), c(30, Inf))
+))
+ageGroup
+```
+
+As you can see the output is always a named list that contains named intervals the function itself will also throw explanatory errors if they are not properly formatted:
+
+```{r, error=TRUE}
+validateAgeGroupArgument(
+  ageGroup = list(age_group1 = list(c(0, 19), c(20, Inf)), age_group2 = list(c(0, Inf))),
+  multipleAgeGroup = FALSE
+)
+validateAgeGroupArgument(
+  ageGroup = list(age_group1 = list(c(-5, 19), c(20, Inf)))
+)
+validateAgeGroupArgument(
+  ageGroup = NULL, null = FALSE 
+)
+```
+
+## omopgenerics assert functions
+
+The omopgenerics package contains some functions for simple validation steps this can be useful helpers to validate an input with a single line of code, they also contain arguments to check if they have 
+
+## Examples
+
+Let's say we have a function with four arguments (`cohort`, `cohortId`, `window` and `overlap`), we could easily validate the input arguments of the function with 4 lines of code:
+
+```{r}
+myFunction <- function(cohort, cohortId = NULL, window = c(0, Inf), overlap = FALSE) {
+  # input check
+  cohort <- omopgenerics::validateCohortArgument(cohort = cohort)
+  cohortId <- omopgenerics::validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)
+  window <- omopgenerics::validateWindowArgument(window = window)
+  omopgenerics::assertLogical(overlap, length = 1)
+  
+  # code ...
+  
+}
+```
+
+Note the `{{` symbols are needed to be able to use [tidyselect](https://tidyselect.r-lib.org) verbs such as `starts_with()` or `contains()`.
+
+A second example that needs some custom extra code can be:
+
+```{r}
+myFunction <- function(cdm, conceptSet, days = 180L, startDate = NULL, overlap = TRUE) {
+  # input check
+  cdm <- omopgenerics::validateCdmArgument(cdm = cdm)
+  conceptSet <- omopgenerics::validateCdmArgument(conceptSet = conceptSet)
+  omopgenerics::assertNumeric(days, integerish = TRUE, min = 0, length = 1)
+  omopgenerics::assertDate(startDate, length = 1, null = TRUE)
+  if (overlap & days > 365) {
+    cli::cli_abort(c(x = "{.var days} is can not be >= 365 if {.var overlap} is TRUE."))
+  }
+
+  # code ...
+  
+}
+```
+
+You can throw custom error and warning messages using the [**cli**](https://cli.r-lib.org) package.
+
+## Conclusions
+
+Validating arguments is a very important step to give user a good experience and prevent running undesired code in big datasets. The [**omopgenerics**](https://darwin-eu.github.io/omopgenerics/) provides you with some functionality to keep the validation step short and consistent with other packages.

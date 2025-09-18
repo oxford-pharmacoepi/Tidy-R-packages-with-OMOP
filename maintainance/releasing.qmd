@@ -1,1 +1,9 @@
 # Submit to CRAN
+
+- What version to release (major, minor or patch)
+
+- Forced releases by cran
+
+- news
+
+- reverse dependency

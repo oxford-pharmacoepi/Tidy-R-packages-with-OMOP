@@ -10,12 +10,13 @@ book:
   - index.qmd
   - part: getting_started/index.qmd
     chapters:
-    - getting_started/setup.qmd
     - getting_started/scope.qmd
     - getting_started/ecosystem.qmd
     - getting_started/contributing.qmd
+    - getting_started/setup.qmd
   - part: principles/index.qmd
     chapters:
+    - principles/core_dependencies.qmd
     - principles/function_interfaces.qmd
     - principles/conventions.qmd
     - principles/function_outputs.qmd

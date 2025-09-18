@@ -1,3 +1,5 @@
 # Scope
 
 ## Is this package needed?
+
+Before deciding to develop a package you must ask yourself many questions starting with: *Is this package needed?* A package must cover need and be refined.

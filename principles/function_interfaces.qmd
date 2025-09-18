@@ -1,1 +1,3 @@
 ## Function interfaces
+
+`generate...CohortSet`, `...Cohort`, `add...`, `summarise...`, `plot...`, `table...`,

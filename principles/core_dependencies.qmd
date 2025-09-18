@@ -1,0 +1,27 @@
+# Core dependencies
+
+The *Tidy R OMOP CDM* packages rely on [dplyr](https://dplyr.tidyverse.org) and the [tidyverse](https://www.tidyverse.org) packages to manipulate the data from the `cdm` object. The `cdm` object is an object that contains all the tables available and is central for the data manipulation. This `cdm` object is defined in [omopgenerics](https://darwin-eu.github.io/omopgenerics/).
+
+## omopgenerics
+
+### Classes
+
+### Methods
+
+### Input validation functions
+
+### Manipulate a `cdm_reference` object
+
+### Manipulate a `summarised_result` object
+
+## Other useful packages
+
+The *omopverse* has some core packages that will be useful to simplify the scope of your package:
+
+- [PatientProfiles](https://darwin-eu.github.io/PatientProfiles/): this package is very useful for data manipulation, you can find extract basic demographic information, intersections of cohorts and summarise data in a standard format. Take a look at the [list](https://darwin-eu.github.io/PatientProfiles/reference/index.html) of functions in PatientProfiles to prevent you from duplicating code.
+
+- [visOmopResults](https://darwin-eu.github.io/visOmopResults/): this package is very useful to create data visualisations (tables and plots) from standardised data. There are many different supported types of tables (`r visOmopResults::tableType()`) and with little customisation you can get quite pretty tables. For plots the support is a bit more limited but it creates some simple [ggplot2](https://ggplot2.tidyverse.org) visualisations with very little effort. Take a look at the [list](https://darwin-eu.github.io/visOmopResults/reference/index.html) of functions in visOmopResults to prevent you from duplicating code.
+
+- [CodelistGenerator](https://darwin-eu.github.io/CodelistGenerator/): this package can be useful to query the vocabularies. Take a look at the [list](https://darwin-eu.github.io/CodelistGenerator/reference/index.html) of functions in CodelistGenerator to prevent you from duplicating code.
+
+- [omock](https://ohdsi.github.io/omock/): this package can be very useful for testing. With very few lines of code you can create a mock CDM object with your desired specifications, specially useful can be the function [`mockCdmFromTables()`](https://ohdsi.github.io/omock/reference/mockCdmFromTables.html) that will create a viable CDM object from the supplied information. Take a look at the [list](https://ohdsi.github.io/omock/reference/index.html) of functions in omock to prevent you from duplicating code. This package is quite useful, but usually listed in Suggests as you will only need this package for testing purposes.
