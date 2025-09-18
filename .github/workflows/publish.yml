@@ -21,11 +21,12 @@ jobs:
 
       - name: Install R packages
         uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          needs: website
 
       - name: Install LaTeX (TinyTeX)
         uses: r-lib/actions/setup-tinytex@v2
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Render book in pdf
         run: |
@@ -41,7 +42,7 @@ jobs:
 
       - name: Move pdf back to _site folder
         run: |
-          mv "developer_book.pdf" "_site/tidy-r-programming-omop.pdf"
+          mv "developer_book.pdf" "_site/developer_book.pdf"
 
       # Publish HTML and pdf from _site to GitHub Pages
       - name: Publish to GitHub Pages
