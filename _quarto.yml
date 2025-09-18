@@ -8,29 +8,43 @@ book:
   date: today
   chapters:
   - index.qmd
-  - gettingstarted.qmd
-  - part: part_one.qmd
+  - part: getting_started/index.qmd
     chapters:
-    - omop_packages.qmd
-    - function_interfaces.qmd
-    - conventions.qmd
-    - function_outputs.qmd
-    - contributing.qmd
-  - part: part_two.qmd
+    - getting_started/setup.qmd
+    - getting_started/scope.qmd
+    - getting_started/ecosystem.qmd
+    - getting_started/contributing.qmd
+  - part: principles/index.qmd
     chapters:
-    - documenting_functions.qmd
-    - readme.qmd
-    - vignettes.qmd
-  - part: part_three.qmd
+    - principles/function_interfaces.qmd
+    - principles/conventions.qmd
+    - principles/function_outputs.qmd
+    - principles/error_and_validation.qmd
+    - principles/styling.qmd
+    - principles/reexports.qmd
+  - part: documentation/index.qmd
     chapters:
-    - unit_testing.qmd
-  - part: part_four.qmd
+    - documentation/code.qmd
+    - documentation/functions.qmd
+    - documentation/readme.qmd
+    - documentation/vignettes.qmd
+    - documentation/website.qmd
+  - part: testing/index.qmd
     chapters:
-    - input_validation.qmd
-    - optimising_code.qmd
-  - part: part_five.qmd
+    - testing/unit_testing.qmd
+    - testing/test_dbms.qmd
+    - testing/efficient_testing.qmd
+    - testing/documenting_tests.qmd
+  - part: github/index.qmd
     chapters:
-    - releasing.qmd
+    - github/setup_github.qmd
+    - github/automatic_checks.qmd
+    - github/automatic_website.qmd
+    - github/test_coverage.qmd
+    - github/testing_multiple_dbms.qmd
+  - part: maintainance/index.qmd
+    chapters:
+    - maintainance/releasing.qmd
 
 bibliography: references.bib
 
