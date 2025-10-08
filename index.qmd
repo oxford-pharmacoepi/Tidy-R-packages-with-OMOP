@@ -1,19 +1,19 @@
-# Introduction {.unnumbered}
+# Preface {.unnumbered}
 
-This is an **opinionated** book on how we develop packages working in the Tidy OMOP CDM space.
+This is an **opinionated** book on how we develop packages working in the Tidy R OMOP CDM space.
 
-Although some parts are also covered in our book for general R package development we recommend the following book: [R Packages; Learn how to create a package, the fundamental unit of shareable, reusable, and reproducible R code](https://r-pkgs.org).
+Our book, although covers some parts of basic R package development assumes the user knows the very basis. If you are new to R package development we would recommend you the following book: [R Packages; Learn how to create a package, the fundamental unit of shareable, reusable, and reproducible R code](https://r-pkgs.org).
 
 The book is divided in four parts:
 
 -   **(I)** Getting started: covers how to start with an empty package, and helps you think about which is the scope of your package or guide you on how to contribute to existing packages. 
 
--   **(II)** Principles: this is the most important part of the book as it covers which packages to use...
+-   **(II)** Principles: this is the most important part of the book as it covers which packages to use, the different naming conventions, classes to use, how to validate the inputs and more.
 
--   **(III)** Documentation: covers the main ...
+-   **(III)** Documentation: covers how to create the documentation of the packages, such as populate readme, documenting functions, documenting code, vignettes and more.
 
--   **(IV)** Testing:
+-   **(IV)** Testing: covers how to write tests for the packages, what to test and how to do it efficiently.
 
--   **(V)** GitHub: covers the main ...
+-   **(V)** GitHub: covers how to set up automatic GitHub testing and documentation using GitHub actions.
 
 -   **(VI)** Maintaining a package: once a package is ready for a first release you will have to maintain it, this packages covers how to submit to cran for first time and maintain the package for the future.
