@@ -112,7 +112,18 @@
     "href": "getting_started/setup.html",
     "title": "4  Set up your environment",
     "section": "",
-    "text": "4.1 Create an empty package\nTo build an R package you will need R installed and an IDE: preferably R Studio or Positron.\nThere are some packages that you will need devtools and usethis they are key to follow the different steps on this package building tutorial.\nTo work with the omopverse, you will also need to install the omopgenerics package. Alongside with other packages that may be useful:\nYou can see the list of the omopverse packages in our website.\nTo create an empty package you can do it with usethis:\nlibrary(usethis)\n\ncreate_package(path = \"path/to/folder\")\nThe package will be named by the name of the folder.",
+    "text": "4.1 Create an empty package\nTo build an R package you will need R installed and an IDE: preferably R Studio or Positron.\nYou will need to install devtools and usethis as they are key to follow the different steps to get started.\nTo work with the Tidy R OMOP ecosystem, you will also need to install the omopgenerics package. Alongside with other packages that may be useful:\nYou can see the list of Tidy R packages in our website.\nTo create an empty package you can do it with usethis:\nlibrary(usethis)\n\ncreate_package(path = \"path/to/folder\")",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html#create-an-empty-package",
+    "href": "getting_started/setup.html#create-an-empty-package",
+    "title": "4  Set up your environment",
+    "section": "",
+    "text": "TipPackage name\n\n\n\n\n\nThe package will be named by the name of the folder.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -123,7 +134,51 @@
     "href": "getting_started/setup.html#add-a-license",
     "title": "4  Set up your environment",
     "section": "4.2 Add a license",
-    "text": "4.2 Add a license\nAdding licenses is very important so you are protected and users how they can use your product in general we release using the Apache 2.0 license, but if you prefer there are other options such as:\n\nMore permissive:\n\nMIT: simple and permissive.\nApache 2.0: MIT + provides patent protection.\n\nCopyleft:\n\nGPL v2: requires sharing of improvements.\nGPL v3: requires sharing of improvements.\nAGPL v3: requires sharing of improvements.\nLGPL v2.1: requires sharing of improvements.\nLGPL v3: requires sharing of improvements.\n\nCreative commons licenses appropriate for data packages:\n\nCC0: dedicated to public domain.\nCC-BY: Free to share and adapt, must give appropriate credit.\n\n\nyou can add a license easily with usethis:\n\nuse_apl2_license()\n\nThis will add the LICENSE.md file and populate the DESCRIPTION file with the relevant license field.",
+    "text": "4.2 Add a license\nAdding licenses is very important so you are protected and users know how they can use your product. In general we release using the Apache 2.0 license.\nYou can add a license easily with usethis:\n\nuse_apl2_license()\n\nThis will add the LICENSE.md file and populate the DESCRIPTION file with the relevant license field.\n\n\n\n\n\n\nNoteLicense agreements\n\n\n\n\n\nLicense agreements supported by usethis are:\n\nMore permissive:\n\nMIT: simple and permissive.\nApache 2.0: MIT + provides patent protection.\n\nCopyleft:\n\nGPL v2: requires sharing of improvements.\nGPL v3: requires sharing of improvements.\nAGPL v3: requires sharing of improvements.\nLGPL v2.1: requires sharing of improvements.\nLGPL v3: requires sharing of improvements.\n\nCreative commons licenses appropriate for data packages:\n\nCC0: dedicated to public domain.\nCC-BY: Free to share and adapt, must give appropriate credit.\n\n\n\nuse_mit_license(copyright_holder = NULL)\n\nuse_gpl_license(version = 3, include_future = TRUE)\n\nuse_agpl_license(version = 3, include_future = TRUE)\n\nuse_lgpl_license(version = 3, include_future = TRUE)\n\nuse_apache_license(version = 2, include_future = TRUE)\n\nuse_cc0_license()\n\nuse_ccby_license()\n\nuse_proprietary_license(copyright_holder = \"...\")",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html#create-a-first-mock-function",
+    "href": "getting_started/setup.html#create-a-first-mock-function",
+    "title": "4  Set up your environment",
+    "section": "4.3 Create a first mock function",
+    "text": "4.3 Create a first mock function",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html#check-the-package",
+    "href": "getting_started/setup.html#check-the-package",
+    "title": "4  Set up your environment",
+    "section": "4.4 Check the package",
+    "text": "4.4 Check the package",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html#create-readme.rmd",
+    "href": "getting_started/setup.html#create-readme.rmd",
+    "title": "4  Set up your environment",
+    "section": "4.5 Create README.Rmd",
+    "text": "4.5 Create README.Rmd",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html#create-website",
+    "href": "getting_started/setup.html#create-website",
+    "title": "4  Set up your environment",
+    "section": "4.6 Create website",
+    "text": "4.6 Create website",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -133,8 +188,19 @@
     "objectID": "getting_started/setup.html#set-up-github",
     "href": "getting_started/setup.html#set-up-github",
     "title": "4  Set up your environment",
-    "section": "4.3 Set up GitHub",
-    "text": "4.3 Set up GitHub\nGitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to GitHub and GitHub Actions at that stage you will learn how to use github for:\n\nAutomatic checking your package\nAutomatic deployment of a documentation website for your package\nAutomatic assessment of test coverage\nAutomatic testing across multiple sources",
+    "section": "4.7 Set up GitHub",
+    "text": "4.7 Set up GitHub\nGitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to GitHub and GitHub Actions at that stage you will learn how to use github for:\n\nAutomatic checking your package\nAutomatic deployment of a documentation website for your package\nAutomatic assessment of test coverage\nAutomatic testing across multiple sources",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/setup.html#package-template",
+    "href": "getting_started/setup.html#package-template",
+    "title": "4  Set up your environment",
+    "section": "4.8 Package template",
+    "text": "4.8 Package template",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
