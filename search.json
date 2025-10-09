@@ -409,7 +409,7 @@
     "href": "documentation/readme.html#content",
     "title": "14  README",
     "section": "14.2 Content",
-    "text": "14.2 Content\n\n14.2.1 Badges\n\n\n14.2.2 Tested sources\n\n\n14.2.3 Goal of your package\n\n\n14.2.4 How to install\n\n\n14.2.5 Simple examples",
+    "text": "14.2 Content\n\n14.2.1 Badges\n\n\n14.2.2 Tested sources\n\n\n14.2.3 Goal of your package\n\n\n14.2.4 How to install\nMake sure to include\n\n\n14.2.5 Simple examples\nInclude diagrams, figures and tables.",
     "crumbs": [
       "Contributing documentation",
       "<span class='chapter-number'>14</span>  <span class='chapter-title'>README</span>"
