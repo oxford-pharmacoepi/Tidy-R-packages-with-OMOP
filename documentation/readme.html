@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>14&nbsp; Readme – Building tidy R packages for the OMOP common data model</title>
+<title>14&nbsp; README – Building tidy R packages for the OMOP common data model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../documentation/index.html">Contributing documentation</a></li><li class="breadcrumb-item"><a href="../documentation/readme.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Readme</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../documentation/index.html">Contributing documentation</a></li><li class="breadcrumb-item"><a href="../documentation/readme.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">README</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -228,7 +228,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../documentation/readme.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Readme</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">README</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -343,15 +343,29 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#generate-from-.rmd" id="toc-generate-from-.rmd" class="nav-link active" data-scroll-target="#generate-from-.rmd"><span class="header-section-number">14.1</span> Generate from <code>.Rmd</code></a></li>
+  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content"><span class="header-section-number">14.2</span> Content</a>
+  <ul class="collapse">
+  <li><a href="#badges" id="toc-badges" class="nav-link" data-scroll-target="#badges"><span class="header-section-number">14.2.1</span> Badges</a></li>
+  <li><a href="#tested-sources" id="toc-tested-sources" class="nav-link" data-scroll-target="#tested-sources"><span class="header-section-number">14.2.2</span> Tested sources</a></li>
+  <li><a href="#goal-of-your-package" id="toc-goal-of-your-package" class="nav-link" data-scroll-target="#goal-of-your-package"><span class="header-section-number">14.2.3</span> Goal of your package</a></li>
+  <li><a href="#how-to-install" id="toc-how-to-install" class="nav-link" data-scroll-target="#how-to-install"><span class="header-section-number">14.2.4</span> How to install</a></li>
+  <li><a href="#simple-examples" id="toc-simple-examples" class="nav-link" data-scroll-target="#simple-examples"><span class="header-section-number">14.2.5</span> Simple examples</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../documentation/index.html">Contributing documentation</a></li><li class="breadcrumb-item"><a href="../documentation/readme.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Readme</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../documentation/index.html">Contributing documentation</a></li><li class="breadcrumb-item"><a href="../documentation/readme.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">README</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Readme</span></h1>
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">README</span></h1>
 </div>
 
 
@@ -368,11 +382,31 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<ul>
-<li>badges</li>
-</ul>
+<p>The <code>README.md</code> is a very important of an R package, is probably the first thing the users will read once they decide to try out our package. Now we will so how to generate it and how to populate it.</p>
+<section id="generate-from-.rmd" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="generate-from-.rmd"><span class="header-section-number">14.1</span> Generate from <code>.Rmd</code></h2>
+<p>In general we will populate our <code>README.md</code> using a rmarkdown file (<code>README.Rmd</code>) if you don’t have it created you can create it with <code>usethis::use_readme_rmd()</code> this will create the <code>README.Rmd</code> that generates the <code>README.md</code> file.</p>
+</section>
+<section id="content" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="content"><span class="header-section-number">14.2</span> Content</h2>
+<section id="badges" class="level3" data-number="14.2.1">
+<h3 data-number="14.2.1" class="anchored" data-anchor-id="badges"><span class="header-section-number">14.2.1</span> Badges</h3>
+</section>
+<section id="tested-sources" class="level3" data-number="14.2.2">
+<h3 data-number="14.2.2" class="anchored" data-anchor-id="tested-sources"><span class="header-section-number">14.2.2</span> Tested sources</h3>
+</section>
+<section id="goal-of-your-package" class="level3" data-number="14.2.3">
+<h3 data-number="14.2.3" class="anchored" data-anchor-id="goal-of-your-package"><span class="header-section-number">14.2.3</span> Goal of your package</h3>
+</section>
+<section id="how-to-install" class="level3" data-number="14.2.4">
+<h3 data-number="14.2.4" class="anchored" data-anchor-id="how-to-install"><span class="header-section-number">14.2.4</span> How to install</h3>
+</section>
+<section id="simple-examples" class="level3" data-number="14.2.5">
+<h3 data-number="14.2.5" class="anchored" data-anchor-id="simple-examples"><span class="header-section-number">14.2.5</span> Simple examples</h3>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
