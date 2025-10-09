@@ -16,4 +16,8 @@ In general we will populate our `README.md` using a rmarkdown file (`README.Rmd`
 
 ### How to install
 
+Make sure to include 
+
 ### Simple examples
+
+Include diagrams, figures and tables. 
