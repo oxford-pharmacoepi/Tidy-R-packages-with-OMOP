@@ -4,7 +4,26 @@ The `README.md` is a very important of an R package, is probably the first thing
 
 ## Generate from `.Rmd`
 
-In general we will populate our `README.md` using a rmarkdown file (`README.Rmd`) if you don't have it created you can create it with `usethis::use_readme_rmd()` this will create the `README.Rmd` that generates the `README.md` file.
+In general we will populate our `README.md` using a rmarkdown file (`README.Rmd`) if you don't have it created you can create it with:
+
+```{r, eval=FALSE}
+library(usethis)
+use_readme_rmd()
+```
+
+this will create the `README.Rmd` that generates the `README.md` file. To later generate the `README.md` you can use the following command:
+
+```{r, eval=FALSE}
+library(devtools)
+build_readme()
+```
+
+If you are new to *rmakdown* probable this introduction will be useful: [Introduction to R Markdown](https://rmarkdown.rstudio.com/articles_intro.html).
+
+::: {.callout-note collapse="true"}
+### `README.md` and `README.Rmd`
+Note that for cran only the `README.md` exists, so any change that you do to the `README.Rmd` file wont affect the 'real' README.md file till you build it, so make sure to build the `.md` file every time that you modify the `.Rmd`.
+:::
 
 ## Content
 
