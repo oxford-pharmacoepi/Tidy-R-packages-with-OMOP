@@ -398,7 +398,18 @@
     "href": "documentation/readme.html",
     "title": "14  README",
     "section": "",
-    "text": "14.1 Generate from .Rmd\nThe README.md is a very important of an R package, is probably the first thing the users will read once they decide to try out our package. Now we will so how to generate it and how to populate it.\nIn general we will populate our README.md using a rmarkdown file (README.Rmd) if you don’t have it created you can create it with usethis::use_readme_rmd() this will create the README.Rmd that generates the README.md file.",
+    "text": "14.1 Generate from .Rmd\nThe README.md is a very important of an R package, is probably the first thing the users will read once they decide to try out our package. Now we will so how to generate it and how to populate it.\nIn general we will populate our README.md using a rmarkdown file (README.Rmd) if you don’t have it created you can create it with:\nlibrary(usethis)\nuse_readme_rmd()\nthis will create the README.Rmd that generates the README.md file. To later generate the README.md you can use the following command:\nlibrary(devtools)\nbuild_readme()\nIf you are new to rmakdown probable this introduction will be useful: Introduction to R Markdown.",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>README</span>"
+    ]
+  },
+  {
+    "objectID": "documentation/readme.html#generate-from-.rmd",
+    "href": "documentation/readme.html#generate-from-.rmd",
+    "title": "14  README",
+    "section": "",
+    "text": "NoteREADME.md and README.Rmd\n\n\n\n\n\nNote that for cran only the README.md exists, so any change that you do to the README.Rmd file wont affect the ‘real’ README.md file till you build it, so make sure to build the .md file every time that you modify the .Rmd.",
     "crumbs": [
       "Contributing documentation",
       "<span class='chapter-number'>14</span>  <span class='chapter-title'>README</span>"
