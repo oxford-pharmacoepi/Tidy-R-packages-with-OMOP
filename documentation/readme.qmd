@@ -1,3 +1,19 @@
-# Readme
+# README
 
-- badges
+The `README.md` is a very important of an R package, is probably the first thing the users will read once they decide to try out our package. Now we will so how to generate it and how to populate it.
+
+## Generate from `.Rmd`
+
+In general we will populate our `README.md` using a rmarkdown file (`README.Rmd`) if you don't have it created you can create it with `usethis::use_readme_rmd()` this will create the `README.Rmd` that generates the `README.md` file.
+
+## Content
+
+### Badges
+
+### Tested sources
+
+### Goal of your package
+
+### How to install
+
+### Simple examples
