@@ -275,177 +275,188 @@
   {
     "objectID": "principles/error_and_validation.html",
     "href": "principles/error_and_validation.html",
-    "title": "9  Error messages and input validation",
+    "title": "8  Error messages and input validation",
     "section": "",
-    "text": "9.1 omopgenerics validatin functions\nGiving users good and informative error messages is key for a good user experience. To do so it is important that we perform an input validation at the beginning of each function. On the other hand we do not want to spend more time checking the input than executing the function, so don’t overdo it. In general we would check that any input function has the desired type and length and that the desired evaluation looks feasible with the current input parameters.\nSome arguments that are consistent across different functions and packages have their own validate functions in the omopgenerics package:\nIt is important that we assign the output to the variable as the object might change during the validation process to ensure different allowed inputs but as the output of the validation process will always be the same this simplifys the code as you do not have to think about the different allowed inputs.\nthe ageGroup argument can be a good example of this behavior:\nlibrary(omopgenerics, warn.conflicts = FALSE)\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(c(0, 1), c(10, 20)))\nageGroup\n\n$age_group\n$age_group$`0 to 1`\n[1] 0 1\n\n$age_group$`10 to 20`\n[1] 10 20\n\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(\n  my_column = list(\"young\" = c(0, 19), 20, c(21, Inf)), \n  list(c(0, 9), c(10, 19), c(20, 29), c(30, Inf))\n))\nageGroup\n\n$my_column\n$my_column$young\n[1]  0 19\n\n$my_column$`20 to 20`\n[1] 20 20\n\n$my_column$`21 or above`\n[1]  21 Inf\n\n\n$age_group_2\n$age_group_2$`0 to 9`\n[1] 0 9\n\n$age_group_2$`10 to 19`\n[1] 10 19\n\n$age_group_2$`20 to 29`\n[1] 20 29\n\n$age_group_2$`30 or above`\n[1]  30 Inf\nAs you can see the output is always a named list that contains named intervals the function itself will also throw explanatory errors if they are not properly formatted:\nvalidateAgeGroupArgument(\n  ageGroup = list(age_group1 = list(c(0, 19), c(20, Inf)), age_group2 = list(c(0, Inf))),\n  multipleAgeGroup = FALSE\n)\n\nError:\n! Multiple age group are not allowed\n\nvalidateAgeGroupArgument(\n  ageGroup = list(age_group1 = list(c(-5, 19), c(20, Inf)))\n)\n\nError in `purrr::map()`:\nℹ In index: 1.\nℹ With name: age_group1.\nCaused by error:\n! Elements of `ageGroup` argument must be greater or equal to \"0\".\n\nvalidateAgeGroupArgument(\n  ageGroup = NULL, null = FALSE \n)\n\nError:\n! `ageGroup` argument can not be NULL.",
+    "text": "8.1 omopgenerics validatin functions\nGiving users good and informative error messages is key for a good user experience. To do so it is important that we perform an input validation at the beginning of each function. On the other hand we do not want to spend more time checking the input than executing the function, so don’t overdo it. In general we would check that any input function has the desired type and length and that the desired evaluation looks feasible with the current input parameters.\nSome arguments that are consistent across different functions and packages have their own validate functions in the omopgenerics package:\nIt is important that we assign the output to the variable as the object might change during the validation process to ensure different allowed inputs but as the output of the validation process will always be the same this simplifys the code as you do not have to think about the different allowed inputs.\nthe ageGroup argument can be a good example of this behavior:\nlibrary(omopgenerics, warn.conflicts = FALSE)\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(c(0, 1), c(10, 20)))\nageGroup\n\n$age_group\n$age_group$`0 to 1`\n[1] 0 1\n\n$age_group$`10 to 20`\n[1] 10 20\n\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(\n  my_column = list(\"young\" = c(0, 19), 20, c(21, Inf)), \n  list(c(0, 9), c(10, 19), c(20, 29), c(30, Inf))\n))\nageGroup\n\n$my_column\n$my_column$young\n[1]  0 19\n\n$my_column$`20 to 20`\n[1] 20 20\n\n$my_column$`21 or above`\n[1]  21 Inf\n\n\n$age_group_2\n$age_group_2$`0 to 9`\n[1] 0 9\n\n$age_group_2$`10 to 19`\n[1] 10 19\n\n$age_group_2$`20 to 29`\n[1] 20 29\n\n$age_group_2$`30 or above`\n[1]  30 Inf\nAs you can see the output is always a named list that contains named intervals the function itself will also throw explanatory errors if they are not properly formatted:\nvalidateAgeGroupArgument(\n  ageGroup = list(age_group1 = list(c(0, 19), c(20, Inf)), age_group2 = list(c(0, Inf))),\n  multipleAgeGroup = FALSE\n)\n\nError:\n! Multiple age group are not allowed\n\nvalidateAgeGroupArgument(\n  ageGroup = list(age_group1 = list(c(-5, 19), c(20, Inf)))\n)\n\nError in `purrr::map()`:\nℹ In index: 1.\nℹ With name: age_group1.\nCaused by error:\n! Elements of `ageGroup` argument must be greater or equal to \"0\".\n\nvalidateAgeGroupArgument(\n  ageGroup = NULL, null = FALSE \n)\n\nError:\n! `ageGroup` argument can not be NULL.",
     "crumbs": [
       "Principles",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
     "objectID": "principles/error_and_validation.html#omopgenerics-validatin-functions",
     "href": "principles/error_and_validation.html#omopgenerics-validatin-functions",
-    "title": "9  Error messages and input validation",
+    "title": "8  Error messages and input validation",
     "section": "",
     "text": "validatevalidateAgeGroupArgument() is used to validate the ageGroup argument. The output ageGroup will always be formatted as a named list (name of the age group) and each age group will be defined by named intervals.\nvalidateCdmArgument() is used to validate the cdm argument. By default only the class is validated as this can take time, but specific checks can be triggered if needed.\nvalidateCohortArgument() is used to validate cohort argument, very used in many packages, this validates that the input is a properly formatted cohort. Extra checks can be triggered if needed.\nvalidateCohortIdArgument() is used to validate cohortId argument\nvalidateConceptSetArgument()\nvalidateNameArgument()\nvalidateNameStyle()\nvalidateResultArgument()\nvalidateStrataArgument()\nvalidateWindowArgument()",
     "crumbs": [
       "Principles",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
     "objectID": "principles/error_and_validation.html#omopgenerics-assert-functions",
     "href": "principles/error_and_validation.html#omopgenerics-assert-functions",
-    "title": "9  Error messages and input validation",
-    "section": "9.2 omopgenerics assert functions",
-    "text": "9.2 omopgenerics assert functions\nThe omopgenerics package contains some functions for simple validation steps this can be useful helpers to validate an input with a single line of code, they also contain arguments to check if they have",
+    "title": "8  Error messages and input validation",
+    "section": "8.2 omopgenerics assert functions",
+    "text": "8.2 omopgenerics assert functions\nThe omopgenerics package contains some functions for simple validation steps this can be useful helpers to validate an input with a single line of code, they also contain arguments to check if they have",
     "crumbs": [
       "Principles",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
     "objectID": "principles/error_and_validation.html#examples",
     "href": "principles/error_and_validation.html#examples",
-    "title": "9  Error messages and input validation",
-    "section": "9.3 Examples",
-    "text": "9.3 Examples\nLet’s say we have a function with four arguments (cohort, cohortId, window and overlap), we could easily validate the input arguments of the function with 4 lines of code:\n\nmyFunction &lt;- function(cohort, cohortId = NULL, window = c(0, Inf), overlap = FALSE) {\n  # input check\n  cohort &lt;- omopgenerics::validateCohortArgument(cohort = cohort)\n  cohortId &lt;- omopgenerics::validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)\n  window &lt;- omopgenerics::validateWindowArgument(window = window)\n  omopgenerics::assertLogical(overlap, length = 1)\n  \n  # code ...\n  \n}\n\nNote the {{ symbols are needed to be able to use tidyselect verbs such as starts_with() or contains().\nA second example that needs some custom extra code can be:\n\nmyFunction &lt;- function(cdm, conceptSet, days = 180L, startDate = NULL, overlap = TRUE) {\n  # input check\n  cdm &lt;- omopgenerics::validateCdmArgument(cdm = cdm)\n  conceptSet &lt;- omopgenerics::validateCdmArgument(conceptSet = conceptSet)\n  omopgenerics::assertNumeric(days, integerish = TRUE, min = 0, length = 1)\n  omopgenerics::assertDate(startDate, length = 1, null = TRUE)\n  if (overlap & days &gt; 365) {\n    cli::cli_abort(c(x = \"{.var days} is can not be &gt;= 365 if {.var overlap} is TRUE.\"))\n  }\n\n  # code ...\n  \n}\n\nYou can throw custom error and warning messages using the cli package.",
+    "title": "8  Error messages and input validation",
+    "section": "8.3 Examples",
+    "text": "8.3 Examples\nLet’s say we have a function with four arguments (cohort, cohortId, window and overlap), we could easily validate the input arguments of the function with 4 lines of code:\n\nmyFunction &lt;- function(cohort, cohortId = NULL, window = c(0, Inf), overlap = FALSE) {\n  # input check\n  cohort &lt;- omopgenerics::validateCohortArgument(cohort = cohort)\n  cohortId &lt;- omopgenerics::validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)\n  window &lt;- omopgenerics::validateWindowArgument(window = window)\n  omopgenerics::assertLogical(overlap, length = 1)\n  \n  # code ...\n  \n}\n\nNote the {{ symbols are needed to be able to use tidyselect verbs such as starts_with() or contains().\nA second example that needs some custom extra code can be:\n\nmyFunction &lt;- function(cdm, conceptSet, days = 180L, startDate = NULL, overlap = TRUE) {\n  # input check\n  cdm &lt;- omopgenerics::validateCdmArgument(cdm = cdm)\n  conceptSet &lt;- omopgenerics::validateCdmArgument(conceptSet = conceptSet)\n  omopgenerics::assertNumeric(days, integerish = TRUE, min = 0, length = 1)\n  omopgenerics::assertDate(startDate, length = 1, null = TRUE)\n  if (overlap & days &gt; 365) {\n    cli::cli_abort(c(x = \"{.var days} is can not be &gt;= 365 if {.var overlap} is TRUE.\"))\n  }\n\n  # code ...\n  \n}\n\nYou can throw custom error and warning messages using the cli package.",
     "crumbs": [
       "Principles",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
     "objectID": "principles/error_and_validation.html#conclusions",
     "href": "principles/error_and_validation.html#conclusions",
-    "title": "9  Error messages and input validation",
-    "section": "9.4 Conclusions",
-    "text": "9.4 Conclusions\nValidating arguments is a very important step to give user a good experience and prevent running undesired code in big datasets. The omopgenerics provides you with some functionality to keep the validation step short and consistent with other packages.",
+    "title": "8  Error messages and input validation",
+    "section": "8.4 Conclusions",
+    "text": "8.4 Conclusions\nValidating arguments is a very important step to give user a good experience and prevent running undesired code in big datasets. The omopgenerics provides you with some functionality to keep the validation step short and consistent with other packages.",
     "crumbs": [
       "Principles",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Error messages and input validation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html",
     "href": "documentation/functions.html",
-    "title": "13  Documenting functions",
+    "title": "14  Documenting functions",
     "section": "",
-    "text": "13.1 Title\nWe use the roxygen2 package for documenting our functions. Using this package will help us to write the .Rd files in the man directory which is what will be rendered when users call ?my_function or help(\"my_function\") and peruse a package website.\nAbove each exported function we’ll create a roxygen block, with lines starting with #'. The general structure is shown below and we’ll go through each in turn.\nWe want to provide a concise yet informative title for our function. The title should typically be written in sentence case but without any full stop at the end.\nIf we run help(package = \"mypackage\") we can see all the functions and their titles for a package. From this we can quickly see how informative our titles are.",
+    "text": "14.1 Title\nWe use the roxygen2 package for documenting our functions. Using this package will help us to write the .Rd files in the man directory which is what will be rendered when users call ?my_function or help(\"my_function\") and peruse a package website.\nAbove each exported function we’ll create a roxygen block, with lines starting with #'. The general structure is shown below and we’ll go through each in turn.\nWe want to provide a concise yet informative title for our function. The title should typically be written in sentence case but without any full stop at the end.\nIf we run help(package = \"mypackage\") we can see all the functions and their titles for a package. From this we can quickly see how informative our titles are.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#description",
     "href": "documentation/functions.html#description",
-    "title": "13  Documenting functions",
-    "section": "13.2 Description",
-    "text": "13.2 Description\nEvery function should have a desription. This could be a sentence or two for a simple function, or multiple paragraphs for a more complex function. The description should summarise the purpose of the function and explain any internal assumptions or decisions made to implement it.\nWhen writing the description we can use markdown commands, for example to add bullet points, italics, etc. This will often help make longer desriptions more readable.",
+    "title": "14  Documenting functions",
+    "section": "14.2 Description",
+    "text": "14.2 Description\nEvery function should have a desription. This could be a sentence or two for a simple function, or multiple paragraphs for a more complex function. The description should summarise the purpose of the function and explain any internal assumptions or decisions made to implement it.\nWhen writing the description we can use markdown commands, for example to add bullet points, italics, etc. This will often help make longer desriptions more readable.\n\n14.2.1 lifecycle badges",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#parameters",
     "href": "documentation/functions.html#parameters",
-    "title": "13  Documenting functions",
-    "section": "13.3 Parameters",
-    "text": "13.3 Parameters\nAfter our description of the function as a whole, we will then describe each of the inputs to the function. In general we should be able to describe an argument in a few sentences. We should use them to tell the user what is allowed as an input and then what the input will be used for.\nIf we’re working on a package where we have multiple arguments with the same argument we can document arguments just once. We can create a helper like below for parameter x.\n\n#' Helper for consistent documentation of `x`.\n#'\n#' @param x \n#'\n#' @name xDoc\n#' @keywords internal\n\nWe can then reuse this documentation across the package by using @inheritParams\n\n#' Title\n#' \n#' @description\n#'\n#' @inheritParams xDoc\n#' @param y \n#'\n#' @returns \n#' @export\n#'\n#' @examples",
+    "title": "14  Documenting functions",
+    "section": "14.3 Parameters",
+    "text": "14.3 Parameters\nAfter our description of the function as a whole, we will then describe each of the inputs to the function. In general we should be able to describe an argument in a few sentences. We should use them to tell the user what is allowed as an input and then what the input will be used for.\nIf we’re working on a package where we have multiple arguments with the same argument we can document arguments just once. We can create a helper like below for parameter x.\n\n#' Helper for consistent documentation of `x`.\n#'\n#' @param x \n#'\n#' @name xDoc\n#' @keywords internal\n\nWe can then reuse this documentation across the package by using @inheritParams\n\n#' Title\n#' \n#' @description\n#'\n#' @inheritParams xDoc\n#' @param y \n#'\n#' @returns \n#' @export\n#'\n#' @examples",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#returns",
     "href": "documentation/functions.html#returns",
-    "title": "13  Documenting functions",
-    "section": "13.4 Returns",
-    "text": "13.4 Returns\nWe must also document what the function will return. For example, we can tell a user that our function will return a tibble with a certain set of columns. If our function has side-effects then we chould also document these.",
+    "title": "14  Documenting functions",
+    "section": "14.4 Returns",
+    "text": "14.4 Returns\nWe must also document what the function will return. For example, we can tell a user that our function will return a tibble with a certain set of columns. If our function has side-effects then we chould also document these.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#export",
     "href": "documentation/functions.html#export",
-    "title": "13  Documenting functions",
-    "section": "13.5 Export",
-    "text": "13.5 Export\nBy including the @export tag our documentation will be generated as an .Rd file and users will see it in the package website, etc. If instead we want to document an internal function then we can replace this with @noRd.",
+    "title": "14  Documenting functions",
+    "section": "14.5 Export",
+    "text": "14.5 Export\nBy including the @export tag our documentation will be generated as an .Rd file and users will see it in the package website, etc. If instead we want to document an internal function then we can replace this with @noRd.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/functions.html#examples",
     "href": "documentation/functions.html#examples",
-    "title": "13  Documenting functions",
-    "section": "13.6 Examples",
-    "text": "13.6 Examples\nLast but by no means least are a set of examples where we provide R code that shows how the function can be used in practice. These examples are quite possible the most important piece of documentation, as it is many users will look at these before reading any of the above.\nTypically we should try to give a number of informative examples that show users how the function can be used and provides some intuition on the impact of different arguments.",
+    "title": "14  Documenting functions",
+    "section": "14.6 Examples",
+    "text": "14.6 Examples\nLast but by no means least are a set of examples where we provide R code that shows how the function can be used in practice. These examples are quite possible the most important piece of documentation, as it is many users will look at these before reading any of the above.\nTypically we should try to give a number of informative examples that show users how the function can be used and provides some intuition on the impact of different arguments.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting functions</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Documenting functions</span>"
     ]
   },
   {
     "objectID": "documentation/readme.html",
     "href": "documentation/readme.html",
-    "title": "14  README",
+    "title": "15  README",
     "section": "",
-    "text": "14.1 Generate from .Rmd\nThe README.md is a very important of an R package, is probably the first thing the users will read once they decide to try out our package. Now we will so how to generate it and how to populate it.\nIn general we will populate our README.md using a rmarkdown file (README.Rmd) if you don’t have it created you can create it with:\nlibrary(usethis)\nuse_readme_rmd()\nthis will create the README.Rmd that generates the README.md file. To later generate the README.md you can use the following command:\nlibrary(devtools)\nbuild_readme()\nIf you are new to rmakdown probable this introduction will be useful: Introduction to R Markdown.",
+    "text": "15.1 Create the .Rmd file\nThe README.md is a very important part of an R package. It is probably the first thing the users will read once they decide to try out our package. The README must contain the goal of the package and clear examples so users can start using the package. Now we will so how to create it and how to populate it.\nIn general we will populate our README.md using a rmarkdown file (README.Rmd) if you don’t have it created you can create it with:\nlibrary(usethis)\nuse_readme_rmd()\nthis will create the README.Rmd file that generates the README.md. To later build the README.md you can use the following command:\nlibrary(devtools)\nbuild_readme()\nIf you are new to rmakdown probable this introduction will be useful: Introduction to R Markdown.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>README</span>"
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>README</span>"
     ]
   },
   {
-    "objectID": "documentation/readme.html#generate-from-.rmd",
-    "href": "documentation/readme.html#generate-from-.rmd",
-    "title": "14  README",
+    "objectID": "documentation/readme.html#create-the-.rmd-file",
+    "href": "documentation/readme.html#create-the-.rmd-file",
+    "title": "15  README",
     "section": "",
-    "text": "NoteREADME.md and README.Rmd\n\n\n\n\n\nNote that for cran only the README.md exists, so any change that you do to the README.Rmd file wont affect the ‘real’ README.md file till you build it, so make sure to build the .md file every time that you modify the .Rmd.",
+    "text": "NoteREADME.md and README.Rmd\n\n\n\n\n\nNote that for cran/website/github only the README.md exists, so any change that you do to the README.Rmd file wont affect the ‘real’ README.md file till you build it. Make sure to build the .md file every time that you modify the .Rmd.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>README</span>"
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>README</span>"
     ]
   },
   {
     "objectID": "documentation/readme.html#content",
     "href": "documentation/readme.html#content",
-    "title": "14  README",
-    "section": "14.2 Content",
-    "text": "14.2 Content\n\n14.2.1 Badges\n\n\n14.2.2 Tested sources\n\n\n14.2.3 Goal of your package\n\n\n14.2.4 How to install\nMake sure to include\n\n\n14.2.5 Simple examples\nInclude diagrams, figures and tables.",
+    "title": "15  README",
+    "section": "15.2 Content",
+    "text": "15.2 Content\nA good README.md file must contain the following sections:\n\n15.2.1 Badges\nBadges are quite useful to display at the top of your README, they contain information of the package in a synthetic and consistent way. The badges are generated from usethis functions. You will have to manually copy the badge that will be printed in the console in the desired README section, usually at the top:\n&lt;!-- badges: start --&gt;\nPASTE BADGES HERE\n&lt;!-- badges: end --&gt;\nlifecycle status The development status badge can provide the user the development status of the package. We would usually use “experimental” for packages still under development (usually version &lt; 1.0.0) and “stable” for stable packages, note if you add the stable badge this sets some expectations about the package like backwards compatibility. A lifecycle badge is highly recommended.\n\nuse_lifecycle_badge(\"experimental\")\nuse_lifecycle_badge(\"stable\")\n\ncran version The cran badge informs about the current version in cran (if submitted to cran). This badge is also highly recommended (even before submitting to cran).\n\nuse_cran_badge()\n\nbuild status The badge indicates if the last checks ran in your package passed or not. This badge should also be green otherwise this means the continuous integration is broken. If at some point actions break in main, fix it as soon as possible. This badge is also highly recommended. The badge is generated when GitHub Actions are set.\n[![Build Status](https://github.com/{user/organisation}/{package_name}/workflows/R-CMD-check/badge.svg)](https://github.com/{user/organisation}/{package_name}/actions?query=workflow%3AR-CMD-check)\ntest coverage\ncran downloads\n\n\n15.2.2 Tested sources\nIf your packages is designed to work with different cdm sources (e.g. duckdb, local, postgres, sql server, …) we would encourage you to include the different sources you actively test against. We will later see the Testing multiple DBMS chapter where we explain how to do this automatically using GitHub actions. A good display to show the tested sources would be:\n\n| Source | Driver | CDM reference | Status |\n|------------------|------------------|------------------|------------------|\n| Local R dataframe | N/A | `omopgenerics::cdmFromTables()` | [![](https://github.com/OHDSI/CohortConstructor/actions/workflows/test-local-omopgenerics.yaml/badge.svg?branch=main)](https://github.com/OHDSI/CohortConstructor/actions/workflows/test-local-omopgenerics.yaml) |\n| In-memory duckdb datatabase | duckdb | `CDMConnector::cdmFromCon()` | [![](https://github.com/OHDSI/CohortConstructor/actions/workflows/test-duckdb-CDMConnector.yaml/badge.svg?branch=main)](https://github.com/OHDSI/CohortConstructor/actions/workflows/test-duckdb-CDMConnector.yaml) |\n| Postgres database | RPostgres | `CDMConnector::cdmFromCon()` |  |\n| Postgres database | DatabaseConnector | `CDMConnector::cdmFromCon()` |  |\n| SQL Server database | odbc | `CDMConnector::cdmFromCon()` |  |\n| SQL Server database | DatabaseConnector | `CDMConnector::cdmFromCon()` |  |\n\n\n\n15.2.3 Goal of your package\nClearly state the goal of your package, do not extend much, usually 2/3 sentences are enough to describe what your package does.\n\n\n15.2.4 How to install\nMake sure to include information on how to install the package the current release from cran and the development version from GitHub. this section would usually look like:\n# Installation\n\n{pakage_name} can be installed from CRAN:\n\n  ```r\n  install.packages(\"{pakage_name}\")\nor\nlibrary(pak)\npkg_install(\"{pakage_name}\")\nIf you prefere to use pak.\nThe development version can be installed from GitHub:\nlibrary(pak)\npkg_install(\"{user/organisation}/{package_name}\")\n```\n\n\n15.2.5 Simple examples\nThis is the most important section. Catch user attention, show how your package can solve a problem they have. Usually try to include visualisations (like ‘flextable’ or ‘ggplot2’). If you have a table* function that depends on visOmopResults please use type = \"flextable\" in the README as it is better displayed than ‘gt’.\nWe also recommend to include diagrams on how some functions relate or how your package works. Spend some time on this section, remember that’s the first thing they will read about your package.",
     "crumbs": [
       "Contributing documentation",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>README</span>"
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>README</span>"
+    ]
+  },
+  {
+    "objectID": "documentation/readme.html#example",
+    "href": "documentation/readme.html#example",
+    "title": "15  README",
+    "section": "15.3 Example",
+    "text": "15.3 Example\nHere we created a simple example of how a good README would look like:",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>README</span>"
     ]
   },
   {
     "objectID": "testing/unit_testing.html",
     "href": "testing/unit_testing.html",
-    "title": "17  Unit testing",
+    "title": "18  Unit testing",
     "section": "",
     "text": "do not rely on mock data",
     "crumbs": [
       "Adding unit tests",
-      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Unit testing</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Unit testing</span>"
     ]
   },
   {
     "objectID": "maintainance/releasing.html",
     "href": "maintainance/releasing.html",
-    "title": "26  Submit to CRAN",
+    "title": "27  Submit to CRAN",
     "section": "",
     "text": "What version to release (major, minor or patch)\nForced releases by cran\nnews\nreverse dependency",
     "crumbs": [
       "Maintaing a package",
-      "<span class='chapter-number'>26</span>  <span class='chapter-title'>Submit to CRAN</span>"
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Submit to CRAN</span>"
     ]
   }
 ]
