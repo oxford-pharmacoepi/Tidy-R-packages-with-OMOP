@@ -1,8 +1,8 @@
 # README
 
-The `README.md` is a very important of an R package, is probably the first thing the users will read once they decide to try out our package. Now we will so how to generate it and how to populate it.
+The `README.md` is a very important part of an R package. It is probably the first thing the users will read once they decide to try out our package. The `README` must contain the goal of the package and clear examples so users can start using the package. Now we will so how to create it and how to populate it.
 
-## Generate from `.Rmd`
+## Create the `.Rmd` file
 
 In general we will populate our `README.md` using a rmarkdown file (`README.Rmd`) if you don't have it created you can create it with:
 
@@ -11,7 +11,7 @@ library(usethis)
 use_readme_rmd()
 ```
 
-this will create the `README.Rmd` that generates the `README.md` file. To later generate the `README.md` you can use the following command:
+this will create the `README.Rmd` file that generates the `README.md`. To later build the `README.md` you can use the following command:
 
 ```{r, eval=FALSE}
 library(devtools)
@@ -22,21 +22,103 @@ If you are new to *rmakdown* probable this introduction will be useful: [Introdu
 
 ::: {.callout-note collapse="true"}
 ### `README.md` and `README.Rmd`
-Note that for cran only the `README.md` exists, so any change that you do to the `README.Rmd` file wont affect the 'real' README.md file till you build it, so make sure to build the `.md` file every time that you modify the `.Rmd`.
+Note that for cran/website/github only the `README.md` exists, so any change that you do to the `README.Rmd` file wont affect the 'real' README.md file till you build it. Make sure to build the `.md` file every time that you modify the `.Rmd`.
 :::
 
 ## Content
 
+A good `README.md` file must contain the following sections:
+
 ### Badges
+
+Badges are quite useful to display at the top of your README, they contain information of the package in a synthetic and consistent way. The badges are generated from `usethis` functions. You will have to manually copy the badge that will be printed in the console in the desired README section, usually at the top:
+
+```
+<!-- badges: start -->
+PASTE BADGES HERE
+<!-- badges: end -->
+```
+
+**lifecycle status** The development status badge can provide the user the development status of the package. We would usually use "experimental" for packages still under development (usually version < 1.0.0) and "stable" for stable packages, note if you add the stable badge this sets some expectations about the package like backwards compatibility. A lifecycle badge is highly recommended.
+
+```{r, eval=FALSE}
+use_lifecycle_badge("experimental")
+use_lifecycle_badge("stable")
+```
+
+**cran version** The cran badge informs about the current version in cran (if submitted to cran). This badge is also highly recommended (even before submitting to cran).
+
+```{r, eval=FALSE}
+use_cran_badge()
+```
+
+**build status** The badge indicates if the last checks ran in your package passed or not. This badge should also be green otherwise this means the continuous integration is broken. If at some point actions break in main, fix it as soon as possible. This badge is also highly recommended. The badge is generated when GitHub Actions are set.
+
+```
+[![Build Status](https://github.com/{user/organisation}/{package_name}/workflows/R-CMD-check/badge.svg)](https://github.com/{user/organisation}/{package_name}/actions?query=workflow%3AR-CMD-check)
+```
+
+**test coverage**
+
+**cran downloads**
 
 ### Tested sources
 
+If your packages is designed to work with different cdm sources (e.g. duckdb, local, postgres, sql server, ...) we would encourage you to include the different sources you actively test against. We will later see the [Testing multiple DBMS](../github/testing_multiple_dbms.qmd) chapter where we explain how to do this automatically using GitHub actions. A good display to show the tested sources would be:
+
+```{md}
+| Source | Driver | CDM reference | Status |
+|------------------|------------------|------------------|------------------|
+| Local R dataframe | N/A | `omopgenerics::cdmFromTables()` | [![](https://github.com/OHDSI/CohortConstructor/actions/workflows/test-local-omopgenerics.yaml/badge.svg?branch=main)](https://github.com/OHDSI/CohortConstructor/actions/workflows/test-local-omopgenerics.yaml) |
+| In-memory duckdb datatabase | duckdb | `CDMConnector::cdmFromCon()` | [![](https://github.com/OHDSI/CohortConstructor/actions/workflows/test-duckdb-CDMConnector.yaml/badge.svg?branch=main)](https://github.com/OHDSI/CohortConstructor/actions/workflows/test-duckdb-CDMConnector.yaml) |
+| Postgres database | RPostgres | `CDMConnector::cdmFromCon()` |  |
+| Postgres database | DatabaseConnector | `CDMConnector::cdmFromCon()` |  |
+| SQL Server database | odbc | `CDMConnector::cdmFromCon()` |  |
+| SQL Server database | DatabaseConnector | `CDMConnector::cdmFromCon()` |  |
+```
+
+
 ### Goal of your package
+
+Clearly state the goal of your package, do not extend much, usually 2/3 sentences are enough to describe what your package does.
 
 ### How to install
 
-Make sure to include 
+Make sure to include information on how to install the package the current release from cran and the development version from GitHub. this section would usually look like:
+
+```rmarkdown
+# Installation
+
+{pakage_name} can be installed from CRAN:
+
+  ```r
+  install.packages("{pakage_name}")
+  ```
+
+or
+
+  ```r
+  library(pak)
+  pkg_install("{pakage_name}")
+  ```
+
+If you prefere to use [`pak`](LINK). 
+
+The development version can be installed from GitHub:
+
+  ```r
+  library(pak)
+  pkg_install("{user/organisation}/{package_name}")
+  ```
+
+```
 
 ### Simple examples
 
-Include diagrams, figures and tables. 
+This is the most important section. Catch user attention, show how your package can solve a problem they have. Usually try to include visualisations (like 'flextable' or 'ggplot2'). If you have a `table*` function that depends on [`visOmopResults`]() please use `type = "flextable"` in the README as it is better displayed than 'gt'.
+
+We also recommend to include diagrams on how some functions relate or how your package works. Spend some time on this section, remember that's the first thing they will read about your package.
+
+## Example
+
+Here we created a simple example of how a good `README` would look like:

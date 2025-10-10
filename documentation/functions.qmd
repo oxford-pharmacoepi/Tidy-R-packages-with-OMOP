@@ -1,6 +1,6 @@
 # Documenting functions
 
-We use the [roxygen2](https://roxygen2.r-lib.org) package for documenting our functions. Using this package will help us to write the .Rd files in the man directory which is what will be rendered when users call `?my_function` or `help("my_function")` and peruse a package website. 
+We use the [roxygen2](https://roxygen2.r-lib.org) package for documenting our functions. Using this package will help us to write the .Rd files in the man directory which is what will be rendered when users call `?my_function` or `help("my_function")` and peruse a package website.
 
 Above each exported function we'll create a roxygen **block**, with lines starting with `#'`. The general structure is shown below and we'll go through each in turn.
 
@@ -30,11 +30,13 @@ Every function should have a desription. This could be a sentence or two for a s
 
 When writing the description we can use markdown commands, for example to add bullet points, italics, etc. This will often help make longer desriptions more readable.
 
+### lifecycle badges
+
 ## Parameters
 
 After our description of the function as a whole, we will then describe each of the inputs to the function. In general we should be able to describe an argument in a few sentences. We should use them to tell the user what is allowed as an input and then what the input will be used for.
 
-If we're working on a package where we have multiple arguments with the same argument we can document arguments just once. We can create a helper like below for parameter x.  
+If we're working on a package where we have multiple arguments with the same argument we can document arguments just once. We can create a helper like below for parameter x.
 
 ```{r}
 #' Helper for consistent documentation of `x`.
@@ -60,7 +62,6 @@ We can then reuse this documentation across the package by using `@inheritParams
 #'
 #' @examples 
 ```
-
 
 ## Returns
 

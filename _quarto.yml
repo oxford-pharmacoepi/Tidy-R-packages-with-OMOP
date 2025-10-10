@@ -19,8 +19,9 @@ book:
     - principles/core_dependencies.qmd
     - principles/function_interfaces.qmd
     - principles/conventions.qmd
-    - principles/function_outputs.qmd
     - principles/error_and_validation.qmd
+    - principles/function_outputs.qmd
+    - principles/visualisations.qmd
     - principles/styling.qmd
     - principles/reexports.qmd
   - part: documentation/index.qmd
