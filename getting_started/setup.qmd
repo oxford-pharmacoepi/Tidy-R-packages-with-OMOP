@@ -33,6 +33,7 @@ create_package(path = "path/to/folder")
 
 ::: {.callout-tip collapse="true"}
 ### Package name
+
 The package will be named by the name of the folder.
 :::
 
@@ -70,7 +71,7 @@ License agreements supported by `usethis` are:
 
     -   [CC0](https://creativecommons.org/publicdomain/zero/1.0/): dedicated to public domain.
     -   [CC-BY](https://creativecommons.org/licenses/by/4.0/): Free to share and adapt, must give appropriate credit.
-    
+
 ```{r, eval=FALSE}
 use_mit_license(copyright_holder = NULL)
 
@@ -92,7 +93,25 @@ use_proprietary_license(copyright_holder = "...")
 
 ## Create a first mock function
 
+The `R` folder contains the relevant files for your package
+
 ## Check the package
+
+## Create a simple test
+
+We will see 
+
+After adding the test we should check the test works properly. You can run the tests of the active file using:
+
+```{r, eval=FALSE}
+test_active_file()
+```
+
+Or you can run all the tests of the package:
+
+```{r, eval=FALSE}
+test()
+```
 
 ## Create `README.Rmd`
 
@@ -108,3 +127,12 @@ GitHub actions are very useful to ensure the continuous integration workflow. Th
 -   [Automatic testing across multiple sources](../github/testing_multiple_dbms.qmd)
 
 ## Package template
+
+Although the first time it is quite nice to do all the steps one by one there is a template with all those steps done, you can create a new package repo using this [link](https://github.com/new?template_name=EmptyPackageTemplate&template_owner=oxford-pharmacoepi).
+
+::: {.callout-note collapse="true"}
+### Template link
+
+The GitHub template link can be found: <https://github.com/oxford-pharmacoepi/EmptyPackageTemplate>.
+
+:::

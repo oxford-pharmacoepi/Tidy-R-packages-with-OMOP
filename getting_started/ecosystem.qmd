@@ -1,4 +1,3 @@
 # Ecosystem
 
 ## How the package fits in the ecosystem
-
