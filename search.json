@@ -145,7 +145,7 @@
     "href": "getting_started/setup.html#create-a-first-mock-function",
     "title": "4  Set up your environment",
     "section": "4.3 Create a first mock function",
-    "text": "4.3 Create a first mock function",
+    "text": "4.3 Create a first mock function\nThe R folder contains the relevant files for your package",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -163,11 +163,22 @@
     ]
   },
   {
+    "objectID": "getting_started/setup.html#create-a-simple-test",
+    "href": "getting_started/setup.html#create-a-simple-test",
+    "title": "4  Set up your environment",
+    "section": "4.5 Create a simple test",
+    "text": "4.5 Create a simple test\nWe will see\nAfter adding the test we should check the test works properly. You can run the tests of the active file using:\n\ntest_active_file()\n\nOr you can run all the tests of the package:\n\ntest()",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
     "objectID": "getting_started/setup.html#create-readme.rmd",
     "href": "getting_started/setup.html#create-readme.rmd",
     "title": "4  Set up your environment",
-    "section": "4.5 Create README.Rmd",
-    "text": "4.5 Create README.Rmd",
+    "section": "4.6 Create README.Rmd",
+    "text": "4.6 Create README.Rmd",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -177,8 +188,8 @@
     "objectID": "getting_started/setup.html#create-website",
     "href": "getting_started/setup.html#create-website",
     "title": "4  Set up your environment",
-    "section": "4.6 Create website",
-    "text": "4.6 Create website",
+    "section": "4.7 Create website",
+    "text": "4.7 Create website",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -188,8 +199,8 @@
     "objectID": "getting_started/setup.html#set-up-github",
     "href": "getting_started/setup.html#set-up-github",
     "title": "4  Set up your environment",
-    "section": "4.7 Set up GitHub",
-    "text": "4.7 Set up GitHub\nGitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to GitHub and GitHub Actions at that stage you will learn how to use github for:\n\nAutomatic checking your package\nAutomatic deployment of a documentation website for your package\nAutomatic assessment of test coverage\nAutomatic testing across multiple sources",
+    "section": "4.8 Set up GitHub",
+    "text": "4.8 Set up GitHub\nGitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to GitHub and GitHub Actions at that stage you will learn how to use github for:\n\nAutomatic checking your package\nAutomatic deployment of a documentation website for your package\nAutomatic assessment of test coverage\nAutomatic testing across multiple sources",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -199,8 +210,8 @@
     "objectID": "getting_started/setup.html#package-template",
     "href": "getting_started/setup.html#package-template",
     "title": "4  Set up your environment",
-    "section": "4.8 Package template",
-    "text": "4.8 Package template",
+    "section": "4.9 Package template",
+    "text": "4.9 Package template\nAlthough the first time it is quite nice to do all the steps one by one there is a template with all those steps done, you can create a new package repo using this link.\n\n\n\n\n\n\nNoteTemplate link\n\n\n\n\n\nThe GitHub template link can be found: https://github.com/oxford-pharmacoepi/EmptyPackageTemplate.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -325,6 +336,17 @@
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
+    ]
+  },
+  {
+    "objectID": "documentation/code.html",
+    "href": "documentation/code.html",
+    "title": "13  Documenting code",
+    "section": "",
+    "text": "13.1 When to document?\nDocumenting code it is also important, after some weeks we will probably remember why you added some lines of code or what was needed next. Adding notes for yourself or the rest of developers it is always a good idea.\nIn general not all the lines of code need to be documented, a very simple example can be:\ny &lt;- x + 1\nYou do not need a comment to know that the value of y is going to be x plus one unit. But maybe you need to document why you did that for example when we calculate duration it is end - start + 1 as we want to calculate the number of days (start and end are included) and not the difference (end - start). This might not be obvious at first glance and giving a clue to you in the future or any other developer will save you time:\n# end and start are included in duration, we want number of days not difference\nduration &lt;- end - start + 1",
+    "crumbs": [
+      "Contributing documentation",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Documenting code</span>"
     ]
   },
   {
