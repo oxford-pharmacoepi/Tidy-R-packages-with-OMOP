@@ -6,14 +6,13 @@ Documenting code it is also important, after some weeks we will probably remembe
 
 In general not all the lines of code need to be documented, a very simple example can be:
 
-```{r}
+```{r, eval=FALSE}
 y <- x + 1
 ```
 
 You do not need a comment to know that the value of `y` is going to be `x` plus one unit. But maybe you need to document why you did that for example when we calculate duration it is `end - start + 1` as we want to calculate the number of days (start and end are included) and not the difference (`end - start`). This might not be obvious at first glance and giving a clue to you in the future or any other developer will save you time:
 
-```{r}
+```{r, eval = FALSE}
 # end and start are included in duration, we want number of days not difference
 duration <- end - start + 1
 ```
-
