@@ -1,1 +1,45 @@
 # Function outputs
+
+## The summarised_result object
+
+The summarised_result object is an S3 class defined by omopgenerics that aims to standardise the result outputs that contain estimates.
+
+### The summarised_result basis
+
+The summarised result is a tibble wi
+
+- **Main table**
+
+- **Settings**. Compulsory settings are:
+  - *result_type*
+  - *package_name*
+  - *package_version*
+  Other columns that are always created in settings:
+  - *group*, *strata*, *additional*
+  - *min_cell_count* this column will always exists (it will be "0" by default).
+
+The *tidy* format, a summarised result can easily be converted to a simpler table, you can use internally this format 
+
+### How to create a summarised result
+
+Please include only one result_type this make it easy
+
+- way to identify result_type
+
+- unique result_type
+
+- transform to summarise result
+
+- tidy
+
+### Suppression
+
+- make sure that we include a number subjects if relevant
+
+- use the word count in estimates
+
+### Register the result_type
+
+## Further reading
+
+- The summarised result object omopgenerics.
