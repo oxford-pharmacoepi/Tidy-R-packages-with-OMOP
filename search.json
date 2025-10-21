@@ -339,6 +339,39 @@
     ]
   },
   {
+    "objectID": "principles/function_outputs.html",
+    "href": "principles/function_outputs.html",
+    "title": "9  Function outputs",
+    "section": "",
+    "text": "9.1 The summarised_result object\nThe summarised_result object is an S3 class defined by omopgenerics that aims to standardise the result outputs that contain estimates.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Function outputs</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_outputs.html#the-summarised_result-object",
+    "href": "principles/function_outputs.html#the-summarised_result-object",
+    "title": "9  Function outputs",
+    "section": "",
+    "text": "9.1.1 The summarised_result basis\nThe summarised result is a tibble wi\n\nMain table\nSettings. Compulsory settings are:\n\nresult_type\npackage_name\npackage_version Other columns that are always created in settings:\ngroup, strata, additional\nmin_cell_count this column will always exists (it will be “0” by default).\n\n\nThe tidy format, a summarised result can easily be converted to a simpler table, you can use internally this format\n\n\n9.1.2 How to create a summarised result\nPlease include only one result_type this make it easy\n\nway to identify result_type\nunique result_type\ntransform to summarise result\ntidy\n\n\n\n9.1.3 Suppression\n\nmake sure that we include a number subjects if relevant\nuse the word count in estimates\n\n\n\n9.1.4 Register the result_type",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Function outputs</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_outputs.html#further-reading",
+    "href": "principles/function_outputs.html#further-reading",
+    "title": "9  Function outputs",
+    "section": "9.2 Further reading",
+    "text": "9.2 Further reading\n\nThe summarised result object omopgenerics.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Function outputs</span>"
+    ]
+  },
+  {
     "objectID": "documentation/code.html",
     "href": "documentation/code.html",
     "title": "13  Documenting code",

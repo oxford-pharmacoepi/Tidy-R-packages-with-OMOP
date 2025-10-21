@@ -349,8 +349,21 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-summarised_result-object" id="toc-the-summarised_result-object" class="nav-link active" data-scroll-target="#the-summarised_result-object"><span class="header-section-number">9.1</span> The summarised_result object</a>
+  <ul class="collapse">
+  <li><a href="#the-summarised_result-basis" id="toc-the-summarised_result-basis" class="nav-link" data-scroll-target="#the-summarised_result-basis"><span class="header-section-number">9.1.1</span> The summarised_result basis</a></li>
+  <li><a href="#how-to-create-a-summarised-result" id="toc-how-to-create-a-summarised-result" class="nav-link" data-scroll-target="#how-to-create-a-summarised-result"><span class="header-section-number">9.1.2</span> How to create a summarised result</a></li>
+  <li><a href="#suppression" id="toc-suppression" class="nav-link" data-scroll-target="#suppression"><span class="header-section-number">9.1.3</span> Suppression</a></li>
+  <li><a href="#register-the-result_type" id="toc-register-the-result_type" class="nav-link" data-scroll-target="#register-the-result_type"><span class="header-section-number">9.1.4</span> Register the result_type</a></li>
+  </ul></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">9.2</span> Further reading</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -374,8 +387,54 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="the-summarised_result-object" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="the-summarised_result-object"><span class="header-section-number">9.1</span> The summarised_result object</h2>
+<p>The summarised_result object is an S3 class defined by omopgenerics that aims to standardise the result outputs that contain estimates.</p>
+<section id="the-summarised_result-basis" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="the-summarised_result-basis"><span class="header-section-number">9.1.1</span> The summarised_result basis</h3>
+<p>The summarised result is a tibble wi</p>
+<ul>
+<li><p><strong>Main table</strong></p></li>
+<li><p><strong>Settings</strong>. Compulsory settings are:</p>
+<ul>
+<li><em>result_type</em></li>
+<li><em>package_name</em></li>
+<li><em>package_version</em> Other columns that are always created in settings:</li>
+<li><em>group</em>, <em>strata</em>, <em>additional</em></li>
+<li><em>min_cell_count</em> this column will always exists (it will be “0” by default).</li>
+</ul></li>
+</ul>
+<p>The <em>tidy</em> format, a summarised result can easily be converted to a simpler table, you can use internally this format</p>
+</section>
+<section id="how-to-create-a-summarised-result" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="how-to-create-a-summarised-result"><span class="header-section-number">9.1.2</span> How to create a summarised result</h3>
+<p>Please include only one result_type this make it easy</p>
+<ul>
+<li><p>way to identify result_type</p></li>
+<li><p>unique result_type</p></li>
+<li><p>transform to summarise result</p></li>
+<li><p>tidy</p></li>
+</ul>
+</section>
+<section id="suppression" class="level3" data-number="9.1.3">
+<h3 data-number="9.1.3" class="anchored" data-anchor-id="suppression"><span class="header-section-number">9.1.3</span> Suppression</h3>
+<ul>
+<li><p>make sure that we include a number subjects if relevant</p></li>
+<li><p>use the word count in estimates</p></li>
+</ul>
+</section>
+<section id="register-the-result_type" class="level3" data-number="9.1.4">
+<h3 data-number="9.1.4" class="anchored" data-anchor-id="register-the-result_type"><span class="header-section-number">9.1.4</span> Register the result_type</h3>
+</section>
+</section>
+<section id="further-reading" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9.2</span> Further reading</h2>
+<ul>
+<li>The summarised result object omopgenerics.</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
