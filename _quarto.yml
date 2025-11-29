@@ -33,10 +33,9 @@ book:
     - documentation/website.qmd
   - part: testing/index.qmd
     chapters:
-    - testing/unit_testing.qmd
+    - testing/introduction.qmd
+    - testing/test_omop.qmd
     - testing/test_dbms.qmd
-    - testing/efficient_testing.qmd
-    - testing/documenting_tests.qmd
   - part: github/index.qmd
     chapters:
     - github/setup_github.qmd

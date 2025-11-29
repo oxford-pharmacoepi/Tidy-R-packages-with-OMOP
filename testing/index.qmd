@@ -1,1 +1,11 @@
-# Adding unit tests
+# Testing
+
+Testing is a crucial part of R package development. Well-designed tests ensure that each function behaves as intended, protect the package from unexpected breakage when new features are added (new contributions should not cause existing tests to fail), and provide confidence when refactoring code (improving internal logic for efficiency should not alter the expected outputs). A comprehensive test suite also lowers the barrier for contributors: by making expected behaviour explicit, it becomes easier for others to understand how functions should work and to spot unintended changes.
+
+This part of the book introduces good testing practices in the context of OMOP-based package development. It is organised into three chapters:
+
+-  [Introduction to testing](introduction.qmd) provides a high-level overview of testing in R using modern tools and conventions. This chapter summarises the key concepts presented in the Testing section of R Packages by Wickham and Bryan (https://r-pkgs.org/testing-basics.html).
+
+-  [Testing in OMOP](test_omop.qmd) describes approaches for testing packages that interact with the OMOP CDM instances. In particular, it introduces the use of the omock R package [CITE], which enables the creation of synthetic OMOP data to validate package functionality without relying on a live database.
+
+-  [Testing against multiple DBMS](test_dbms.qmd) explains how to configure your package to run tests across multiple database management systems that host an OMOP CDM, ensuring that your code behaves consistently and reliably across different environments.
