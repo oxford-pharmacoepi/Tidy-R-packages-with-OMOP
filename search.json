@@ -493,25 +493,24 @@
     ]
   },
   {
-    "objectID": "testing/unit_testing.html",
-    "href": "testing/unit_testing.html",
-    "title": "18  Unit testing",
+    "objectID": "testing/index.html",
+    "href": "testing/index.html",
+    "title": "Testing",
     "section": "",
-    "text": "do not rely on mock data",
+    "text": "Testing is a crucial part of R package development. Well-designed tests ensure that each function behaves as intended, protect the package from unexpected breakage when new features are added (new contributions should not cause existing tests to fail), and provide confidence when refactoring code (improving internal logic for efficiency should not alter the expected outputs). A comprehensive test suite also lowers the barrier for contributors: by making expected behaviour explicit, it becomes easier for others to understand how functions should work and to spot unintended changes.\nThis part of the book introduces good testing practices in the context of OMOP-based package development. It is organised into three chapters:\n\nIntroduction to testing provides a high-level overview of testing in R using modern tools and conventions. This chapter summarises the key concepts presented in the Testing section of R Packages by Wickham and Bryan (https://r-pkgs.org/testing-basics.html).\nTesting in OMOP describes approaches for testing packages that interact with the OMOP CDM instances. In particular, it introduces the use of the omock R package [CITE], which enables the creation of synthetic OMOP data to validate package functionality without relying on a live database.\nTesting against multiple DBMS explains how to configure your package to run tests across multiple database management systems that host an OMOP CDM, ensuring that your code behaves consistently and reliably across different environments.",
     "crumbs": [
-      "Adding unit tests",
-      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Unit testing</span>"
+      "Testing"
     ]
   },
   {
     "objectID": "maintainance/releasing.html",
     "href": "maintainance/releasing.html",
-    "title": "27  Submit to CRAN",
+    "title": "26  Submit to CRAN",
     "section": "",
     "text": "What version to release (major, minor or patch)\nForced releases by cran\nnews\nreverse dependency",
     "crumbs": [
       "Maintaing a package",
-      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Submit to CRAN</span>"
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>Submit to CRAN</span>"
     ]
   }
 ]
