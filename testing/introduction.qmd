@@ -1,2 +1,262 @@
 # Introduction to testing
 
+Testing is a fundamental part of developing reliable, maintainable R packages. A good test suite provides confidence that your functions behave as expected, prevents regressions when the code evolves, and acts as a form of living documentation of your package’s intended behaviour. This chapter introduces the core ideas of testing in R, following tidyverse practices. It focuses on practical techniques you will use in every package: setting up tests, writing expectations, organising helpers and fixtures, deciding what to test, and documenting your tests clearly.
+
+## The Basics
+
+R’s modern testing ecosystem centres around the **testthat** package, supported by **usethis** for scaffolding test infrastructure and **devtools** for running tests during development. Together, these tools provide a simple and consistent workflow.
+
+### Setting up test infrastructure
+
+The first step is to enable testing for your package:
+
+```{r, eval=FALSE}
+library(usethis)
+use_testthat()
+```
+
+This command:
+
+* adds *testthat* to your package’s `Suggests`
+* creates a top-level file `tests/testthat.R`
+* creates the directory `tests/testthat/` where test files will live
+
+::: {.callout-note collapse="true"}
+### Parallel testing
+
+Tests are run sequentially in alphabetical order of the files, but you can run those tests in parallel if you use that option:
+
+```{r, eval=FALSE}
+use_testthat(parallel = TRUE)
+```
+
+Note that by default tests will be ran in 2 cores, but you can increase that number setting an environment option `TESTTHAT_CPUS`, see: <https://testthat.r-lib.org/articles/parallel.html>.
+:::
+
+To create a new test file, use:
+
+```{r, eval=FALSE}
+use_test("my_function")
+```
+
+This creates `tests/testthat/test-my_function.R`, a template ready for adding tests.
+
+### Writing test blocks
+
+Tests are written inside `test_that()` blocks:
+
+```{r, eval=FALSE}
+test_that("my_function adds numbers correctly", {
+  expect_equal(my_function(1, 2), 3)
+})
+```
+
+A good test block:
+
+* has a clear, descriptive name
+* focuses on one coherent behaviour
+* keeps heavy computation or complex setup outside the block
+
+### Running tests
+
+During development, run your tests using:
+
+```{r, eval=FALSE}
+library(devtools)
+test()
+```
+
+All tests also run automatically during `R CMD check` (`check()`).
+
+Note tests will be run against the current loaded functions, so make sure that you run `load_all()` to load the current/latest version of your package.
+
+## Expectations
+
+Expectations are the core of every test. They express the conditions that must be true for a function to behave correctly. If an expectation fails, testthat produces an informative message.
+
+### Common expectations
+
+Frequently used expectations include:
+
+* `expect_equal(x, y)` — checks that objects are equal (with tolerance)
+* `expect_identical(x, y)` — strict equality including type and attributes
+* `expect_true(x)` / `expect_false(x)` — checks logical conditions
+* `expect_error(expr)` / `expect_warning(expr)` / `expect_message(expr)` — checks for specific conditions produced by code
+* `expect_s3_class(x, "class")` — checks object class
+* `expect_type(x, "double")` — checks base type
+
+### Why expectations matter
+
+Expectations define the expected behaviour of your functions. They make assumptions explicit, illustrate expected output, and help maintainers understand the code. They also provide protection against regressions when internal implementations change.
+
+A single `test_that()` block may contain several expectations, as long as they relate to the same behaviour.
+
+## Setup and Helper Functions
+
+As your test suite grows, repeated patterns often emerge: constructing similar inputs, generating mock data, or creating temporary environments. To keep tests clear and maintainable, testthat provides a structured approach for managing shared setup code.
+
+### Helper files
+
+Reusable functions should be placed in helper files. Any file named:
+
+```
+tests/testthat/helper-*.R
+```
+
+is executed before the tests run. These files are ideal for:
+
+* mock datasets
+* utility functions
+* shared configuration
+* frequently used objects
+
+Example helper:
+
+```{r, eval=FALSE}
+# tests/testthat/helper-data.R
+make_mock_patient <- function(id = 1, gender = "M") {
+  tibble::tibble(person_id = id, gender_concept_id = gender)
+}
+```
+
+Tests can then use:
+
+```{r, eval=FALSE}
+patient <- make_mock_patient()
+```
+
+### Setup and teardown
+
+For more complex requirements, testthat supports setup and teardown files:
+
+* `setup-*.R` — executed before tests
+* `teardown-*.R` — executed after tests
+
+This pattern is useful for:
+
+* temporary directories
+* external resources
+* database connections
+
+We will see how to use those files in the [Testing against multiple DBMS](test_dbms.qmd) to tests your package against multiple database magement systems.
+
+### Avoid top-level code
+
+You should avoid running code at the top level of test files. Instead, place code inside helpers or `test_that()` blocks. This makes tests more predictable and prevents shared state from leaking between tests.
+
+## What to Test
+
+Good tests focus on what your package promises to do. Tests should be scoped to the behaviour that your package is responsible for—not on implementation details or on the behaviour of external code.
+
+### General guidelines
+
+You should test:
+
+* **Normal cases** — typical inputs your users will provide
+* **Edge cases** — empty inputs, missing values, boundary conditions
+* **Error behaviour** — invalid inputs should produce informative errors
+* **Output structure** — class, column names, attributes, lengths
+* **Regression tests** — when a bug is fixed, add a test preventing its return, this is a very important step in test development so we do not encounter the same error once again.
+
+::: {.callout-note collapse="true"}
+### Scope tests to your own code
+
+Avoid testing behaviour of other packages, we want to check that our package not the other packages.
+:::
+
+## Documenting Tests
+
+Tests should be readable and easy to understand. A well-written test suite functions as documentation for your package’s expected behaviour.
+
+### Descriptive test names
+
+The description passed to `test_that()` should be clear:
+
+```{r, eval=FALSE}
+test_that("addAge correctly add age to a table", {
+  ...
+})
+```
+
+This helps identify failures and understand the intention behind the test.
+
+### Commenting test logic
+
+Use comments to clarify:
+
+* why specific inputs were chosen
+* why an output is expected
+* what bug a test prevents from reappearing (e.g. you can refer the issue where the problem was reported)
+* key assumptions behind the test
+
+Example:
+
+```{r, eval=FALSE}
+# Missing values should be ignored; this mirrors the documented default.
+expect_equal(mean_custom(c(1, 2, NA)), 1.5)
+```
+
+### Keeping tests readable
+
+To maintain readability:
+
+* keep tests small and focused
+* avoid deep nesting
+* use helper functions for repeated patterns
+* keep example datasets small and simple (we will see how to create mock OMOP CDM datasets in the [Testing in the OMOP CDM](test_omop.qmd) chapter)
+
+Readable tests make collaboration easier and reduce maintenance effort.
+
+## Test Coverage
+
+Test coverage measures the proportion of your package’s code that is executed during testing. It is expressed as the percentage of lines inside your `R/` folder that are run by the tests in `tests/testthat/`.
+
+You can compute test coverage using:
+
+```{r, eval=FALSE}
+test_coverage()
+````
+
+This generates an interactive report in the *Viewer* panel showing how many times each line of code was executed during testing, which lines are covered by tests, and, therefore, which lines remain untested.
+
+High test coverage increases confidence that your functions behave as expected across typical and edge-case scenarios. While achieving **100% coverage** is ideal, it is not always practical; deprecated code paths or some edge-case checks may be difficult to test directly.
+
+As a rule of thumb **aim for at least 90%-95% coverage**, in general, try to test all core logic, leaving only truly unavoidable lines uncovered.
+
+Coverage is not a substitute for thoughtful testing, but it is a valuable tool for identifying weak spots in your test suite and ensuring your package remains reliable as it evolves. At the end having a 100% test does not ensures that your package does what you want, it just ensures that it does not break. So think carefully your tests and test the core functionality.
+
+## Testing on CRAN
+
+When submitting a package to CRAN the package is checked (like `check()` function does), all tests, examples, vignettes, and documentation must finish within **10 minutes** of CPU time. Test can consume a substantial portion of this time limit, and it may exceed CRAN’s limits.
+
+To keep your CRAN checks within the allowed time while still maintaining a comprehensive local tests, you can selectively skip the most expensive tests on CRAN using `skip_on_cran()`:
+
+```{r, eval=FALSE}
+test_that("Test mean_custom behaviour", {
+  skip_on_cran()
+  # Missing values should be ignored; this mirrors the documented default.
+  expect_equal(mean_custom(c(1, 2, NA)), 1.5)
+})
+````
+
+This approach allows you to run **full tests locally** and in continuous integration (e.g., GitHub Actions), but omit heavy or slow tests during CRAN checks, ensuring that only **core functionality** is tested on CRAN, while edge cases, performance tests, and large data scenarios are tested elsewhere.
+
+::: {.callout-note collapse="true"}
+### Skip functions
+
+The *testthat* package provides several functions for conditionally skipping tests.
+
+Common examples include:
+
+* `skip_on_cran()`: skip tests on CRAN only.
+* `skip_if()`: skip based on a custom condition (e.g. `skip_if(dbToTest == "Postgres")`).
+* `skip_if_not_installed()`: skip if a required package is missing (e.g. `skip_if_not_installed("dplyr")`).
+
+See the full list of skip helpers at: [https://testthat.r-lib.org/reference/skip.html](https://testthat.r-lib.org/reference/skip.html).
+:::
+
+## Further reading
+
+- **Wickham, H., & Bryan, J. _R Packages (2nd ed.): Testing basics (Chapter 13)_.** Available online at: https://r-pkgs.org/testing-basics.html
+- **Wickham, H., & Bryan, J. _R Packages (2nd ed.): Designing your test suite (Chapter 14)_.** Available online at: https://r-pkgs.org/testing-design.html
+- **Wickham, H., & Bryan, J. _R Packages (2nd ed.): Advanced testing techniques (Chapter 15)_.** Available online at: https://r-pkgs.org/testing-advanced.html
