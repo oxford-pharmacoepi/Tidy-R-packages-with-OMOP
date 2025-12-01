@@ -4,7 +4,7 @@ Testing is a fundamental part of developing reliable, maintainable R packages. A
 
 ## The Basics
 
-R’s modern testing ecosystem centres around the **testthat** package, supported by **usethis** for scaffolding test infrastructure and **devtools** for running tests during development. Together, these tools provide a simple and consistent workflow.
+R’s testing ecosystem centres around the **testthat** package, supported by **usethis** for structuring test infrastructure and **devtools** for running tests during development. Together, these tools provide a simple and consistent workflow.
 
 ### Setting up test infrastructure
 
@@ -30,7 +30,7 @@ Tests are run sequentially in alphabetical order of the files, but you can run t
 use_testthat(parallel = TRUE)
 ```
 
-Note that by default tests will be ran in 2 cores, but you can increase that number setting an environment option `TESTTHAT_CPUS`, see: <https://testthat.r-lib.org/articles/parallel.html>.
+Note that by default tests will be ran in 2 runners, but you can increase that number setting an environment option `TESTTHAT_CPUS`, see: <https://testthat.r-lib.org/articles/parallel.html>.
 :::
 
 To create a new test file, use:
@@ -66,9 +66,9 @@ library(devtools)
 test()
 ```
 
-All tests also run automatically during `R CMD check` (`check()`).
+Note all tests also run automatically during `R CMD check` (`check()`).
 
-Note tests will be run against the current loaded functions, so make sure that you run `load_all()` to load the current/latest version of your package.
+Tests will be run against the current loaded functions, so make sure that you run `load_all()` to load the current/latest version of your package.
 
 ## Expectations
 
@@ -132,13 +132,7 @@ For more complex requirements, testthat supports setup and teardown files:
 * `setup-*.R` — executed before tests
 * `teardown-*.R` — executed after tests
 
-This pattern is useful for:
-
-* temporary directories
-* external resources
-* database connections
-
-We will see how to use those files in the [Testing against multiple DBMS](test_dbms.qmd) to tests your package against multiple database magement systems.
+This pattern is useful to set up reusable mocks, database connections and so. We will see how to use those files in the [Testing against multiple DBMS](test_dbms.qmd) chapter to tests your package against multiple database management systems.
 
 ### Avoid top-level code
 
@@ -257,6 +251,6 @@ See the full list of skip helpers at: [https://testthat.r-lib.org/reference/skip
 
 ## Further reading
 
-- **Wickham, H., & Bryan, J. _R Packages (2nd ed.): Testing basics (Chapter 13)_.** Available online at: https://r-pkgs.org/testing-basics.html
-- **Wickham, H., & Bryan, J. _R Packages (2nd ed.): Designing your test suite (Chapter 14)_.** Available online at: https://r-pkgs.org/testing-design.html
-- **Wickham, H., & Bryan, J. _R Packages (2nd ed.): Advanced testing techniques (Chapter 15)_.** Available online at: https://r-pkgs.org/testing-advanced.html
+- Wickham, H., & Bryan, J. _R Packages (2nd ed.): Testing basics (Chapter 13)_. Available online at: <https://r-pkgs.org/testing-basics.html>
+- Wickham, H., & Bryan, J. _R Packages (2nd ed.): Designing your test suite (Chapter 14)_. Available online at: <https://r-pkgs.org/testing-design.html>
+- Wickham, H., & Bryan, J. _R Packages (2nd ed.): Advanced testing techniques (Chapter 15)_. Available online at: <https://r-pkgs.org/testing-advanced.html>
