@@ -465,11 +465,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Tests are run sequentially in alphabetical order of the files, but you can run those tests in parallel if you use that option:</p>
+<p>Tests are run sequentially in alphabetical order of the files, but you can run those tests in parallel if you specify it:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_testthat</span>(<span class="at">parallel =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Note that by default tests will be ran in 2 runners, but you can increase that number setting an environment option <code>TESTTHAT_CPUS</code>, see: <a href="https://testthat.r-lib.org/articles/parallel.html" class="uri">https://testthat.r-lib.org/articles/parallel.html</a>.</p>
+<p>Note that by default tests will be ran in 2 runners, but you can increase that number setting an environment variable <code>TESTTHAT_CPUS</code>, see: <a href="https://testthat.r-lib.org/articles/parallel.html" class="uri">https://testthat.r-lib.org/articles/parallel.html</a>.</p>
 </div>
 </div>
 </div>
@@ -512,12 +512,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="18.2.1" class="anchored" data-anchor-id="common-expectations"><span class="header-section-number">18.2.1</span> Common expectations</h3>
 <p>Frequently used expectations include:</p>
 <ul>
-<li><code>expect_equal(x, y)</code> — checks that objects are equal (with tolerance)</li>
-<li><code>expect_identical(x, y)</code> — strict equality including type and attributes</li>
-<li><code>expect_true(x)</code> / <code>expect_false(x)</code> — checks logical conditions</li>
-<li><code>expect_error(expr)</code> / <code>expect_warning(expr)</code> / <code>expect_message(expr)</code> — checks for specific conditions produced by code</li>
-<li><code>expect_s3_class(x, "class")</code> — checks object class</li>
-<li><code>expect_type(x, "double")</code> — checks base type</li>
+<li><code>expect_equal(x, y)</code>: checks that objects are equal (with tolerance)</li>
+<li><code>expect_identical(x, y)</code>: strict equality including type and attributes</li>
+<li><code>expect_true(x)</code> / <code>expect_false(x)</code>: checks logical conditions</li>
+<li><code>expect_error(expr)</code> / <code>expect_warning(expr)</code> / <code>expect_message(expr)</code>: checks for specific conditions produced by code</li>
+<li><code>expect_s3_class(x, "class")</code>: checks object class</li>
+<li><code>expect_type(x, "double")</code>: checks base type</li>
 </ul>
 </section>
 <section id="why-expectations-matter" class="level3" data-number="18.2.2">
@@ -573,11 +573,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="18.4.1" class="anchored" data-anchor-id="general-guidelines"><span class="header-section-number">18.4.1</span> General guidelines</h3>
 <p>You should test:</p>
 <ul>
-<li><strong>Normal cases</strong> — typical inputs your users will provide</li>
-<li><strong>Edge cases</strong> — empty inputs, missing values, boundary conditions</li>
-<li><strong>Error behaviour</strong> — invalid inputs should produce informative errors</li>
-<li><strong>Output structure</strong> — class, column names, attributes, lengths</li>
-<li><strong>Regression tests</strong> — when a bug is fixed, add a test preventing its return, this is a very important step in test development so we do not encounter the same error once again.</li>
+<li><strong>Usual cases</strong>: typical inputs your users will provide</li>
+<li><strong>Edge cases</strong>: empty inputs, missing values, not usual combinations…</li>
+<li><strong>Error behaviour</strong>: invalid inputs should produce informative errors</li>
+<li><strong>Output structure</strong>: class, column names, attributes, lengths</li>
+<li><strong>Regression tests</strong>: when a bug is fixed, add a test preventing its return, this is a very important step in test development so we do not encounter the same error once again.</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
