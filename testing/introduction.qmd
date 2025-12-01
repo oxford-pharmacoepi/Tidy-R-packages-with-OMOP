@@ -24,13 +24,13 @@ This command:
 ::: {.callout-note collapse="true"}
 ### Parallel testing
 
-Tests are run sequentially in alphabetical order of the files, but you can run those tests in parallel if you use that option:
+Tests are run sequentially in alphabetical order of the files, but you can run those tests in parallel if you specify it:
 
 ```{r, eval=FALSE}
 use_testthat(parallel = TRUE)
 ```
 
-Note that by default tests will be ran in 2 runners, but you can increase that number setting an environment option `TESTTHAT_CPUS`, see: <https://testthat.r-lib.org/articles/parallel.html>.
+Note that by default tests will be ran in 2 runners, but you can increase that number setting an environment variable `TESTTHAT_CPUS`, see: <https://testthat.r-lib.org/articles/parallel.html>.
 :::
 
 To create a new test file, use:
@@ -78,12 +78,12 @@ Expectations are the core of every test. They express the conditions that must b
 
 Frequently used expectations include:
 
-* `expect_equal(x, y)` — checks that objects are equal (with tolerance)
-* `expect_identical(x, y)` — strict equality including type and attributes
-* `expect_true(x)` / `expect_false(x)` — checks logical conditions
-* `expect_error(expr)` / `expect_warning(expr)` / `expect_message(expr)` — checks for specific conditions produced by code
-* `expect_s3_class(x, "class")` — checks object class
-* `expect_type(x, "double")` — checks base type
+* `expect_equal(x, y)`: checks that objects are equal (with tolerance)
+* `expect_identical(x, y)`: strict equality including type and attributes
+* `expect_true(x)` / `expect_false(x)`: checks logical conditions
+* `expect_error(expr)` / `expect_warning(expr)` / `expect_message(expr)`: checks for specific conditions produced by code
+* `expect_s3_class(x, "class")`: checks object class
+* `expect_type(x, "double")`: checks base type
 
 ### Why expectations matter
 
@@ -146,11 +146,11 @@ Good tests focus on what your package promises to do. Tests should be scoped to 
 
 You should test:
 
-* **Normal cases** — typical inputs your users will provide
-* **Edge cases** — empty inputs, missing values, boundary conditions
-* **Error behaviour** — invalid inputs should produce informative errors
-* **Output structure** — class, column names, attributes, lengths
-* **Regression tests** — when a bug is fixed, add a test preventing its return, this is a very important step in test development so we do not encounter the same error once again.
+* **Usual cases**: typical inputs your users will provide
+* **Edge cases**: empty inputs, missing values, not usual combinations...
+* **Error behaviour**: invalid inputs should produce informative errors
+* **Output structure**: class, column names, attributes, lengths
+* **Regression tests**: when a bug is fixed, add a test preventing its return, this is a very important step in test development so we do not encounter the same error once again.
 
 ::: {.callout-note collapse="true"}
 ### Scope tests to your own code
