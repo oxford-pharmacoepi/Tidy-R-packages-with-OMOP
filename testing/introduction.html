@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -341,8 +376,43 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-basics" id="toc-the-basics" class="nav-link active" data-scroll-target="#the-basics"><span class="header-section-number">18.1</span> The Basics</a>
+  <ul class="collapse">
+  <li><a href="#setting-up-test-infrastructure" id="toc-setting-up-test-infrastructure" class="nav-link" data-scroll-target="#setting-up-test-infrastructure"><span class="header-section-number">18.1.1</span> Setting up test infrastructure</a></li>
+  <li><a href="#writing-test-blocks" id="toc-writing-test-blocks" class="nav-link" data-scroll-target="#writing-test-blocks"><span class="header-section-number">18.1.2</span> Writing test blocks</a></li>
+  <li><a href="#running-tests" id="toc-running-tests" class="nav-link" data-scroll-target="#running-tests"><span class="header-section-number">18.1.3</span> Running tests</a></li>
+  </ul></li>
+  <li><a href="#expectations" id="toc-expectations" class="nav-link" data-scroll-target="#expectations"><span class="header-section-number">18.2</span> Expectations</a>
+  <ul class="collapse">
+  <li><a href="#common-expectations" id="toc-common-expectations" class="nav-link" data-scroll-target="#common-expectations"><span class="header-section-number">18.2.1</span> Common expectations</a></li>
+  <li><a href="#why-expectations-matter" id="toc-why-expectations-matter" class="nav-link" data-scroll-target="#why-expectations-matter"><span class="header-section-number">18.2.2</span> Why expectations matter</a></li>
+  </ul></li>
+  <li><a href="#setup-and-helper-functions" id="toc-setup-and-helper-functions" class="nav-link" data-scroll-target="#setup-and-helper-functions"><span class="header-section-number">18.3</span> Setup and Helper Functions</a>
+  <ul class="collapse">
+  <li><a href="#helper-files" id="toc-helper-files" class="nav-link" data-scroll-target="#helper-files"><span class="header-section-number">18.3.1</span> Helper files</a></li>
+  <li><a href="#setup-and-teardown" id="toc-setup-and-teardown" class="nav-link" data-scroll-target="#setup-and-teardown"><span class="header-section-number">18.3.2</span> Setup and teardown</a></li>
+  <li><a href="#avoid-top-level-code" id="toc-avoid-top-level-code" class="nav-link" data-scroll-target="#avoid-top-level-code"><span class="header-section-number">18.3.3</span> Avoid top-level code</a></li>
+  </ul></li>
+  <li><a href="#what-to-test" id="toc-what-to-test" class="nav-link" data-scroll-target="#what-to-test"><span class="header-section-number">18.4</span> What to Test</a>
+  <ul class="collapse">
+  <li><a href="#general-guidelines" id="toc-general-guidelines" class="nav-link" data-scroll-target="#general-guidelines"><span class="header-section-number">18.4.1</span> General guidelines</a></li>
+  </ul></li>
+  <li><a href="#documenting-tests" id="toc-documenting-tests" class="nav-link" data-scroll-target="#documenting-tests"><span class="header-section-number">18.5</span> Documenting Tests</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-test-names" id="toc-descriptive-test-names" class="nav-link" data-scroll-target="#descriptive-test-names"><span class="header-section-number">18.5.1</span> Descriptive test names</a></li>
+  <li><a href="#commenting-test-logic" id="toc-commenting-test-logic" class="nav-link" data-scroll-target="#commenting-test-logic"><span class="header-section-number">18.5.2</span> Commenting test logic</a></li>
+  <li><a href="#keeping-tests-readable" id="toc-keeping-tests-readable" class="nav-link" data-scroll-target="#keeping-tests-readable"><span class="header-section-number">18.5.3</span> Keeping tests readable</a></li>
+  </ul></li>
+  <li><a href="#test-coverage" id="toc-test-coverage" class="nav-link" data-scroll-target="#test-coverage"><span class="header-section-number">18.6</span> Test Coverage</a></li>
+  <li><a href="#testing-on-cran" id="toc-testing-on-cran" class="nav-link" data-scroll-target="#testing-on-cran"><span class="header-section-number">18.7</span> Testing on CRAN</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">18.8</span> Further reading</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -366,8 +436,265 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Testing is a fundamental part of developing reliable, maintainable R packages. A good test suite provides confidence that your functions behave as expected, prevents regressions when the code evolves, and acts as a form of living documentation of your package’s intended behaviour. This chapter introduces the core ideas of testing in R, following tidyverse practices. It focuses on practical techniques you will use in every package: setting up tests, writing expectations, organising helpers and fixtures, deciding what to test, and documenting your tests clearly.</p>
+<section id="the-basics" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="the-basics"><span class="header-section-number">18.1</span> The Basics</h2>
+<p>R’s modern testing ecosystem centres around the <strong>testthat</strong> package, supported by <strong>usethis</strong> for scaffolding test infrastructure and <strong>devtools</strong> for running tests during development. Together, these tools provide a simple and consistent workflow.</p>
+<section id="setting-up-test-infrastructure" class="level3" data-number="18.1.1">
+<h3 data-number="18.1.1" class="anchored" data-anchor-id="setting-up-test-infrastructure"><span class="header-section-number">18.1.1</span> Setting up test infrastructure</h3>
+<p>The first step is to enable testing for your package:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_testthat</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This command:</p>
+<ul>
+<li>adds <em>testthat</em> to your package’s <code>Suggests</code></li>
+<li>creates a top-level file <code>tests/testthat.R</code></li>
+<li>creates the directory <code>tests/testthat/</code> where test files will live</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Parallel testing
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Tests are run sequentially in alphabetical order of the files, but you can run those tests in parallel if you use that option:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_testthat</span>(<span class="at">parallel =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Note that by default tests will be ran in 2 cores, but you can increase that number setting an environment option <code>TESTTHAT_CPUS</code>, see: <a href="https://testthat.r-lib.org/articles/parallel.html" class="uri">https://testthat.r-lib.org/articles/parallel.html</a>.</p>
+</div>
+</div>
+</div>
+<p>To create a new test file, use:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_test</span>(<span class="st">"my_function"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This creates <code>tests/testthat/test-my_function.R</code>, a template ready for adding tests.</p>
+</section>
+<section id="writing-test-blocks" class="level3" data-number="18.1.2">
+<h3 data-number="18.1.2" class="anchored" data-anchor-id="writing-test-blocks"><span class="header-section-number">18.1.2</span> Writing test blocks</h3>
+<p>Tests are written inside <code>test_that()</code> blocks:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"my_function adds numbers correctly"</span>, {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">my_function</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dv">3</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A good test block:</p>
+<ul>
+<li>has a clear, descriptive name</li>
+<li>focuses on one coherent behaviour</li>
+<li>keeps heavy computation or complex setup outside the block</li>
+</ul>
+</section>
+<section id="running-tests" class="level3" data-number="18.1.3">
+<h3 data-number="18.1.3" class="anchored" data-anchor-id="running-tests"><span class="header-section-number">18.1.3</span> Running tests</h3>
+<p>During development, run your tests using:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">test</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>All tests also run automatically during <code>R CMD check</code> (<code>check()</code>).</p>
+<p>Note tests will be run against the current loaded functions, so make sure that you run <code>load_all()</code> to load the current/latest version of your package.</p>
+</section>
+</section>
+<section id="expectations" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="expectations"><span class="header-section-number">18.2</span> Expectations</h2>
+<p>Expectations are the core of every test. They express the conditions that must be true for a function to behave correctly. If an expectation fails, testthat produces an informative message.</p>
+<section id="common-expectations" class="level3" data-number="18.2.1">
+<h3 data-number="18.2.1" class="anchored" data-anchor-id="common-expectations"><span class="header-section-number">18.2.1</span> Common expectations</h3>
+<p>Frequently used expectations include:</p>
+<ul>
+<li><code>expect_equal(x, y)</code> — checks that objects are equal (with tolerance)</li>
+<li><code>expect_identical(x, y)</code> — strict equality including type and attributes</li>
+<li><code>expect_true(x)</code> / <code>expect_false(x)</code> — checks logical conditions</li>
+<li><code>expect_error(expr)</code> / <code>expect_warning(expr)</code> / <code>expect_message(expr)</code> — checks for specific conditions produced by code</li>
+<li><code>expect_s3_class(x, "class")</code> — checks object class</li>
+<li><code>expect_type(x, "double")</code> — checks base type</li>
+</ul>
+</section>
+<section id="why-expectations-matter" class="level3" data-number="18.2.2">
+<h3 data-number="18.2.2" class="anchored" data-anchor-id="why-expectations-matter"><span class="header-section-number">18.2.2</span> Why expectations matter</h3>
+<p>Expectations define the expected behaviour of your functions. They make assumptions explicit, illustrate expected output, and help maintainers understand the code. They also provide protection against regressions when internal implementations change.</p>
+<p>A single <code>test_that()</code> block may contain several expectations, as long as they relate to the same behaviour.</p>
+</section>
+</section>
+<section id="setup-and-helper-functions" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="setup-and-helper-functions"><span class="header-section-number">18.3</span> Setup and Helper Functions</h2>
+<p>As your test suite grows, repeated patterns often emerge: constructing similar inputs, generating mock data, or creating temporary environments. To keep tests clear and maintainable, testthat provides a structured approach for managing shared setup code.</p>
+<section id="helper-files" class="level3" data-number="18.3.1">
+<h3 data-number="18.3.1" class="anchored" data-anchor-id="helper-files"><span class="header-section-number">18.3.1</span> Helper files</h3>
+<p>Reusable functions should be placed in helper files. Any file named:</p>
+<pre><code>tests/testthat/helper-*.R</code></pre>
+<p>is executed before the tests run. These files are ideal for:</p>
+<ul>
+<li>mock datasets</li>
+<li>utility functions</li>
+<li>shared configuration</li>
+<li>frequently used objects</li>
+</ul>
+<p>Example helper:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tests/testthat/helper-data.R</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>make_mock_patient <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">id =</span> <span class="dv">1</span>, <span class="at">gender =</span> <span class="st">"M"</span>) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">person_id =</span> id, <span class="at">gender_concept_id =</span> gender)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Tests can then use:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>patient <span class="ot">&lt;-</span> <span class="fu">make_mock_patient</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="setup-and-teardown" class="level3" data-number="18.3.2">
+<h3 data-number="18.3.2" class="anchored" data-anchor-id="setup-and-teardown"><span class="header-section-number">18.3.2</span> Setup and teardown</h3>
+<p>For more complex requirements, testthat supports setup and teardown files:</p>
+<ul>
+<li><code>setup-*.R</code> — executed before tests</li>
+<li><code>teardown-*.R</code> — executed after tests</li>
+</ul>
+<p>This pattern is useful for:</p>
+<ul>
+<li>temporary directories</li>
+<li>external resources</li>
+<li>database connections</li>
+</ul>
+<p>We will see how to use those files in the <a href="../testing/test_dbms.html">Testing against multiple DBMS</a> to tests your package against multiple database magement systems.</p>
+</section>
+<section id="avoid-top-level-code" class="level3" data-number="18.3.3">
+<h3 data-number="18.3.3" class="anchored" data-anchor-id="avoid-top-level-code"><span class="header-section-number">18.3.3</span> Avoid top-level code</h3>
+<p>You should avoid running code at the top level of test files. Instead, place code inside helpers or <code>test_that()</code> blocks. This makes tests more predictable and prevents shared state from leaking between tests.</p>
+</section>
+</section>
+<section id="what-to-test" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="what-to-test"><span class="header-section-number">18.4</span> What to Test</h2>
+<p>Good tests focus on what your package promises to do. Tests should be scoped to the behaviour that your package is responsible for—not on implementation details or on the behaviour of external code.</p>
+<section id="general-guidelines" class="level3" data-number="18.4.1">
+<h3 data-number="18.4.1" class="anchored" data-anchor-id="general-guidelines"><span class="header-section-number">18.4.1</span> General guidelines</h3>
+<p>You should test:</p>
+<ul>
+<li><strong>Normal cases</strong> — typical inputs your users will provide</li>
+<li><strong>Edge cases</strong> — empty inputs, missing values, boundary conditions</li>
+<li><strong>Error behaviour</strong> — invalid inputs should produce informative errors</li>
+<li><strong>Output structure</strong> — class, column names, attributes, lengths</li>
+<li><strong>Regression tests</strong> — when a bug is fixed, add a test preventing its return, this is a very important step in test development so we do not encounter the same error once again.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Scope tests to your own code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Avoid testing behaviour of other packages, we want to check that our package not the other packages.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="documenting-tests" class="level2" data-number="18.5">
+<h2 data-number="18.5" class="anchored" data-anchor-id="documenting-tests"><span class="header-section-number">18.5</span> Documenting Tests</h2>
+<p>Tests should be readable and easy to understand. A well-written test suite functions as documentation for your package’s expected behaviour.</p>
+<section id="descriptive-test-names" class="level3" data-number="18.5.1">
+<h3 data-number="18.5.1" class="anchored" data-anchor-id="descriptive-test-names"><span class="header-section-number">18.5.1</span> Descriptive test names</h3>
+<p>The description passed to <code>test_that()</code> should be clear:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"addAge correctly add age to a table"</span>, {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This helps identify failures and understand the intention behind the test.</p>
+</section>
+<section id="commenting-test-logic" class="level3" data-number="18.5.2">
+<h3 data-number="18.5.2" class="anchored" data-anchor-id="commenting-test-logic"><span class="header-section-number">18.5.2</span> Commenting test logic</h3>
+<p>Use comments to clarify:</p>
+<ul>
+<li>why specific inputs were chosen</li>
+<li>why an output is expected</li>
+<li>what bug a test prevents from reappearing (e.g.&nbsp;you can refer the issue where the problem was reported)</li>
+<li>key assumptions behind the test</li>
+</ul>
+<p>Example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Missing values should be ignored; this mirrors the documented default.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">expect_equal</span>(<span class="fu">mean_custom</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>)), <span class="fl">1.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="keeping-tests-readable" class="level3" data-number="18.5.3">
+<h3 data-number="18.5.3" class="anchored" data-anchor-id="keeping-tests-readable"><span class="header-section-number">18.5.3</span> Keeping tests readable</h3>
+<p>To maintain readability:</p>
+<ul>
+<li>keep tests small and focused</li>
+<li>avoid deep nesting</li>
+<li>use helper functions for repeated patterns</li>
+<li>keep example datasets small and simple (we will see how to create mock OMOP CDM datasets in the <a href="../testing/test_omop.html">Testing in the OMOP CDM</a> chapter)</li>
+</ul>
+<p>Readable tests make collaboration easier and reduce maintenance effort.</p>
+</section>
+</section>
+<section id="test-coverage" class="level2" data-number="18.6">
+<h2 data-number="18.6" class="anchored" data-anchor-id="test-coverage"><span class="header-section-number">18.6</span> Test Coverage</h2>
+<p>Test coverage measures the proportion of your package’s code that is executed during testing. It is expressed as the percentage of lines inside your <code>R/</code> folder that are run by the tests in <code>tests/testthat/</code>.</p>
+<p>You can compute test coverage using:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_coverage</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This generates an interactive report in the <em>Viewer</em> panel showing how many times each line of code was executed during testing, which lines are covered by tests, and, therefore, which lines remain untested.</p>
+<p>High test coverage increases confidence that your functions behave as expected across typical and edge-case scenarios. While achieving <strong>100% coverage</strong> is ideal, it is not always practical; deprecated code paths or some edge-case checks may be difficult to test directly.</p>
+<p>As a rule of thumb <strong>aim for at least 90%-95% coverage</strong>, in general, try to test all core logic, leaving only truly unavoidable lines uncovered.</p>
+<p>Coverage is not a substitute for thoughtful testing, but it is a valuable tool for identifying weak spots in your test suite and ensuring your package remains reliable as it evolves. At the end having a 100% test does not ensures that your package does what you want, it just ensures that it does not break. So think carefully your tests and test the core functionality.</p>
+</section>
+<section id="testing-on-cran" class="level2" data-number="18.7">
+<h2 data-number="18.7" class="anchored" data-anchor-id="testing-on-cran"><span class="header-section-number">18.7</span> Testing on CRAN</h2>
+<p>When submitting a package to CRAN the package is checked (like <code>check()</code> function does), all tests, examples, vignettes, and documentation must finish within <strong>10 minutes</strong> of CPU time. Test can consume a substantial portion of this time limit, and it may exceed CRAN’s limits.</p>
+<p>To keep your CRAN checks within the allowed time while still maintaining a comprehensive local tests, you can selectively skip the most expensive tests on CRAN using <code>skip_on_cran()</code>:</p>
+<p>test_that(“Test mean_custom behaviour”, { skip_on_cran() # Missing values should be ignored; this mirrors the documented default. expect_equal(mean_custom(c(1, 2, NA)), 1.5) }) ````</p>
+<p>This approach allows you to run <strong>full tests locally</strong> and in continuous integration (e.g., GitHub Actions), but omit heavy or slow tests during CRAN checks, ensuring that only <strong>core functionality</strong> is tested on CRAN, while edge cases, performance tests, and large data scenarios are tested elsewhere.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Skip functions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <em>testthat</em> package provides several functions for conditionally skipping tests.</p>
+<p>Common examples include:</p>
+<ul>
+<li><code>skip_on_cran()</code>: skip tests on CRAN only.</li>
+<li><code>skip_if()</code>: skip based on a custom condition (e.g.&nbsp;<code>skip_if(dbToTest == "Postgres")</code>).</li>
+<li><code>skip_if_not_installed()</code>: skip if a required package is missing (e.g.&nbsp;<code>skip_if_not_installed("dplyr")</code>).</li>
+</ul>
+<p>See the full list of skip helpers at: <a href="https://testthat.r-lib.org/reference/skip.html">https://testthat.r-lib.org/reference/skip.html</a>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="further-reading" class="level2" data-number="18.8">
+<h2 data-number="18.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">18.8</span> Further reading</h2>
+<ul>
+<li><strong>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Testing basics (Chapter 13)</em>.</strong> Available online at: https://r-pkgs.org/testing-basics.html</li>
+<li><strong>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Designing your test suite (Chapter 14)</em>.</strong> Available online at: https://r-pkgs.org/testing-design.html</li>
+<li><strong>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Advanced testing techniques (Chapter 15)</em>.</strong> Available online at: https://r-pkgs.org/testing-advanced.html</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
