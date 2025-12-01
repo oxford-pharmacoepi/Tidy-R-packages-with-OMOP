@@ -439,7 +439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Testing is a fundamental part of developing reliable, maintainable R packages. A good test suite provides confidence that your functions behave as expected, prevents regressions when the code evolves, and acts as a form of living documentation of your package’s intended behaviour. This chapter introduces the core ideas of testing in R, following tidyverse practices. It focuses on practical techniques you will use in every package: setting up tests, writing expectations, organising helpers and fixtures, deciding what to test, and documenting your tests clearly.</p>
 <section id="the-basics" class="level2" data-number="18.1">
 <h2 data-number="18.1" class="anchored" data-anchor-id="the-basics"><span class="header-section-number">18.1</span> The Basics</h2>
-<p>R’s modern testing ecosystem centres around the <strong>testthat</strong> package, supported by <strong>usethis</strong> for scaffolding test infrastructure and <strong>devtools</strong> for running tests during development. Together, these tools provide a simple and consistent workflow.</p>
+<p>R’s testing ecosystem centres around the <strong>testthat</strong> package, supported by <strong>usethis</strong> for structuring test infrastructure and <strong>devtools</strong> for running tests during development. Together, these tools provide a simple and consistent workflow.</p>
 <section id="setting-up-test-infrastructure" class="level3" data-number="18.1.1">
 <h3 data-number="18.1.1" class="anchored" data-anchor-id="setting-up-test-infrastructure"><span class="header-section-number">18.1.1</span> Setting up test infrastructure</h3>
 <p>The first step is to enable testing for your package:</p>
@@ -469,7 +469,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_testthat</span>(<span class="at">parallel =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Note that by default tests will be ran in 2 cores, but you can increase that number setting an environment option <code>TESTTHAT_CPUS</code>, see: <a href="https://testthat.r-lib.org/articles/parallel.html" class="uri">https://testthat.r-lib.org/articles/parallel.html</a>.</p>
+<p>Note that by default tests will be ran in 2 runners, but you can increase that number setting an environment option <code>TESTTHAT_CPUS</code>, see: <a href="https://testthat.r-lib.org/articles/parallel.html" class="uri">https://testthat.r-lib.org/articles/parallel.html</a>.</p>
 </div>
 </div>
 </div>
@@ -501,8 +501,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">test</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>All tests also run automatically during <code>R CMD check</code> (<code>check()</code>).</p>
-<p>Note tests will be run against the current loaded functions, so make sure that you run <code>load_all()</code> to load the current/latest version of your package.</p>
+<p>Note all tests also run automatically during <code>R CMD check</code> (<code>check()</code>).</p>
+<p>Tests will be run against the current loaded functions, so make sure that you run <code>load_all()</code> to load the current/latest version of your package.</p>
 </section>
 </section>
 <section id="expectations" class="level2" data-number="18.2">
@@ -559,13 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>setup-*.R</code> — executed before tests</li>
 <li><code>teardown-*.R</code> — executed after tests</li>
 </ul>
-<p>This pattern is useful for:</p>
-<ul>
-<li>temporary directories</li>
-<li>external resources</li>
-<li>database connections</li>
-</ul>
-<p>We will see how to use those files in the <a href="../testing/test_dbms.html">Testing against multiple DBMS</a> to tests your package against multiple database magement systems.</p>
+<p>This pattern is useful to set up reusable mocks, database connections and so. We will see how to use those files in the <a href="../testing/test_dbms.html">Testing against multiple DBMS</a> chapter to tests your package against multiple database management systems.</p>
 </section>
 <section id="avoid-top-level-code" class="level3" data-number="18.3.3">
 <h3 data-number="18.3.3" class="anchored" data-anchor-id="avoid-top-level-code"><span class="header-section-number">18.3.3</span> Avoid top-level code</h3>
@@ -688,9 +682,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="further-reading" class="level2" data-number="18.8">
 <h2 data-number="18.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">18.8</span> Further reading</h2>
 <ul>
-<li><strong>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Testing basics (Chapter 13)</em>.</strong> Available online at: https://r-pkgs.org/testing-basics.html</li>
-<li><strong>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Designing your test suite (Chapter 14)</em>.</strong> Available online at: https://r-pkgs.org/testing-design.html</li>
-<li><strong>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Advanced testing techniques (Chapter 15)</em>.</strong> Available online at: https://r-pkgs.org/testing-advanced.html</li>
+<li>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Testing basics (Chapter 13)</em>. Available online at: <a href="https://r-pkgs.org/testing-basics.html" class="uri">https://r-pkgs.org/testing-basics.html</a></li>
+<li>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Designing your test suite (Chapter 14)</em>. Available online at: <a href="https://r-pkgs.org/testing-design.html" class="uri">https://r-pkgs.org/testing-design.html</a></li>
+<li>Wickham, H., &amp; Bryan, J. <em>R Packages (2nd ed.): Advanced testing techniques (Chapter 15)</em>. Available online at: <a href="https://r-pkgs.org/testing-advanced.html" class="uri">https://r-pkgs.org/testing-advanced.html</a></li>
 </ul>
 
 
