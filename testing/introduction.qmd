@@ -215,7 +215,7 @@ You can compute test coverage using:
 
 ```{r, eval=FALSE}
 test_coverage()
-````
+```
 
 This generates an interactive report in the *Viewer* panel showing how many times each line of code was executed during testing, which lines are covered by tests, and, therefore, which lines remain untested.
 
