@@ -602,6 +602,72 @@
     ]
   },
   {
+    "objectID": "testing/test_omop.html",
+    "href": "testing/test_omop.html",
+    "title": "19  Testing in the OMOP CDM",
+    "section": "",
+    "text": "19.1 Using omock to create mock synthetic data\nIn this chapter we cover how to create synthetic data in the OMOP CDM format using the omock R package.",
+    "crumbs": [
+      "Testing",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Testing in the OMOP CDM</span>"
+    ]
+  },
+  {
+    "objectID": "testing/test_omop.html#using-omock-to-create-mock-synthetic-data",
+    "href": "testing/test_omop.html#using-omock-to-create-mock-synthetic-data",
+    "title": "19  Testing in the OMOP CDM",
+    "section": "",
+    "text": "19.1.1 Mock data\nYou can create simple mock datasets using the different mock functions in omock, we will create the dataset in\n\nomock::mock functions\n\n\n\n19.1.2 Mock datasets\nThe omock package also contains pre-build syntehtic datasets from Eunomia package. To use eunomia\n\nomock::mockCdmFromDataset\n\n\n\n19.1.3 Minimum viable dataset\n\nomock::mockCdmFromTables",
+    "crumbs": [
+      "Testing",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Testing in the OMOP CDM</span>"
+    ]
+  },
+  {
+    "objectID": "testing/test_omop.html#inserting-the-mock",
+    "href": "testing/test_omop.html#inserting-the-mock",
+    "title": "19  Testing in the OMOP CDM",
+    "section": "19.2 Inserting the mock",
+    "text": "19.2 Inserting the mock\nAll those functions create local",
+    "crumbs": [
+      "Testing",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Testing in the OMOP CDM</span>"
+    ]
+  },
+  {
+    "objectID": "testing/test_omop.html#reusing-mock-data",
+    "href": "testing/test_omop.html#reusing-mock-data",
+    "title": "19  Testing in the OMOP CDM",
+    "section": "19.3 Reusing mock data",
+    "text": "19.3 Reusing mock data",
+    "crumbs": [
+      "Testing",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Testing in the OMOP CDM</span>"
+    ]
+  },
+  {
+    "objectID": "testing/test_omop.html#further-reading",
+    "href": "testing/test_omop.html#further-reading",
+    "title": "19  Testing in the OMOP CDM",
+    "section": "19.4 Further reading",
+    "text": "19.4 Further reading\n\nomock paper\nomock package",
+    "crumbs": [
+      "Testing",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Testing in the OMOP CDM</span>"
+    ]
+  },
+  {
+    "objectID": "testing/test_dbms.html",
+    "href": "testing/test_dbms.html",
+    "title": "20  Testing against multiple DBMS",
+    "section": "",
+    "text": "In this chapter we c",
+    "crumbs": [
+      "Testing",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Testing against multiple DBMS</span>"
+    ]
+  },
+  {
     "objectID": "maintainance/releasing.html",
     "href": "maintainance/releasing.html",
     "title": "26  Submit to CRAN",
