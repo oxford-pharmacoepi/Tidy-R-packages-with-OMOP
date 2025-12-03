@@ -1,1 +1,34 @@
 # Testing in the OMOP CDM
+
+In this chapter we cover how to create synthetic data in the OMOP CDM format using the omock R package.
+
+## Using omock to create mock synthetic data
+
+### Mock data
+
+You can create simple mock datasets using the different mock functions in omock, we will create the dataset in 
+
+- omock::mock functions
+
+### Mock datasets
+
+The omock package also contains pre-build syntehtic datasets from Eunomia package. To use eunomia
+
+- omock::mockCdmFromDataset
+
+### Minimum viable dataset
+
+- omock::mockCdmFromTables
+
+## Inserting the mock
+
+All those functions create local
+
+## Reusing mock data
+
+
+
+## Further reading
+
+- omock paper
+- omock package
