@@ -1,6 +1,6 @@
 # Set up your environment
 
-To build an R package you will need [R](https://cran.r-project.org/bin/windows/base/) installed and an IDE: preferably [R Studio](https://posit.co/download/rstudio-desktop/) or [Positron](https://github.com/posit-dev/positron/releases).
+To build an R package you will need [R](https://cran.r-project.org/bin/windows/base/) installed and an IDE: preferably [RStudio](https://posit.co/download/rstudio-desktop/) or [Positron](https://github.com/posit-dev/positron/releases).
 
 You will need to install [devtools](https://devtools.r-lib.org) and [usethis](https://usethis.r-lib.org) as they are key to follow the different steps to get started.
 
@@ -13,126 +13,243 @@ library(pak)
 pkg_install(c("usethis", "devtools"))
 ```
 
-To work with the Tidy R OMOP ecosystem, you will also need to install the [omopgenerics](https://darwin-eu-dev.github.io/omopgenerics/) package. Alongside with other packages that may be useful:
+To work with the Tidy R OMOP ecosystem, you will also need to install the [omopgenerics](https://darwin-eu.github.io/omopgenerics/) package. Alongside with other packages that may be useful:
 
--   [PatientProfiles](https://darwin-eu-dev.github.io/PatientProfiles/) for data manipulation.
--   [CodelistGenerator](https://darwin-eu.github.io/CodelistGenerator/) to query the vocabularies.
--   [visOmopResults](https://darwin-eu.github.io/visOmopResults/) for data visualisation.
+-   [PatientProfiles](https://darwin-eu.github.io/PatientProfiles/) for patient-level feature extraction.
+-   [CodelistGenerator](https://darwin-eu.github.io/CodelistGenerator/) to query the OMOP vocabularies.
+-   [visOmopResults](https://darwin-eu.github.io/visOmopResults/) for formatting and visualising results.
 
-You can see the list of Tidy R packages in our [website](https://oxford-pharmacoepi.github.io/Oxinfer/packages/summary.html).
+You can see the full list of Tidy R packages in our [website](https://oxford-pharmacoepi.github.io/Oxinfer/packages/summary.html).
 
 ## Create an empty package
 
-To create an empty package you can do it with *usethis*:
+To create a new empty package, use `usethis::create_package()` with the path to the folder where you want the package to live. The folder name becomes the package name.
 
 ```{r, eval=FALSE}
 library(usethis)
 
-create_package(path = "path/to/folder") 
+create_package(path = "path/to/MyPackage")
 ```
 
-::: {.callout-tip collapse="true"}
-### Package name
+This will:
 
-The package will be named by the name of the folder.
+- Create the folder `MyPackage/` with the standard package structure (`R/`, `DESCRIPTION`, `NAMESPACE`).
+- Open the new project in a fresh RStudio or Positron window.
+
+::: {.callout-tip}
+### Choosing a package name
+
+Package names must start with a letter, contain only letters, numbers, and dots, and ideally be short, distinctive, and easy to remember. Use CamelCase to make multi-word names readable (e.g. `CohortConstructor`, `PatientProfiles`). Avoid dots, underscores, and all-lowercase names that are hard to distinguish.
+
+You can check whether a name is available on CRAN with `available::available("MyPackageName")`.
 :::
+
+### The package structure
+
+After `create_package()` you will have:
+
+```
+MyPackage/
+├── R/                  # Your R source files go here
+├── DESCRIPTION         # Package metadata (name, version, dependencies, …)
+├── NAMESPACE           # Exported functions — managed automatically by devtools
+└── MyPackage.Rproj     # RStudio project file
+```
+
+You will add more files as you go: `tests/`, `vignettes/`, `man/`, and `NEWS.md` among others. Most of these are created for you by `usethis` helpers described later in this chapter.
 
 ## Add a license
 
-Adding licenses is very important so you are protected and users know how they can use your product. In general we release using the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license.
-
-You can add a license easily with usethis:
+Adding a license is essential — it tells users how they can use, modify, and redistribute your package, and protects you legally. In the Tidy R OMOP ecosystem we release under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license.
 
 ```{r, eval=FALSE}
-use_apl2_license()
+use_apache_license()
 ```
 
-This will add the `LICENSE.md` file and populate the DESCRIPTION file with the relevant license field.
+This adds the `LICENSE.md` file and populates the `License` field in `DESCRIPTION`.
 
 ::: {.callout-note collapse="true"}
-### License agreements
+### License options
 
-License agreements supported by `usethis` are:
+`usethis` supports all common open-source licenses. The right choice usually comes down to how permissive you want to be:
 
--   More permissive:
+-   More permissive (anyone can use your code, even in closed-source projects):
+    -   [MIT](https://choosealicense.com/licenses/mit/): simple and widely understood.
+    -   [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/): like MIT but adds explicit patent protection. This is our default.
 
-    -   [MIT](https://choosealicense.com/licenses/mit/): simple and permissive.
-    -   [Apache 2.0](https://choosealicense.com/licenses/apache-2.0/): MIT + provides patent protection.
+-   Copyleft (anyone who distributes changes must also open-source them):
+    -   [GPL v3](https://choosealicense.com/licenses/gpl-3.0/)
+    -   [AGPL v3](https://choosealicense.com/licenses/agpl-3.0/): extends GPL to cover use over a network.
+    -   [LGPL v3](https://choosealicense.com/licenses/lgpl-3.0/): a weaker copyleft, suitable for libraries.
 
--   Copyleft:
-
-    -   [GPL v2](https://choosealicense.com/licenses/gpl-2.0/): requires sharing of improvements.
-    -   [GPL v3](https://choosealicense.com/licenses/gpl-3.0/): requires sharing of improvements.
-    -   [AGPL v3](https://choosealicense.com/licenses/agpl-3.0/): requires sharing of improvements.
-    -   [LGPL v2.1](https://choosealicense.com/licenses/lgpl-2.1/): requires sharing of improvements.
-    -   [LGPL v3](https://choosealicense.com/licenses/lgpl-3.0/): requires sharing of improvements.
-
--   Creative commons licenses appropriate for data packages:
-
-    -   [CC0](https://creativecommons.org/publicdomain/zero/1.0/): dedicated to public domain.
-    -   [CC-BY](https://creativecommons.org/licenses/by/4.0/): Free to share and adapt, must give appropriate credit.
+-   Creative Commons (appropriate for data packages rather than code):
+    -   [CC0](https://creativecommons.org/publicdomain/zero/1.0/): dedicated to the public domain.
+    -   [CC-BY](https://creativecommons.org/licenses/by/4.0/): free to share and adapt, with attribution.
 
 ```{r, eval=FALSE}
-use_mit_license(copyright_holder = NULL)
-
-use_gpl_license(version = 3, include_future = TRUE)
-
-use_agpl_license(version = 3, include_future = TRUE)
-
-use_lgpl_license(version = 3, include_future = TRUE)
-
-use_apache_license(version = 2, include_future = TRUE)
-
+use_mit_license()
+use_apache_license()
+use_gpl_license(version = 3)
+use_agpl_license(version = 3)
+use_lgpl_license(version = 3)
 use_cc0_license()
-
 use_ccby_license()
-
-use_proprietary_license(copyright_holder = "...")
 ```
 :::
 
-## Create a first mock function
+## Create a first function
 
-The `R` folder contains the relevant files for your package
+All R source files live in the `R/` folder. Each file can contain one or more functions — the typical convention is one file per function or per closely related group of functions, named to match.
+
+Create a new R file with:
+
+```{r, eval=FALSE}
+use_r("myFunction")
+```
+
+This creates `R/myFunction.R` and opens it. Write your function there:
+
+```{r, eval=FALSE}
+myFunction <- function(cohort, overlap = FALSE) {
+  # your code here
+  cohort
+}
+```
+
+::: {.callout-tip}
+### Add a roxygen skeleton immediately
+
+Before writing the body, add a roxygen2 documentation skeleton with **Code → Insert Roxygen Skeleton** in RStudio (or `Ctrl+Alt+Shift+R`). Fill in the `@title`, `@description`, `@param`, and `@return` tags as you write the function. Doing this from the start is much easier than adding it later. Documentation is covered fully in @sec-functions.
+:::
+
+Once you have written a function, load the whole package into your session with:
+
+```{r, eval=FALSE}
+devtools::load_all()  # Ctrl+Shift+L in RStudio
+```
+
+`load_all()` simulates what happens when the package is installed and loaded — it makes all your functions available without having to restart R. Use it constantly during development.
 
 ## Check the package
 
+`devtools::check()` runs `R CMD check`, which is the official test that CRAN and you should run to verify your package is correct. It checks documentation, dependencies, examples, and tests.
+
+```{r, eval=FALSE}
+devtools::check()  # Ctrl+Shift+E in RStudio
+```
+
+A clean check produces output ending with:
+
+```
+── R CMD check results ─────────────────────────────────────────────────
+Duration: 30s
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+```
+
+Aim to keep your package at **0 errors, 0 warnings, 0 notes** at all times — not just before a release. It is much easier to fix one new note immediately than to diagnose five notes that accumulated over months.
+
+Common things to fix early:
+
+- A missing `@export` tag on a function that should be public.
+- An undocumented argument (`@param` entry missing).
+- A package used in code but not listed in `DESCRIPTION` under `Imports` or `Suggests`.
+- An example that fails because it requires a real database.
+
 ## Create a simple test
 
-We will see 
-
-After adding the test we should check the test works properly. You can run the tests of the active file using:
+Tests live in `tests/testthat/`. Set up the testing infrastructure with:
 
 ```{r, eval=FALSE}
-test_active_file()
+use_testthat()
 ```
 
-Or you can run all the tests of the package:
+Then create a test file for your function:
 
 ```{r, eval=FALSE}
-test()
+use_test("myFunction")
 ```
 
-## Create `README.Rmd`
+This creates `tests/testthat/test-myFunction.R`. A minimal test looks like:
 
-## Create website
+```{r, eval=FALSE}
+test_that("myFunction returns a cohort table", {
+  cdm <- mockPatientProfiles()
+  result <- myFunction(cdm$cohort1)
+  expect_s3_class(result, "cohort_table")
+  CDMConnector::cdmDisconnect(cdm)
+})
+```
+
+Run the tests for the file you are currently editing:
+
+```{r, eval=FALSE}
+devtools::test_active_file()  # Ctrl+Shift+T in RStudio (for active file)
+```
+
+Or run all tests in the package:
+
+```{r, eval=FALSE}
+devtools::test()
+```
+
+Testing with OMOP data is covered in detail in @sec-test-omop. For now, the important habit is: every function you write should have at least one test file created for it before you move on.
+
+## Create a README
+
+The README is the first thing people see when they visit your package on GitHub. Create one with:
+
+```{r, eval=FALSE}
+use_readme_rmd()
+```
+
+This creates `README.Rmd`, which is an R Markdown file that can contain executable code chunks. After editing it, render it to produce `README.md`:
+
+```{r, eval=FALSE}
+devtools::build_readme()
+```
+
+Always commit both `README.Rmd` and `README.md`. GitHub displays `README.md` automatically on the repository front page.
+
+A good README for an ecosystem package should include: a one-paragraph description, an installation code block, a minimal usage example using a `mock*` function (no real database needed), and links to the documentation website. The full README conventions are covered in @sec-readme.
+
+## Create a documentation website
+
+A [pkgdown](https://pkgdown.r-lib.org) website gives your package a searchable, browsable reference site generated automatically from your roxygen2 documentation and vignettes. Set it up with:
+
+```{r, eval=FALSE}
+use_pkgdown()
+```
+
+Build the site locally to preview it:
+
+```{r, eval=FALSE}
+pkgdown::build_site()
+```
+
+This creates a `docs/` folder. Open `docs/index.html` in your browser to see it.
+
+The ecosystem uses a shared pkgdown theme for visual consistency. Configuration and automated deployment via GitHub Actions are covered in @sec-automatic-website.
 
 ## Set up GitHub
 
-GitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to [GitHub and GitHub Actions](../github/index.qmd) at that stage you will learn how to use github for:
+Once your package is working locally, push it to GitHub so it can benefit from continuous integration: automated checks, test coverage reporting, and website deployment on every push.
+
+The fifth part of this book covers GitHub and GitHub Actions in full:
 
 -   [Automatic checking your package](../github/automatic_checks.qmd)
--   [Automatic deployment of a documentation website for your package](../github/automatic_website.qmd)
+-   [Automatic deployment of a documentation website](../github/automatic_website.qmd)
 -   [Automatic assessment of test coverage](../github/test_coverage.qmd)
--   [Automatic testing across multiple sources](../github/testing_multiple_dbms.qmd)
+-   [Testing across multiple database backends](../github/testing_multiple_dbms.qmd)
 
-## Package template
+## Using the package template
 
-Although the first time it is quite nice to do all the steps one by one there is a template with all those steps done, you can create a new package repo using this [link](https://github.com/new?template_name=EmptyPackageTemplate&template_owner=oxford-pharmacoepi).
+Although it is instructive to follow these steps manually the first time, the ecosystem provides a GitHub template repository that does all of this setup for you. Use it to create a new repository with the full scaffold already in place — license, GitHub Actions, pkgdown configuration, and lintr — by clicking the link below:
+
+👉 [Create a new package from the template](https://github.com/new?template_name=EmptyPackageTemplate&template_owner=oxford-pharmacoepi)
 
 ::: {.callout-note collapse="true"}
-### Template link
+### Template repository
 
-The GitHub template link can be found: <https://github.com/oxford-pharmacoepi/EmptyPackageTemplate>.
-
+The source for the template is at <https://github.com/oxford-pharmacoepi/EmptyPackageTemplate>. You can inspect it to see exactly what files are included.
 :::
