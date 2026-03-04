@@ -1,1 +1,17 @@
 # Contributing documentation
+
+Documentation is not optional. A well-documented package is one that people can actually use, contribute to, and trust. For packages in the Tidy R OMOP CDM ecosystem — which are tools for epidemiological research — clear documentation can directly affect the quality of scientific work that depends on them.
+
+This part of the book covers all the layers of documentation that a package should have, from inline code comments to a full pkgdown website. Each layer serves a different audience and a different purpose, and all of them matter.
+
+The chapters are organised as follows:
+
+- [Documenting code](code.qmd) covers inline comments: when to write them, what they should say, and how to use them to communicate intent to future contributors (including your future self).
+
+- [Documenting functions](functions.qmd) covers roxygen2 documentation: how to write titles, descriptions, parameter documentation, and examples that genuinely help users understand and use your functions.
+
+- [README](readme.qmd) covers the package README: the first thing a new user will read. It should communicate the package's purpose clearly and include working examples that demonstrate its value.
+
+- [Vignettes](vignettes.qmd) covers long-form documentation: how to write vignettes that walk users through realistic use cases and help them understand not just individual functions but how to compose them into a complete analysis.
+
+- [Documentation website](website.qmd) covers how to set up and customise a pkgdown website, organise the reference index, and deploy the site automatically via GitHub Actions.

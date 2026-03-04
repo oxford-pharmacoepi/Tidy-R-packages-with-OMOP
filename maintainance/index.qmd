@@ -1,1 +1,11 @@
-# Maintaing a package
+# Maintaining a package
+
+Getting a package to a first release is a significant achievement, but it is only the beginning. Maintaining a package — keeping it working as its dependencies evolve, responding to issues, managing releases, and communicating changes clearly — is an ongoing commitment that requires its own discipline and practices.
+
+The good news is that the infrastructure set up in the previous parts of this book (automated checks, test coverage, multi-DBMS testing) does a great deal of the maintenance work automatically. The chapters in this part cover the human side: the decisions and processes that cannot be automated.
+
+This part currently contains one chapter:
+
+- [Submit to CRAN](releasing.qmd) walks through the process of preparing and submitting a package to CRAN for the first time, and the ongoing practices for subsequent releases: deciding on version numbers, maintaining a `NEWS.md` changelog, checking reverse dependencies, and responding to CRAN policy changes.
+
+Further chapters on longer-term maintenance practices — handling breaking changes, deprecation workflows, and managing a growing contributor community — will be added in future editions of this book.
