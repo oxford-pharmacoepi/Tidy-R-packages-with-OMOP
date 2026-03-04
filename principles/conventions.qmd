@@ -1,11 +1,296 @@
-# Conventions
+# Conventions {#sec-conventions}
 
-Our code adheres to some style conventions as decribed in this chapter.
+This chapter documents the naming and structural conventions observed across the ecosystem. Many will feel familiar if you have already worked with the packages, but having them written down in one place makes it easier to apply them consistently in new code and to identify deviations worth addressing.
+
+Where real inconsistencies exist across the current packages, they are noted — the goal is for new packages to conform to these conventions even when older ones pre-date them.
 
 ## Casing
 
-In general we use [**camelCase**](https://www.freecodecamp.org/news/snake-case-vs-camel-case-vs-pascal-case-vs-kebab-case-whats-the-difference/) naming for arguments and functions. 
+The ecosystem uses **camelCase** for all R identifiers: exported function names, unexported helper function names, argument names, and local variable names.
+
+```{r}
+#| eval: false
+# Correct — camelCase throughout
+generateIngredientCohortSet(cdm, name = "dus_cohort", gapEra = 7)
+addCohortIntersectFlag(cohort, targetCohortTable = "cohort2", window = c(-Inf, -1))
+summariseClinicalRecords(cdm, omopTableName = "condition_occurrence")
+```
+
+The camelCase rule is enforced by lintr:
+
+```r
+lintr::lint_package(
+  linters = lintr::linters_with_defaults(
+    lintr::object_name_linter(styles = "camelCase")
+  )
+)
+```
+
+**Exception: strings stored in data.** Column names in database tables, `variable_name` values inside `summarised_result` objects, `result_type` strings, cohort names, and table names in the CDM are all `snake_case`. The camelCase rule applies to R object names and arguments, not to string values that end up in data or in the CDM.
+
+```{r}
+#| eval: false
+# The R argument is camelCase...
+addAge(cohort, ageGroup = list(c(0, 17), c(18, 64)))
+
+# ...but values stored as data are snake_case:
+# group_level  = "acetaminophen"
+# variable_name = "number_subjects"
+# result_type   = "summarised_characteristics"
+# cohort name   = "dus_cohort"
+```
+
+## Function naming
+
+### Verb prefixes
+
+Every exported function begins with a standard verb prefix. The prefix is not merely a naming choice — it signals the return type, the side effects, and the role the function plays in a pipeline.
+
+| Prefix | Returns | Side effects | Representative examples |
+|---|---|---|---|
+| `generate*` | `cohort_table` written to CDM | Writes table to database | `generateConceptCohortSet()`, `generateIngredientCohortSet()`, `generateDenominatorCohortSet()` |
+| `require*` | Modified `cohort_table` | May rewrite cohort table in DB; updates attrition | `requireIsFirstEntry()`, `requireAge()`, `requireSex()`, `requireCohortIntersect()`, `requireConceptIntersect()` |
+| `add*` | Input table with extra columns appended | None | `addAge()`, `addSex()`, `addDemographics()`, `addCohortIntersectFlag()`, `addCohortIntersectCount()`, `addCohortIntersectDate()`, `addDrugUse()` |
+| `summarise*` | `summarised_result` | None | `summariseCharacteristics()`, `summariseClinicalRecords()`, `summariseDrugUtilisation()`, `summariseCohortAttrition()`, `summariseCohortCount()` |
+| `estimate*` | `summarised_result` | None | `estimateIncidence()`, `estimatePointPrevalence()`, `estimatePeriodPrevalence()` |
+| `plot*` | `ggplot2` object | None | `plotRecordCount()`, `plotIncidence()`, `plotPrevalence()`, `plotCohortAttrition()` |
+| `table*` | Formatted table (`gt`, `flextable`, etc.) | None | `tableCharacteristics()`, `tableClinicalRecords()`, `tableOmopSnapshot()`, `tableCohortCount()` |
+| `mock*` | `cdm_reference` (in-memory) | None | `mockCohortConstructor()`, `mockPatientProfiles()`, `mockDrugUtilisation()`, `mockOmopSketch()`, `mockIncidencePrevalence()` |
+| `get*` | Plain R object | None | `getDrugIngredientCodes()`, `getVocabVersion()` |
+| `new*` | New instance of a class | None | `newCodelist()`, `newSummarisedResult()`, `newCdmSource()` |
+| `compute*` | Materialised table | Writes temp table to DB | `computeTable()` (internal convention in PatientProfiles) |
+
+::: {.callout-note}
+`estimate*` is used in `IncidencePrevalence` rather than `summarise*` because incidence and prevalence are computed statistics with a specific analytic meaning (rates and proportions over time), not summaries in the general sense. New packages that compute similar analytic estimates should consider whether `estimate*` or `summarise*` better describes the result.
+:::
+
+::: {.callout-note}
+`require*` is specific to `CohortConstructor` and means "apply this inclusion or exclusion criterion and update the cohort attrition". Do not use `require*` for functions that merely check or validate inputs — use `validate*` or `assert*` for those.
+:::
+
+### The `*CohortSet` suffix
+
+Functions that generate multiple cohorts at once and return a full `cohort_table` in the CDM use the `*CohortSet` suffix:
+
+```{r}
+#| eval: false
+generateConceptCohortSet(cdm, conceptSet = ..., name = "my_cohort")
+generateIngredientCohortSet(cdm, ingredient = "acetaminophen", name = "dus_cohort")
+generateDenominatorCohortSet(cdm, name = "denominator", ageGroup = list(...))
+```
+
+Functions that return a single cohort or modify an existing table typically do not use this suffix.
+
+### Noun component
+
+The noun should describe what the function operates on or returns clearly enough that users can understand it without reading the documentation:
+
+- `summariseClinicalRecords` — summarises records in clinical OMOP tables
+- `addCohortIntersectFlag` — adds a flag column indicating cohort intersection
+- `requireConceptIntersect` — requires intersection with a concept set
+
+Avoid abbreviations unless they are standard in the domain (e.g. `Cdm`, `Omop`). Spell out words fully: `Incidence` not `Inc`, `Characteristics` not `Chars`.
+
+### `mock*` functions
+
+Every package should provide at least one `mock*` function so that examples and tests can run without a real database. The naming convention is `mock{PackageName}()`:
+
+```{r}
+#| eval: false
+mockPatientProfiles()        # PatientProfiles
+mockCohortConstructor()      # CohortConstructor
+mockDrugUtilisation(numberIndividual = 100, source = "duckdb")
+mockCohortCharacteristics()  # CohortCharacteristics
+mockOmopSketch()             # OmopSketch
+mockIncidencePrevalence(sampleSize = 1000)
+```
+
+Internally, these functions typically call `omock` helpers such as `mockCdmFromDataset()` or `mockCdmFromTables()`. The `mock*` function should return a `cdm_reference` containing whatever tables the package needs, and should support a `source` argument (`"duckdb"` or `"local"`) where appropriate.
+
+Mock functions should be called `mockDisconnect(cdm)` at the end of examples to release the database connection — a convention from `PatientProfiles` now used widely.
 
 ## Argument naming
 
+### Standard argument names
 
+The following argument names are reserved. Use them whenever your function has an argument that matches the described role.
+
+| Argument | Type | Role |
+|---|---|---|
+| `cdm` | `cdm_reference` | CDM reference object. First argument if present. |
+| `cohort` | `cohort_table` | Cohort table to operate on. |
+| `cohortId` | `integer` or `NULL` | IDs of cohorts to include; `NULL` = all. |
+| `conceptSet` | codelist / expression | Clinical concept set. |
+| `name` | `character(1)` | Name of the output table written into the CDM. |
+| `nameStyle` | `character(1)` | Glue template for naming output columns. |
+| `targetCohortTable` | `character(1)` | Name of a cohort table to intersect with. |
+| `targetCohortId` | `integer` or `NULL` | Cohort IDs within `targetCohortTable`. |
+| `tableName` | `character(1)` | Name of an OMOP CDM clinical table. |
+| `omopTableName` | `character(1)` | As `tableName`; used in OmopSketch-style functions. |
+| `indexDate` | `character(1)` | Column name to use as the index date. |
+| `strata` | `list` of `character` vectors | Stratification variable sets. |
+| `ageGroup` | named `list` or `NULL` | Age group definitions, e.g. `list(c(0, 17), c(18, 64))`. |
+| `sex` | `character` | Sex filter or stratification: `"Male"`, `"Female"`, `"Both"`. |
+| `window` | length-2 integer vector or named `list` | Time window(s) relative to index date. |
+| `intersections` | integer or integer vector of length 2 | Number of required intersections. |
+| `gapEra` | `integer(1)` | Days between records below which they are merged into one era. |
+| `minCellCount` | `integer(1)` | Minimum cell count for suppression. Default `5`. |
+| `type` | `character(1)` | Output format for `table*`: `"gt"`, `"flextable"`, `"tibble"`, `"datatable"`. |
+| `facet` | `character` or formula | Columns to facet by in `plot*` functions. |
+| `colour` | `character` | Columns to colour by in `plot*` functions. |
+
+### Argument order
+
+Arguments should appear in this order:
+
+1. `cdm` (if the function takes the CDM directly)
+2. `cohort` (if the function takes a cohort table)
+3. `cohortId`
+4. Content arguments (what to compute, concept sets, windows, etc.)
+5. Modifier arguments (flags and options that adjust behaviour)
+6. `name` (near the end, since it is often left at its default)
+
+```{r}
+#| eval: false
+# cdm first, then content, then name
+generateIngredientCohortSet(
+  cdm = cdm,
+  name = "dus_cohort",
+  ingredient = "acetaminophen",
+  gapEra = 7
+)
+
+# cohort first, then targetCohortTable, then window, then name
+requireCohortIntersect(
+  cohort = cdm$fractures,
+  targetCohortTable = "gibleed",
+  intersections = c(1, Inf),
+  window = c(-Inf, 0),
+  name = "fractures_with_gi_bleed"
+)
+```
+
+### The `nameStyle` argument
+
+`add*` functions in `PatientProfiles` that produce multiple columns use a `nameStyle` argument — a [glue](https://glue.tidyverse.org)-style template that controls how the new column names are constructed. Available template variables depend on the function but commonly include `{cohort_name}`, `{window_name}`, `{concept_name}`, and `{value}`.
+
+```{r}
+#| eval: false
+# Default nameStyle — column is named automatically
+addCohortIntersectFlag(cohort, targetCohortTable = "cohort2", window = c(-Inf, -1))
+
+# Custom nameStyle — single column named "prior_infection"
+addCohortIntersectFlag(
+  cohort,
+  targetCohortTable = "cohort2",
+  window = c(-Inf, -1),
+  nameStyle = "prior_infection"
+)
+
+# Multi-window nameStyle — columns like "prior_morphine", "future_aspirin"
+addCohortIntersectCount(
+  cohort,
+  targetCohortTable = "drugs",
+  window = list("prior" = c(-Inf, -1), "future" = c(1, Inf)),
+  nameStyle = "{window_name}_{cohort_name}"
+)
+```
+
+When your `add*` function can produce multiple columns, provide a sensible default `nameStyle` and document the available template variables in the function's roxygen entry.
+
+## Windows
+
+Time windows are integer vectors of length 2: `c(start, end)`, where values are days relative to an index date (typically `cohort_start_date`).
+
+- `0` means the index date itself.
+- `-Inf` means no lower bound (any time before).
+- `Inf` means no upper bound (any time after).
+
+When multiple windows are needed, they are passed as a **named list**. The names become the window labels in `nameStyle` templates and in `additional_name`/`additional_level` columns of `summarised_result` objects:
+
+```{r}
+#| eval: false
+window = list(
+  "short_term" = c(1, 30),
+  "mid_term"   = c(31, 180),
+  "long_term"  = c(181, 365)
+)
+```
+
+## Sex values
+
+When sex is stored as a value — in `strata_level`, as a column value, or in cohort settings — the standard values are `"Male"`, `"Female"`, and `"Both"`. These use an initial capital. This convention is established in `IncidencePrevalence` and used consistently across the ecosystem.
+
+## Data values in `summarised_result`
+
+String values stored inside `summarised_result` columns use `snake_case`. This applies to `variable_name`, `variable_level`, `estimate_name`, `result_type`, and values in `group_level` and `strata_level`:
+
+```{r}
+#| eval: false
+# Typical variable_name values
+"number_records"
+"number_subjects"
+"age"
+"sex"
+
+# Typical estimate_name values
+"count"
+"mean"
+"sd"
+"q25"
+"median"
+"q75"
+
+# Typical result_type values
+"summarised_characteristics"
+"summarised_drug_utilisation"
+"cohort_count"
+```
+
+## Column naming in cohort tables
+
+Columns added to cohort tables by `add*` functions use `snake_case`. The names are derived from the `nameStyle` template and typically combine a descriptor of the value type, a cohort or concept name, and a window name when multiple windows are used:
+
+| Pattern | Example column name |
+|---|---|
+| Single target, default style | `cohort_2_minf_to_m1` |
+| Custom `nameStyle = "prior_infection"` | `prior_infection` |
+| `nameStyle = "{window_name}_{cohort_name}"` | `prior_morphine`, `future_aspirin` |
+| `addAge()` | `age` |
+| `addSex()` | `sex` |
+| `addPriorObservation()` | `prior_observation` |
+
+## The `summarise` → `table`/`plot` pattern
+
+All analytics packages follow the same two-step workflow:
+
+1. A `summarise*` (or `estimate*`) function queries the CDM and returns a `summarised_result`.
+2. A paired `table*` or `plot*` function formats that result for display.
+
+Do not pipe `table*` or `plot*` functions directly onto `summarise*` calls in production code. The `summarised_result` object is the exportable artefact — you may want to save it, combine it with results from other databases, or suppress it before rendering.
+
+```{r}
+#| eval: false
+# Correct workflow
+result <- summariseCharacteristics(cdm$my_cohort)
+result |> tableCharacteristics(type = "gt")
+
+# Also fine for quick exploration, but not recommended in scripts
+# cdm$my_cohort |>
+#   summariseCharacteristics() |>
+#   tableCharacteristics()
+```
+
+## Inconsistencies to be aware of
+
+The ecosystem has grown over several years, and a small number of inconsistencies currently exist:
+
+- **`omopTableName` vs `tableName`**: `OmopSketch` uses `omopTableName` for the name of a CDM clinical table; other packages use `tableName`. New packages should prefer `tableName` unless interoperating closely with `OmopSketch` patterns.
+
+- **`sex` argument type**: Some older functions accept `sex = TRUE` (logical, meaning "stratify by sex") while newer ones accept `sex = c("Male", "Female", "Both")` (character, meaning "filter to these groups"). Check the package you are building on and match its convention; prefer the character form in new code.
+
+- **`estimate*` vs `summarise*`**: `IncidencePrevalence` uses `estimate*` for its main output functions. Other packages use `summarise*`. Both conventions will coexist; choose the one that best describes what your function computes.
+
+- **`mockDisconnect()` location**: The `mockDisconnect()` helper is exported from `PatientProfiles`. Packages that use it in examples need `PatientProfiles` in `Suggests`.
+
+When you find a convention that is not documented here or that appears applied inconsistently, please open an issue on the book repository.
