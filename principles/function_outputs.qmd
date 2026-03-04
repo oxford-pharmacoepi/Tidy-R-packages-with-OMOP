@@ -1,45 +1,131 @@
-# Function outputs
+# Function outputs {#sec-function-outputs}
 
-## The summarised_result object
+## The `summarised_result` object
 
-The summarised_result object is an S3 class defined by omopgenerics that aims to standardise the result outputs that contain estimates.
+The `summarised_result` is the standard result format returned by all analytics functions in the ecosystem. It is an S3 class built on top of a tibble, defined in `omopgenerics`. Every package that produces estimates — prevalence, drug use, cohort characteristics, survival — returns a `summarised_result`. This standardisation is what allows `visOmopResults` and `OmopViewer` to work uniformly across the whole ecosystem without any package-specific code.
 
-### The summarised_result basis
+### Structure
 
-The summarised result is a tibble wi
+A `summarised_result` is a tibble with exactly 13 compulsory columns:
 
-- **Main table**
+| Column | Type | NA allowed | Description |
+|---|---|---|---|
+| `result_id` | integer | No | Groups rows sharing the same result settings. |
+| `cdm_name` | character | No | Name of the CDM instance used. |
+| `group_name` | character | No | Name side of the group name–level pair. |
+| `group_level` | character | No | Level side of the group name–level pair. |
+| `strata_name` | character | No | Name side of the strata name–level pair. |
+| `strata_level` | character | No | Level side of the strata name–level pair. |
+| `variable_name` | character | No | Name of the variable being estimated. |
+| `variable_level` | character | Yes | Sub-level of the variable (e.g. a category). |
+| `estimate_name` | character | No | Name of the estimate (snake_case). |
+| `estimate_type` | character | No | Type of the estimate value (see below). |
+| `estimate_value` | character | No | Value of the estimate, always stored as character. |
+| `additional_name` | character | No | Name side of the additional name–level pair. |
+| `additional_level` | character | No | Level side of the additional name–level pair. |
 
-- **Settings**. Compulsory settings are:
-  - *result_type*
-  - *package_name*
-  - *package_version*
-  Other columns that are always created in settings:
-  - *group*, *strata*, *additional*
-  - *min_cell_count* this column will always exists (it will be "0" by default).
+The `estimate_type` column must be one of the values returned by `omopgenerics::estimateTypeChoices()`: `"numeric"`, `"integer"`, `"date"`, `"character"`, `"proportion"`, `"percentage"`, `"logical"`.
 
-The *tidy* format, a summarised result can easily be converted to a simpler table, you can use internally this format 
+#### Name–level pairs
 
-### How to create a summarised result
+Three pairs of columns — `group_name`/`group_level`, `strata_name`/`strata_level`, `additional_name`/`additional_level` — follow the same encoding. When a result applies to multiple dimensions simultaneously, the column names are concatenated with ` &&& ` and the values likewise:
 
-Please include only one result_type this make it easy
+```
+group_name:  "cohort_name &&& sex"
+group_level: "asthma_cohort &&& Female"
+```
 
-- way to identify result_type
+- **group**: high-level identifiers, typically cohort name or codelist name.
+- **strata**: stratification dimensions such as age group or sex.
+- **additional**: any further dimensions that don't fit in group or strata (e.g. time window, analysis type).
 
-- unique result_type
+When a result is not stratified, these columns should contain `"overall"` / `"overall"`.
 
-- transform to summarise result
+### Settings attribute
 
-- tidy
+Every `summarised_result` has a `settings` attribute — a tibble with one row per `result_id` — that stores metadata about how the results were generated. Three settings columns are compulsory:
+
+| Setting | Description |
+|---|---|
+| `result_type` | A short snake_case string identifying the type of analysis (e.g. `"summarised_characteristics"`). Must be unique within a package. |
+| `package_name` | The name of the package that generated the result. |
+| `package_version` | The version of that package. |
+
+Additional settings columns store analysis-specific parameters (e.g. `strata`, `ageGroup`, `window`). A `min_cell_count` column is always present, defaulting to `"0"`.
+
+### How to create a `summarised_result`
+
+The standard pattern is to build a plain tibble with the 13 required columns, then convert it using `omopgenerics::newSummarisedResult()`:
+
+```{r, eval=FALSE}
+library(omopgenerics)
+
+result <- tibble::tibble(
+  result_id       = 1L,
+  cdm_name        = cdmName(cdm),
+  group_name      = "cohort_name",
+  group_level     = "my_cohort",
+  strata_name     = "overall",
+  strata_level    = "overall",
+  variable_name   = "age",
+  variable_level  = NA_character_,
+  estimate_name   = "mean",
+  estimate_type   = "numeric",
+  estimate_value  = as.character(mean_age),
+  additional_name = "overall",
+  additional_level= "overall"
+) |>
+  newSummarisedResult(
+    settings = tibble::tibble(
+      result_id       = 1L,
+      result_type     = "my_result_type",
+      package_name    = "myPackage",
+      package_version = as.character(packageVersion("myPackage"))
+    )
+  )
+```
+
+In practice you will produce many rows at once. The recommended internal workflow is:
+
+1. Compute a tidy intermediate tibble (one row per subject / cohort / stratum / estimate).
+2. Use `visOmopResults::uniteNameLevel()` or `omopgenerics` helpers to encode name–level pairs.
+3. Call `newSummarisedResult()` with the appropriate settings.
+
+### Using the tidy format internally
+
+The `tidy()` method converts a `summarised_result` back to a wide, human-readable format:
+
+```{r, eval=FALSE}
+result |> tidy()
+```
+
+This is useful for inspecting results during development, and can also be used internally if your function needs to manipulate results before returning them. However, always return a `summarised_result` from exported functions — never a tidy tibble.
 
 ### Suppression
 
-- make sure that we include a number subjects if relevant
+If your function produces counts of patients or records, it must support cell suppression. The convention is to expose a `minCellCount` argument (default `5`) and apply suppression before returning:
 
-- use the word count in estimates
+```{r, eval=FALSE}
+result <- result |> suppress(minCellCount = minCellCount)
+```
 
-### Register the result_type
+`suppress()` replaces estimate values with `NA` where the count is below the threshold, and records the suppression threshold in the settings.
+
+If your result contains a count of subjects (i.e. unique `subject_id` values), the estimate should be named `count_subjects` or `n_subjects` so that suppression is applied correctly.
+
+### One `result_type` per function
+
+Each exported function that returns a `summarised_result` should produce exactly one `result_type`. Do not mix different analyses in a single `summarised_result` returned from one function — this makes it impossible for downstream tools to filter and process results by type.
+
+### Registering a `result_type`
+
+Result types should be registered in your package so that `visOmopResults` and `OmopViewer` can discover them. Add a call to `omopgenerics::registerResultType()` in your package's `.onLoad()` or document it in the package metadata. See the `omopgenerics` documentation for the current registration API.
+
+## Cohort outputs
+
+Functions that return a modified cohort (rather than a summary) should return a `cohort_table`. The attrition log must be updated for every filtering step using `recordCohortAttrition()`. See @sec-core-dependencies for the `cohort_table` class description.
 
 ## Further reading
 
-- The summarised result object omopgenerics.
+- [`omopgenerics` summarised_result documentation](https://darwin-eu.github.io/omopgenerics/articles/summarised_result.html)
+- [`visOmopResults` package](https://darwin-eu.github.io/visOmopResults/)

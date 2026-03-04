@@ -1,3 +1,105 @@
-## Function interfaces
+# Function interfaces {#sec-function-interfaces}
 
-`generate...CohortSet`, `...Cohort`, `add...`, `summarise...`, `plot...`, `table...`,
+Consistent function interfaces are one of the most visible ways the ecosystem signals coherence to developers and end users alike. When every package follows the same naming conventions, a user who has worked with one package can immediately form correct expectations about another. This chapter sets out the conventions used across the ecosystem.
+
+## Function naming
+
+Functions in the ecosystem follow a **verb-noun** pattern using **camelCase**. The verb indicates what the function does; the noun indicates what it operates on or returns.
+
+### Standard prefixes
+
+The ecosystem uses a small set of standard verb prefixes. Using the right prefix for a given function type is important because it communicates intent and enables consistent user mental models.
+
+| Prefix | Purpose | Examples |
+|---|---|---|
+| `generate*` | Create a new cohort table in the CDM write schema | `generateConceptCohortSet()`, `generateDemographicCohortSet()` |
+| `add*` | Add columns to an existing table (returns the table with extra columns) | `addAge()`, `addSex()`, `addIntersect()` |
+| `summarise*` | Compute aggregated results; returns a `summarised_result` | `summariseCharacteristics()`, `summariseDrugUtilisation()` |
+| `plot*` | Create a `ggplot2` visualisation from a `summarised_result` | `plotIncidence()`, `plotSurvival()` |
+| `table*` | Create a formatted table from a `summarised_result` | `tableCharacteristics()`, `tableDrugUtilisation()` |
+| `compute*` | Materialise a lazy query into a temporary database table | `computeQuery()` |
+
+::: {.callout-note}
+The `generate*` prefix is reserved for functions that write a new cohort table to the database. Functions that merely manipulate an existing cohort in memory (filtering, unioning, etc.) without necessarily writing to the database should not use this prefix.
+:::
+
+### The `*CohortSet` suffix
+
+Functions that create a full `cohort_table` with potentially multiple cohorts use a `*CohortSet` suffix:
+
+```{r, eval=FALSE}
+generateConceptCohortSet(cdm, conceptSet = my_codelist, name = "my_cohort")
+generateDemographicCohortSet(cdm, ageGroup = list(c(0, 17), c(18, 64)), name = "age_cohort")
+```
+
+Functions that operate on an existing cohort table and return a modified version of it (e.g. applying an inclusion criterion) do not use the `Set` suffix:
+
+```{r, eval=FALSE}
+requireIsFirstEntry(cohort)
+requireAge(cohort, ageRange = c(18, Inf))
+```
+
+### Internal functions
+
+Internal (unexported) functions should still follow camelCase but are conventionally prefixed with a dot or given a descriptive name that makes clear they are not part of the public API. Functions documented with `@noRd` are not exported and do not appear in the package documentation website.
+
+## Argument naming
+
+Arguments should also use camelCase. The following argument names are standardised across the ecosystem and should be used whenever they apply:
+
+| Argument | Type | Description |
+|---|---|---|
+| `cdm` | `cdm_reference` | The CDM reference object. Always the first argument. |
+| `cohort` | `cohort_table` | A cohort table. |
+| `cohortId` | `integer` or `NULL` | IDs of cohorts to operate on; `NULL` means all cohorts. |
+| `conceptSet` | `codelist` / `codelist_with_details` / `concept_set_expression` | A set of clinical concepts. |
+| `name` | `character(1)` | Name for the output table to be written to the CDM. |
+| `nameStyle` | `character(1)` | A glue-style string for naming multiple output columns. |
+| `strata` | `list` of `character` vectors | Stratification variables. |
+| `ageGroup` | named list or `NULL` | Age group definitions. |
+| `window` | `list` of integer vectors | Time windows relative to an index date. |
+| `overlap` | `logical(1)` | Whether overlapping records should be merged. |
+| `minCellCount` | `integer(1)` | Minimum cell count for suppression. Default `5`. |
+
+When adding new arguments, check first whether a standard name already exists in `omopgenerics` or in widely used packages — reusing names keeps the interface predictable.
+
+## Argument order
+
+Arguments should be ordered as follows:
+
+1. `cdm` (if present) — always first.
+2. `cohort` or other primary data argument.
+3. `cohortId` (if present) — immediately after its parent `cohort`.
+4. Content arguments that define *what* to compute.
+5. Arguments that modify *how* to compute (stratifications, windows, age groups).
+6. `name` — the name of the output table, near the end.
+7. `...` — rarely needed; avoid unless implementing a generic.
+
+## The `cdm` argument
+
+Almost every exported function in an analytics or diagnostics package takes `cdm` as its first argument. This makes functions pipe-friendly in the sense that the CDM is always at the root of an analysis, and it makes the interface immediately recognisable.
+
+```{r, eval=FALSE}
+# Standard pattern
+result <- summariseCohortOverlap(
+  cohort = cdm$my_cohort,
+  cohortId = NULL,
+  strata = list(c("sex"), c("age_group")),
+  minCellCount = 5
+)
+```
+
+Note that for functions operating on a `cohort_table`, the `cdm_reference` is accessible through `cdmReference(cohort)`, so it is not always necessary to accept `cdm` as a separate argument. Functions whose primary input is a cohort table can accept just `cohort`:
+
+```{r, eval=FALSE}
+# cohort-first pattern — cdm is accessible via cdmReference(cohort)
+requireAge(cohort, ageRange = c(18, Inf))
+```
+
+## Boolean flags
+
+Boolean arguments should default to `FALSE` unless `TRUE` is the overwhelmingly common case. Argument names should be positive statements (prefer `overlap = TRUE` over `noOverlap = FALSE`). Avoid arguments that accept a string where a boolean would do.
+
+## Dots (`...`)
+
+Avoid `...` in the interfaces of exported functions unless you are implementing an S3 generic. Dots make it easy to silently swallow misspelled argument names, which leads to confusing behaviour.

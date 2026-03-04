@@ -1,1 +1,91 @@
-# Visualisations
+# Visualisations {#sec-visualisations}
+
+All visualisation in the ecosystem is built on top of `visOmopResults`. This package provides a consistent API for transforming `summarised_result` objects into formatted tables and `ggplot2` plots. By using it rather than writing bespoke formatting code, your package inherits consistent output across all result types and avoids duplicating logic that is already maintained centrally.
+
+This chapter explains the conventions for adding `table*` and `plot*` functions to your package.
+
+## The `visOmopResults` API
+
+`visOmopResults` exposes two main families of functions:
+
+- **`visOmopTable()`** and its wrappers produce formatted tables. The output format (gt, flextable, tibble, or datatable) is controlled by a `type` argument.
+- **`visOmopPlot()`** and specific plot helpers produce `ggplot2` objects that can be further customised.
+
+Most packages do not call these low-level functions directly. Instead they implement thin `table*` and `plot*` wrapper functions that call into `visOmopResults` with sensible defaults.
+
+## Adding `table*` functions
+
+Every `summarise*` function should have a corresponding `table*` function that formats its output for display. The convention is:
+
+```{r, eval=FALSE}
+tableMyResult <- function(result, type = "gt", ...) {
+  # optionally filter/reshape result before passing to visOmopResults
+  visOmopResults::visOmopTable(
+    result = result,
+    type   = type,
+    ...
+  )
+}
+```
+
+Key points:
+
+- The first argument is always a `summarised_result`, typically the output of the matching `summarise*` function.
+- `type` defaults to `"gt"` in function signatures but **use `type = "flextable"` in README examples** — flextable renders better in GitHub Markdown.
+- Pass `...` through to `visOmopResults::visOmopTable()` to expose column renaming, formatting, and other options without duplicating them in your own function signature.
+- Validate the `result` argument using `omopgenerics::validateResultArgument()`.
+
+A minimal example:
+
+```{r, eval=FALSE}
+#' Format summarised characteristics as a table
+#'
+#' @param result A \code{summarised_result} object as returned by
+#'   \code{summariseCharacteristics()}.
+#' @param type Output format. One of \code{"gt"} (default), \code{"flextable"},
+#'   \code{"tibble"}, or \code{"datatable"}.
+#' @param ... Additional arguments passed to
+#'   \code{\link[visOmopResults]{visOmopTable}}.
+#'
+#' @return A formatted table object of the class determined by \code{type}.
+#' @export
+tableCharacteristics <- function(result, type = "gt", ...) {
+  result <- omopgenerics::validateResultArgument(result)
+  visOmopResults::visOmopTable(result = result, type = type, ...)
+}
+```
+
+## Adding `plot*` functions
+
+Similarly, `plot*` functions wrap `visOmopResults` plot helpers:
+
+```{r, eval=FALSE}
+#' Plot incidence estimates
+#'
+#' @param result A \code{summarised_result} object as returned by
+#'   \code{estimateIncidence()}.
+#' @param ... Additional arguments passed to the underlying plot function.
+#'
+#' @return A \code{ggplot2} object.
+#' @export
+plotIncidence <- function(result, ...) {
+  result <- omopgenerics::validateResultArgument(result)
+  visOmopResults::plotEstimates(result = result, ...)
+}
+```
+
+Because `plot*` functions return `ggplot2` objects, users can add layers, change themes, and save the plot using standard ggplot2 idioms. Do not apply a custom theme inside your package's plot functions — leave theming to the user.
+
+## Checking what is already available
+
+Before writing any visualisation code, check the [visOmopResults function reference](https://darwin-eu.github.io/visOmopResults/reference/index.html). The package is actively extended, and the function you need may already exist. Duplicating it in your own package creates a maintenance burden and means your users get a subtly different experience.
+
+## What not to do
+
+- Do not return raw `gt` or `flextable` objects directly from `table*` functions — always go through `visOmopResults::visOmopTable()` so that the `type` argument works consistently.
+- Do not hard-code column names or formatting inside your package — use the `visOmopResults` API so that changes to the formatting logic can be made in one place.
+- Do not depend on `ggplot2` directly unless your package needs to construct plots from scratch (i.e. not from a `summarised_result`). For `summarised_result`-based plots, use `visOmopResults`.
+
+## Suggesting vs importing `visOmopResults`
+
+For most packages, `visOmopResults` should be listed under `Imports` rather than `Suggests`, because the `table*` and `plot*` functions are part of the package's exported API and will fail if `visOmopResults` is not installed. If your package only uses `visOmopResults` in vignettes or optional code paths, `Suggests` is appropriate.
