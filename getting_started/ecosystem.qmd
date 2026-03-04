@@ -24,8 +24,8 @@ The ecosystem is organised into six functional groups. Each group addresses a di
 The core packages define the shared vocabulary — classes, methods, and synthetic data — that all other packages build on. Depending on one or more core packages is expected; depending on packages in other groups is a deliberate choice that should be made carefully (see @sec-core-dependencies).
 
 | Package | Purpose |
-|---|---|
-| `omopgenerics` | Defines the central classes (`cdm_reference`, `cohort_table`, `summarised_result`, codelists) and their generic methods. Every package in the ecosystem imports this. |
+|------------------------------------|------------------------------------|
+| [`omopgenerics`](github.com/darwin-eu/omopgenerics) | Defines the central classes (`cdm_reference`, `cohort_table`, `summarised_result`, codelists) and their generic methods. Every package in the ecosystem imports this. |
 | `omock` | Creates synthetic OMOP CDM datasets for use in tests and examples. Pipeable API for building up only the tables you need. |
 | `visOmopResults` | Provides tools for formatting and visualising `summarised_result` objects as tables and plots. Also used by analytics packages to present results. |
 | `CodelistGenerator` | Generates and manages clinical code lists against the OMOP vocabulary. Also serves as the authoritative source for codelist-related operations across the ecosystem. |
@@ -36,7 +36,7 @@ The core packages define the shared vocabulary — classes, methods, and synthet
 Back-end packages handle database connectivity. They are responsible for creating the `cdm_reference` object — the central object of the whole ecosystem — against a particular database technology. End users typically load one back-end package; package developers should not need to depend on them directly.
 
 | Package | Purpose |
-|---|---|
+|------------------------------------|------------------------------------|
 | `CDMConnector` | The primary back-end for connecting to any DBI-compatible database (DuckDB, PostgreSQL, SQL Server, Redshift, etc.). |
 | `OmopOnDuckDB` | Specialised DuckDB back-end, including support for reading Parquet files directly. |
 | `OmopOnPostgres` | Specialised PostgreSQL back-end, including support for native indexes. |
@@ -48,7 +48,7 @@ Back-end packages handle database connectivity. They are responsible for creatin
 Analytics packages implement the epidemiological methods that are the primary output of studies run on OMOP CDM data. They all take a `cdm_reference` and one or more `cohort_table` objects as input, and return results in the `summarised_result` format.
 
 | Package | Purpose |
-|---|---|
+|------------------------------------|------------------------------------|
 | `CohortConstructor` | Builds and refines study cohorts from base clinical events. |
 | `IncidencePrevalence` | Estimates incidence rates and prevalence from denominator and outcome cohorts. |
 | `DrugUtilisation` | Characterises drug use: dose, duration, indication, discontinuation. |
@@ -62,23 +62,22 @@ Analytics packages implement the epidemiological methods that are the primary ou
 Diagnostics packages assess the quality and fitness-for-purpose of codelists and cohorts before and after they are used in a study.
 
 | Package | Purpose |
-|---|---|
+|------------------------------------|------------------------------------|
 | `CodelistGenerator` | Codelist diagnostics (also listed in Core). |
 | `OmopSketch` | Database-level diagnostics (also listed in Analytics). |
 | `PhenotypeR` | Runs a full suite of diagnostics at the database, codelist, cohort, and population level. |
 | `MeasurementDiagnostics` | Diagnostics specific to codelists built from measurement and observation domains. |
-| `DrugExposureDiagnostics` | Diagnostics for drug exposure records and drug codelists. |
 
 ### ETL
 
 | Package | Purpose |
-|---|---|
+|------------------------------------|------------------------------------|
 | `OmopConstructor` | Builds derived OMOP CDM tables (observation period, drug era, etc.) from source data already in OMOP format. Also runs Achilles analyses. |
 
 ### Visualisation
 
 | Package | Purpose |
-|---|---|
+|------------------------------------|------------------------------------|
 | `visOmopResults` | Formatted tables and plots from `summarised_result` objects (also listed in Core). |
 | `OmopViewer` | Generates interactive Shiny applications automatically from `summarised_result` objects. |
 
@@ -86,22 +85,103 @@ Diagnostics packages assess the quality and fitness-for-purpose of codelists and
 
 The diagram below captures the dependency structure of the ecosystem. `omopgenerics` is the central node: almost every package in the ecosystem imports it. `PatientProfiles` and `CodelistGenerator` sit just above it, providing functionality that is reused widely by analytics packages. The back-end packages and `omock` are largely independent of each other; they are connected to the rest of the ecosystem only through the shared `cdm_reference` class.
 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+pkgs <- c(
+  "omopgenerics", "omock", "OmopConstructor", "OmopOnSpark", "OmopOnDuckDB",
+  "OmopOnSqlServer", "OmopOnPostgres", "visOmopResults", "CodelistGenerator", 
+  "PatientProfiles", "CohortConstructor", "IncidencePrevalence", "DrugUtilisation", 
+  "CohortCharacteristics", "CohortSurvival", "CohortSymmetry", "OmopSketch",
+  "MeasurementDiagnostics", "PhenotypeR", "OmopViewer", "EpiStandard",
+  "CDMConnector"
+)
+cranPkgs <- pkgs[pkgs %in% rownames(available.packages())]
+importsSuggests <- available.packages() |>
+  dplyr::as_tibble(rownames = "package") |>
+  dplyr::filter(package %in% cranPkgs) |>
+  dplyr::select("package", "Imports", "Suggests")
+imports <- importsSuggests$Imports |>
+  rlang::set_names(importsSuggests$package) |>
+  as.list() |>
+  purrr::map(\(x) {
+    to <- x |>
+      stringr::str_split_1(",") |>
+      stringr::str_remove_all("\\s*\\([^)]*\\)") |>
+      stringr::str_trim() |>
+      purrr::keep(\(pkg) pkg %in% cranPkgs)
+    dplyr::tibble(to = to, type = "Imports")
+  }) |>
+  dplyr::bind_rows(.id = "from")
+suggests <- importsSuggests$Suggests |>
+  rlang::set_names(importsSuggests$package) |>
+  as.list() |>
+  purrr::map(\(x) {
+    to <- x |>
+      stringr::str_split_1(",") |>
+      stringr::str_remove_all("\\s*\\([^)]*\\)") |>
+      stringr::str_trim() |>
+      purrr::keep(\(pkg) pkg %in% cranPkgs)
+    dplyr::tibble(to = to, type = "Suggests")
+  }) |>
+  dplyr::bind_rows(.id = "from")
+x <- dplyr::union_all(imports, suggests)
+
+library(ggdag)
+library(igraph)
+library(tidygraph)
+library(ggraph)
+
+plot_dependencies <- function(suggests){
+
+  if (!suggests) {
+    x <- x |>
+      dplyr::filter(type == "Imports")
+  }
+
+  g <- as_tbl_graph(graph_from_data_frame(x, directed = TRUE, vertices = cranPkgs))
+  g <- g |> 
+    mutate(
+      dependencies = centrality_degree(mode = "in")
+    )
+  ggraph(g, layout = "centrality", centrality = dependencies) + 
+    geom_edge_arc(aes(linetype = type, color = type), 
+                  strength = 0.1, end_cap = circle(4, 'mm'),
+                  arrow = arrow(length = unit(3, 'mm'), type = "closed")) +
+    geom_node_point(aes(fill = dependencies),
+                    shape = 21, colour = "black",
+                    size = 5) +
+    geom_node_text(aes(label = name), 
+                   repel = TRUE,         
+                   bg.color = "white",   
+                   bg.r = 0.15,
+                   size = 4) +
+    scale_edge_linetype_manual(name = "Dependency type",
+                               values = c("Imports" = "solid", 
+                                          "Suggests" = "dashed")) +
+    scale_edge_color_manual(name = "Dependency type",
+                            values = c("Imports" = "black", 
+                                       "Suggests" = "grey45")) +
+    scale_fill_viridis(name = "Reverse dependencies",
+                       option="mako",
+                       direction = -1) +
+    theme_void() +
+    theme(legend.position = "bottom", 
+          legend.box = "veritcal")
+}
 ```
-                        ┌─────────────────┐
-                        │  omopgenerics   │  ← core classes & methods
-                        └───────┬─────────┘
-               ┌────────────────┼─────────────────┐
-               ▼                ▼                  ▼
-      ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐
-      │ PatientProf. │  │CodelistGen.  │  │  visOmopResults  │
-      └──────┬───────┘  └──────┬───────┘  └──────────────────┘
-             └──────────┬──────┘
-                        ▼
-            ┌──────────────────────┐
-            │  Analytics packages  │  (CohortConstructor, IncidencePrevalence,
-            │  Diagnostics packages│   DrugUtilisation, CohortCharacteristics,
-            └──────────────────────┘   CohortSurvival, PhenotypeR, ...)
+
+::: {.panel-tabset}
+### Imports 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+plot_dependencies(suggests = FALSE)
 ```
+
+### Imports and suggests
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+plot_dependencies(suggests = TRUE)
+```
+
+:::
 
 A key design principle is that the **result model is standardised**. All analytics packages return a `summarised_result` object (defined in `omopgenerics`). This means that `visOmopResults` and `OmopViewer` work without modification across every package that produces results — a developer working on, say, `CohortSurvival` does not need to write any bespoke visualisation code.
 
@@ -123,7 +203,58 @@ A practical rule of thumb: **the more packages that will depend on yours, the li
 
 ## Package statistics
 
-The ecosystem is under active development with frequent CRAN releases. As of early 2026 there are around 22 packages in the ecosystem, 19 of which are on CRAN, with a combined total of over 290 CRAN releases and nearly 400,000 total CRAN downloads.
+```{r, echo=FALSE, warning=FALSE}
+today <- Sys.Date()
+n <- length(pkgs)
+onCran <- length(cranPkgs)
+
+get_cran_versions <- function(package_name) {
+  # Current version on CRAN
+  current <- tryCatch(
+    available.packages()[package_name, "Version"],
+    error = function(e) NULL
+  )
+  
+  # Try to fetch archived versions
+  archive_url <- paste0("https://cran.r-project.org/src/contrib/Archive/", package_name, "/")
+  archive_page <- tryCatch(
+    readLines(archive_url, warn = FALSE),
+    error = function(e) NULL  # No archive exists = only one release
+  )
+  
+  # Extract versions from archive if it exists
+  archived_versions <- if (!is.null(archive_page)) {
+    pattern <- paste0(package_name, "_([0-9.]+)\\.tar\\.gz")
+    matches <- regmatches(archive_page, regexpr(pattern, archive_page))
+    gsub(paste0(package_name, "_|\\.tar\\.gz"), "", matches)
+  } else {
+    character(0)  # Empty vector if no archive
+  }
+  
+  # Combine and return
+  all_versions <- unique(c(archived_versions, current))
+  
+  if (length(all_versions) == 0) {
+    message("Package '", package_name, "' not found on CRAN.")
+    return(NULL)
+  }
+  
+  return(sort(all_versions))
+}
+
+nr <- cranPkgs |>
+  purrr::map(get_cran_versions) |>
+  purrr::map(length) |>
+  as.integer() |>
+  sum()
+
+nd <- cranlogs::cran_downloads(packages = cranPkgs, from = "2022-09-09") |>
+  dplyr::summarise(n = sum(count)) |>
+  dplyr::pull("n")
+```
+
+
+The ecosystem is under active development with frequent CRAN releases. As of `r format(today, "%d %b %Y")` there are around `r n` packages in the ecosystem, `r onCran` of which are on CRAN, with a combined total of `r nr` CRAN releases and `r nd` total CRAN downloads.
 
 The high release frequency is intentional. The ecosystem follows a continuous delivery philosophy: packages are kept in a releasable state at all times, which allows rapid iteration and fast response to bugs. As a new package developer you should expect to release early and often rather than waiting for a "complete" feature set.
 
