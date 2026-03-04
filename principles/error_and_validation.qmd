@@ -1,95 +1,212 @@
-# Error messages and input validation
+# Error messages and input validation {#sec-error-and-validation}
 
-Giving users good and informative error messages is key for a good user experience. To do so it is important that we perform an input validation at the beginning of each function. On the other hand we do not want to spend more time checking the input than executing the function, so don't overdo it. In general we would check that any input function has the desired type and length and that the desired evaluation looks feasible with the current input parameters.
+Giving users informative error messages is one of the most important things you can do to make a package pleasant to use. A cryptic error from deep inside a dplyr pipeline — or worse, a silent wrong result — is much harder to debug than a clear message at the top of the function that says exactly what was wrong with the input.
 
-## omopgenerics validatin functions
+The rule of thumb is: **validate at the boundary, trust inside**. Check all inputs at the very start of each exported function, before any work is done. Once those checks pass, do not re-check the same things in internal helpers.
 
-Some arguments that are consistent across different functions and packages have their own *validate* functions in the **omopgenerics** package:
+That said, do not overdo it. Avoid checking things that are guaranteed by earlier checks, and avoid checks that cost more than the function itself. In general, check that each argument has the expected type, that it has the expected length, and that any logical constraints between arguments are satisfied.
 
-- [`validatevalidateAgeGroupArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateAgeGroupArgument.html) is used to validate the `ageGroup` argument. The output `ageGroup` will always be formatted as a named list (name of the age group) and each age group will be defined by named intervals.
-- [`validateCdmArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateCdmArgument.html) is used to validate the `cdm` argument. By default only the class is validated as this can take time, but specific checks can be triggered if needed.
-- [`validateCohortArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateCohortArgument.html) is used to validate `cohort` argument, very used in many packages, this validates that the input is a properly formatted cohort. Extra checks can be triggered if needed.
-- [`validateCohortIdArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateCohortIdArgument.html) is used to validate `cohortId` argument
-- [`validateConceptSetArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateConceptSetArgument.html)
-- [`validateNameArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateNameArgument.html)
-- [`validateNameStyle()`](https://darwin-eu.github.io/omopgenerics/reference/validateNameStyle.html)
-- [`validateResultArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateResultArgument.html)
-- [`validateStrataArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateStrataArgument.html)
-- [`validateWindowArgument()`](https://darwin-eu.github.io/omopgenerics/reference/validateWindowArgument.html)
+## The two kinds of validation helpers in `omopgenerics`
 
-It is important that we assign the output to the variable as the object might change during the validation process to ensure different allowed inputs but as the output of the validation process will always be the same this simplifys the code as you do not have to think about the different allowed inputs. 
+`omopgenerics` provides two families of validation helpers that together cover almost everything you need.
 
-the `ageGroup` argument can be a good example of this behavior:
+**`validate*` functions** are for arguments that appear consistently across many packages — `cdm`, `cohort`, `cohortId`, `conceptSet`, `window`, `ageGroup`, `strata`, `name`, `nameStyle`, and `result`. These functions do more than just check: they also **coerce and normalise** the input to a canonical form. You must assign their return value back to the variable, because the cleaned-up version is what the rest of your function should use.
+
+**`assert*` functions** are for simple type and constraint checks. They do not transform the input — they either pass silently or throw an error. Use these for arguments that do not have a dedicated `validate*` function.
+
+## `validate*` functions
+
+The following `validate*` functions are available in `omopgenerics`. Import them with `@importFrom omopgenerics validateCdmArgument` (and so on) rather than calling them with `omopgenerics::`.
+
+| Function | Validates and normalises |
+|---|---|
+| `validateCdmArgument(cdm)` | CDM reference: checks class, optionally checks required tables |
+| `validateCohortArgument(cohort)` | Cohort table: checks class, required columns, attributes |
+| `validateCohortIdArgument(cohortId, cohort)` | Cohort IDs: resolves `NULL` to all IDs, checks IDs exist in cohort |
+| `validateConceptSetArgument(conceptSet)` | Concept set: accepts codelist, codelist_with_details, or concept_set_expression |
+| `validateWindowArgument(window)` | Window: accepts vector or named list, always returns named list |
+| `validateAgeGroupArgument(ageGroup)` | Age groups: accepts several input forms, always returns named list of named intervals |
+| `validateStrataArgument(strata, cohort)` | Strata: checks that all columns named in strata exist in the cohort |
+| `validateNameArgument(name, cdm)` | Table name: checks it is a valid identifier, optionally checks it doesn't already exist |
+| `validateNameStyle(nameStyle, ...)` | Name style template: checks it is a valid glue template |
+| `validateResultArgument(result)` | Summarised result: checks class and required columns |
+
+### Normalisation is the point
+
+The most important property of `validate*` functions is that they accept several reasonable input forms and always return a single canonical form. This means the rest of your function only has to handle one form, which keeps the logic clean.
+
+The `ageGroup` argument illustrates this well. Users can supply it in several ways:
 
 ```{r}
 library(omopgenerics, warn.conflicts = FALSE)
-ageGroup <- validateAgeGroupArgument(ageGroup = list(c(0, 1), c(10, 20)))
+
+# Simple unnamed intervals
+ageGroup <- validateAgeGroupArgument(ageGroup = list(c(0, 17), c(18, 64)))
 ageGroup
+
+# Complex named multi-column form
 ageGroup <- validateAgeGroupArgument(ageGroup = list(
-  my_column = list("young" = c(0, 19), 20, c(21, Inf)), 
-  list(c(0, 9), c(10, 19), c(20, 29), c(30, Inf))
+  age_at_start = list("child" = c(0, 17), "adult" = c(18, 64)),
+  age_at_end   = list(c(0, 49), c(50, Inf))
 ))
 ageGroup
 ```
 
-As you can see the output is always a named list that contains named intervals the function itself will also throw explanatory errors if they are not properly formatted:
+Whatever you pass in, the output is always a named list of named intervals. The function also throws clear errors if the input is malformed:
 
 ```{r, error=TRUE}
+# Overlapping age groups when only one column is allowed
 validateAgeGroupArgument(
-  ageGroup = list(age_group1 = list(c(0, 19), c(20, Inf)), age_group2 = list(c(0, Inf))),
+  ageGroup = list(group1 = list(c(0, 19), c(20, Inf)), group2 = list(c(0, Inf))),
   multipleAgeGroup = FALSE
 )
-validateAgeGroupArgument(
-  ageGroup = list(age_group1 = list(c(-5, 19), c(20, Inf)))
-)
-validateAgeGroupArgument(
-  ageGroup = NULL, null = FALSE 
-)
+
+# Negative ages
+validateAgeGroupArgument(ageGroup = list(c(-5, 19), c(20, Inf)))
+
+# NULL not allowed
+validateAgeGroupArgument(ageGroup = NULL, null = FALSE)
 ```
 
-## omopgenerics assert functions
+The same principle applies to `validateWindowArgument()`, which accepts either a plain `c(0, Inf)` vector or a named list of windows, and always returns a named list.
 
-The omopgenerics package contains some functions for simple validation steps this can be useful helpers to validate an input with a single line of code, they also contain arguments to check if they have 
+### The `{{` syntax for `cohortId`
 
-## Examples
+`validateCohortIdArgument()` supports [tidyselect](https://tidyselect.r-lib.org) semantics, so users can pass things like `starts_with("fracture")` to select cohort IDs by name. To make this work, you must wrap the argument in double curly braces `{{` when you pass it to the validator:
 
-Let's say we have a function with four arguments (`cohort`, `cohortId`, `window` and `overlap`), we could easily validate the input arguments of the function with 4 lines of code:
+```{r}
+#| eval: false
+cohortId <- validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)
+```
+
+Without `{{`, tidyselect expressions will not be evaluated correctly.
+
+## `assert*` functions
+
+Use `assert*` functions for arguments that do not have a dedicated `validate*` function. Unlike `validate*`, these functions return the input invisibly and are used purely for their side effect of throwing an error.
+
+| Function | Checks |
+|---|---|
+| `assertCharacter(x, ...)` | `x` is a character vector |
+| `assertNumeric(x, ...)` | `x` is numeric |
+| `assertLogical(x, ...)` | `x` is logical |
+| `assertDate(x, ...)` | `x` is a Date |
+| `assertList(x, ...)` | `x` is a list |
+| `assertClass(x, class, ...)` | `x` has the specified class(es) |
+| `assertChoice(x, choices, ...)` | `x` is one of the allowed values |
+| `assertTable(x, ...)` | `x` is a table (data frame or `tbl_sql`) |
+| `assertTrue(expr, ...)` | The expression evaluates to `TRUE` |
+
+All of these accept common modifiers as arguments:
+
+| Modifier | Type | Meaning |
+|---|---|---|
+| `length` | `integer` or `NULL` | Required length; `NULL` skips the check |
+| `null` | `logical` | Whether `NULL` is a valid input (default `FALSE`) |
+| `na` | `logical` | Whether `NA` values are allowed (default `FALSE`) |
+| `named` | `logical` | Whether elements must be named |
+| `unique` | `logical` | Whether elements must be unique |
+| `min` | `numeric` | Minimum value (for `assertNumeric`) |
+| `max` | `numeric` | Maximum value (for `assertNumeric`) |
+| `integerish` | `logical` | Whether numeric must be whole numbers (for `assertNumeric`) |
+| `minNchar` | `integer` | Minimum number of characters per element (for `assertCharacter`) |
+| `call` | call | Passed to the `cli` error message for better call context |
+
+## Putting it together: a validation block
+
+Here is the recommended pattern. Validation comes first, before any computation. `validate*` results are always reassigned. `assert*` calls are written as statements.
 
 ```{r}
 myFunction <- function(cohort, cohortId = NULL, window = c(0, Inf), overlap = FALSE) {
-  # input check
-  cohort <- omopgenerics::validateCohortArgument(cohort = cohort)
+  # validate and normalise
+  cohort   <- omopgenerics::validateCohortArgument(cohort = cohort)
   cohortId <- omopgenerics::validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)
-  window <- omopgenerics::validateWindowArgument(window = window)
+  window   <- omopgenerics::validateWindowArgument(window = window)
+  
+  # simple type checks
   omopgenerics::assertLogical(overlap, length = 1)
   
-  # code ...
+  # business logic checks
+  if (overlap && any(sapply(window, function(w) diff(w) > 365))) {
+    cli::cli_abort(c(
+      "x" = "Windows longer than 365 days are not supported when {.var overlap} is {.val TRUE}."
+    ))
+  }
   
+  # ... function body
 }
 ```
 
-Note the `{{` symbols are needed to be able to use [tidyselect](https://tidyselect.r-lib.org) verbs such as `starts_with()` or `contains()`.
-
-A second example that needs some custom extra code can be:
+A second example with a CDM reference:
 
 ```{r}
-myFunction <- function(cdm, conceptSet, days = 180L, startDate = NULL, overlap = TRUE) {
-  # input check
-  cdm <- omopgenerics::validateCdmArgument(cdm = cdm)
-  conceptSet <- omopgenerics::validateCdmArgument(conceptSet = conceptSet)
+myFunction2 <- function(cdm, conceptSet, days = 180L, startDate = NULL, overlap = TRUE) {
+  # validate and normalise
+  cdm        <- omopgenerics::validateCdmArgument(cdm = cdm)
+  conceptSet <- omopgenerics::validateConceptSetArgument(conceptSet = conceptSet)
+  
+  # simple type checks
   omopgenerics::assertNumeric(days, integerish = TRUE, min = 0, length = 1)
   omopgenerics::assertDate(startDate, length = 1, null = TRUE)
-  if (overlap & days > 365) {
-    cli::cli_abort(c(x = "{.var days} is can not be >= 365 if {.var overlap} is TRUE."))
-  }
-
-  # code ...
+  omopgenerics::assertLogical(overlap, length = 1)
   
+  # business logic checks
+  if (overlap && days > 365) {
+    cli::cli_abort(c(
+      "x" = "{.var days} cannot be >= 365 when {.var overlap} is {.val TRUE}."
+    ))
+  }
+  
+  # ... function body
 }
 ```
 
-You can throw custom error and warning messages using the [**cli**](https://cli.r-lib.org) package.
+## Writing good error messages with `cli`
 
-## Conclusions
+Custom errors and warnings should use the [**cli**](https://cli.r-lib.org) package, which is already a dependency of `omopgenerics`. Do not use `stop()` or `warning()`.
 
-Validating arguments is a very important step to give user a good experience and prevent running undesired code in big datasets. The [**omopgenerics**](https://darwin-eu.github.io/omopgenerics/) provides you with some functionality to keep the validation step short and consistent with other packages.
+```{r}
+#| eval: false
+# Error
+cli::cli_abort(c(
+  "x" = "Argument {.var days} must be a positive integer.",
+  "i" = "You supplied {.val {days}}."
+))
+
+# Warning  
+cli::cli_warn(c(
+  "!" = "Cohort {.val {name}} already exists in the CDM and will be overwritten."
+))
+
+# Informational message
+cli::cli_inform(c(
+  "i" = "Computing {length(cohortId)} cohort{?s}."
+))
+```
+
+A few conventions for error messages:
+
+- Use `{.var argument_name}` to refer to an argument by name.
+- Use `{.val {value}}` to show the actual value that was supplied.
+- Use `{.fn function_name}` to refer to a function.
+- Use `{.cls class_name}` to refer to a class.
+- Use named elements `"x"` for errors, `"!"` for warnings, `"i"` for hints or additional information.
+- Write error messages in the present tense from the user's perspective: "must be", "cannot be", "is not" rather than "expected", "got".
+
+## What to validate and what to skip
+
+Validate arguments that users are likely to pass in many ways or get wrong:
+
+- Arguments with a standard `validate*` function — always validate these.
+- Type-sensitive arguments: anything the rest of the function passes directly to dplyr or database operations.
+- Arguments with constraints relative to each other (e.g. `days` must be positive when `overlap` is `TRUE`).
+
+Do not validate:
+
+- Internal function arguments that are never user-facing.
+- Things already guaranteed by a `validate*` call (e.g. do not re-check that `cohortId` is numeric after calling `validateCohortIdArgument`).
+- Constants you define yourself inside the function.
+
+## Summary
+
+Validating arguments is one of the most impactful things you can do for users — it turns opaque database errors into clear messages that point directly to the problem. `omopgenerics` makes this straightforward: use `validate*` for the standard OMOP arguments (and always reassign the result), use `assert*` for simple type checks, and use `cli` for any custom messages. A complete validation block for a typical function takes four or five lines and requires no custom logic.
