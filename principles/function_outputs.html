@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -39,10 +74,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -322,7 +357,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../maintainance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maintaing a package</span></a>
+ <span class="menu-text">Maintaining a package</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -346,14 +381,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-summarised_result-object" id="toc-the-summarised_result-object" class="nav-link active" data-scroll-target="#the-summarised_result-object"><span class="header-section-number">9.1</span> The summarised_result object</a>
+  <li><a href="#the-summarised_result-object" id="toc-the-summarised_result-object" class="nav-link active" data-scroll-target="#the-summarised_result-object"><span class="header-section-number">9.1</span> The <code>summarised_result</code> object</a>
   <ul class="collapse">
-  <li><a href="#the-summarised_result-basis" id="toc-the-summarised_result-basis" class="nav-link" data-scroll-target="#the-summarised_result-basis"><span class="header-section-number">9.1.1</span> The summarised_result basis</a></li>
-  <li><a href="#how-to-create-a-summarised-result" id="toc-how-to-create-a-summarised-result" class="nav-link" data-scroll-target="#how-to-create-a-summarised-result"><span class="header-section-number">9.1.2</span> How to create a summarised result</a></li>
-  <li><a href="#suppression" id="toc-suppression" class="nav-link" data-scroll-target="#suppression"><span class="header-section-number">9.1.3</span> Suppression</a></li>
-  <li><a href="#register-the-result_type" id="toc-register-the-result_type" class="nav-link" data-scroll-target="#register-the-result_type"><span class="header-section-number">9.1.4</span> Register the result_type</a></li>
+  <li><a href="#structure" id="toc-structure" class="nav-link" data-scroll-target="#structure"><span class="header-section-number">9.1.1</span> Structure</a></li>
+  <li><a href="#settings-attribute" id="toc-settings-attribute" class="nav-link" data-scroll-target="#settings-attribute"><span class="header-section-number">9.1.2</span> Settings attribute</a></li>
+  <li><a href="#how-to-create-a-summarised_result" id="toc-how-to-create-a-summarised_result" class="nav-link" data-scroll-target="#how-to-create-a-summarised_result"><span class="header-section-number">9.1.3</span> How to create a <code>summarised_result</code></a></li>
+  <li><a href="#using-the-tidy-format-internally" id="toc-using-the-tidy-format-internally" class="nav-link" data-scroll-target="#using-the-tidy-format-internally"><span class="header-section-number">9.1.4</span> Using the tidy format internally</a></li>
+  <li><a href="#suppression" id="toc-suppression" class="nav-link" data-scroll-target="#suppression"><span class="header-section-number">9.1.5</span> Suppression</a></li>
+  <li><a href="#one-result_type-per-function" id="toc-one-result_type-per-function" class="nav-link" data-scroll-target="#one-result_type-per-function"><span class="header-section-number">9.1.6</span> One <code>result_type</code> per function</a></li>
+  <li><a href="#registering-a-result_type" id="toc-registering-a-result_type" class="nav-link" data-scroll-target="#registering-a-result_type"><span class="header-section-number">9.1.7</span> Registering a <code>result_type</code></a></li>
   </ul></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">9.2</span> Further reading</a></li>
+  <li><a href="#cohort-outputs" id="toc-cohort-outputs" class="nav-link" data-scroll-target="#cohort-outputs"><span class="header-section-number">9.2</span> Cohort outputs</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">9.3</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -362,7 +401,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/function_outputs.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Function outputs</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Function outputs</span></h1>
+<h1 class="title"><span id="sec-function-outputs" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Function outputs</span></span></h1>
 </div>
 
 
@@ -380,49 +419,224 @@ ul.task-list li input[type="checkbox"] {
 
 
 <section id="the-summarised_result-object" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="the-summarised_result-object"><span class="header-section-number">9.1</span> The summarised_result object</h2>
-<p>The summarised_result object is an S3 class defined by omopgenerics that aims to standardise the result outputs that contain estimates.</p>
-<section id="the-summarised_result-basis" class="level3" data-number="9.1.1">
-<h3 data-number="9.1.1" class="anchored" data-anchor-id="the-summarised_result-basis"><span class="header-section-number">9.1.1</span> The summarised_result basis</h3>
-<p>The summarised result is a tibble wi</p>
+<h2 data-number="9.1" class="anchored" data-anchor-id="the-summarised_result-object"><span class="header-section-number">9.1</span> The <code>summarised_result</code> object</h2>
+<p>The <code>summarised_result</code> is the standard result format returned by all analytics functions in the ecosystem. It is an S3 class built on top of a tibble, defined in <code>omopgenerics</code>. Every package that produces estimates — prevalence, drug use, cohort characteristics, survival — returns a <code>summarised_result</code>. This standardisation is what allows <code>visOmopResults</code> and <code>OmopViewer</code> to work uniformly across the whole ecosystem without any package-specific code.</p>
+<section id="structure" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="structure"><span class="header-section-number">9.1.1</span> Structure</h3>
+<p>A <code>summarised_result</code> is a tibble with exactly 13 compulsory columns:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Type</th>
+<th>NA allowed</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>result_id</code></td>
+<td>integer</td>
+<td>No</td>
+<td>Groups rows sharing the same result settings.</td>
+</tr>
+<tr class="even">
+<td><code>cdm_name</code></td>
+<td>character</td>
+<td>No</td>
+<td>Name of the CDM instance used.</td>
+</tr>
+<tr class="odd">
+<td><code>group_name</code></td>
+<td>character</td>
+<td>No</td>
+<td>Name side of the group name–level pair.</td>
+</tr>
+<tr class="even">
+<td><code>group_level</code></td>
+<td>character</td>
+<td>No</td>
+<td>Level side of the group name–level pair.</td>
+</tr>
+<tr class="odd">
+<td><code>strata_name</code></td>
+<td>character</td>
+<td>No</td>
+<td>Name side of the strata name–level pair.</td>
+</tr>
+<tr class="even">
+<td><code>strata_level</code></td>
+<td>character</td>
+<td>No</td>
+<td>Level side of the strata name–level pair.</td>
+</tr>
+<tr class="odd">
+<td><code>variable_name</code></td>
+<td>character</td>
+<td>No</td>
+<td>Name of the variable being estimated.</td>
+</tr>
+<tr class="even">
+<td><code>variable_level</code></td>
+<td>character</td>
+<td>Yes</td>
+<td>Sub-level of the variable (e.g.&nbsp;a category).</td>
+</tr>
+<tr class="odd">
+<td><code>estimate_name</code></td>
+<td>character</td>
+<td>No</td>
+<td>Name of the estimate (snake_case).</td>
+</tr>
+<tr class="even">
+<td><code>estimate_type</code></td>
+<td>character</td>
+<td>No</td>
+<td>Type of the estimate value (see below).</td>
+</tr>
+<tr class="odd">
+<td><code>estimate_value</code></td>
+<td>character</td>
+<td>No</td>
+<td>Value of the estimate, always stored as character.</td>
+</tr>
+<tr class="even">
+<td><code>additional_name</code></td>
+<td>character</td>
+<td>No</td>
+<td>Name side of the additional name–level pair.</td>
+</tr>
+<tr class="odd">
+<td><code>additional_level</code></td>
+<td>character</td>
+<td>No</td>
+<td>Level side of the additional name–level pair.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>estimate_type</code> column must be one of the values returned by <code>omopgenerics::estimateTypeChoices()</code>: <code>"numeric"</code>, <code>"integer"</code>, <code>"date"</code>, <code>"character"</code>, <code>"proportion"</code>, <code>"percentage"</code>, <code>"logical"</code>.</p>
+<section id="namelevel-pairs" class="level4" data-number="9.1.1.1">
+<h4 data-number="9.1.1.1" class="anchored" data-anchor-id="namelevel-pairs"><span class="header-section-number">9.1.1.1</span> Name–level pairs</h4>
+<p>Three pairs of columns — <code>group_name</code>/<code>group_level</code>, <code>strata_name</code>/<code>strata_level</code>, <code>additional_name</code>/<code>additional_level</code> — follow the same encoding. When a result applies to multiple dimensions simultaneously, the column names are concatenated with <code>&amp;&amp;&amp;</code> and the values likewise:</p>
+<pre><code>group_name:  "cohort_name &amp;&amp;&amp; sex"
+group_level: "asthma_cohort &amp;&amp;&amp; Female"</code></pre>
 <ul>
-<li><p><strong>Main table</strong></p></li>
-<li><p><strong>Settings</strong>. Compulsory settings are:</p>
-<ul>
-<li><em>result_type</em></li>
-<li><em>package_name</em></li>
-<li><em>package_version</em> Other columns that are always created in settings:</li>
-<li><em>group</em>, <em>strata</em>, <em>additional</em></li>
-<li><em>min_cell_count</em> this column will always exists (it will be “0” by default).</li>
-</ul></li>
+<li><strong>group</strong>: high-level identifiers, typically cohort name or codelist name.</li>
+<li><strong>strata</strong>: stratification dimensions such as age group or sex.</li>
+<li><strong>additional</strong>: any further dimensions that don’t fit in group or strata (e.g.&nbsp;time window, analysis type).</li>
 </ul>
-<p>The <em>tidy</em> format, a summarised result can easily be converted to a simpler table, you can use internally this format</p>
+<p>When a result is not stratified, these columns should contain <code>"overall"</code> / <code>"overall"</code>.</p>
 </section>
-<section id="how-to-create-a-summarised-result" class="level3" data-number="9.1.2">
-<h3 data-number="9.1.2" class="anchored" data-anchor-id="how-to-create-a-summarised-result"><span class="header-section-number">9.1.2</span> How to create a summarised result</h3>
-<p>Please include only one result_type this make it easy</p>
+</section>
+<section id="settings-attribute" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="settings-attribute"><span class="header-section-number">9.1.2</span> Settings attribute</h3>
+<p>Every <code>summarised_result</code> has a <code>settings</code> attribute — a tibble with one row per <code>result_id</code> — that stores metadata about how the results were generated. Three settings columns are compulsory:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>result_type</code></td>
+<td>A short snake_case string identifying the type of analysis (e.g.&nbsp;<code>"summarised_characteristics"</code>). Must be unique within a package.</td>
+</tr>
+<tr class="even">
+<td><code>package_name</code></td>
+<td>The name of the package that generated the result.</td>
+</tr>
+<tr class="odd">
+<td><code>package_version</code></td>
+<td>The version of that package.</td>
+</tr>
+</tbody>
+</table>
+<p>Additional settings columns store analysis-specific parameters (e.g.&nbsp;<code>strata</code>, <code>ageGroup</code>, <code>window</code>). A <code>min_cell_count</code> column is always present, defaulting to <code>"0"</code>.</p>
+</section>
+<section id="how-to-create-a-summarised_result" class="level3" data-number="9.1.3">
+<h3 data-number="9.1.3" class="anchored" data-anchor-id="how-to-create-a-summarised_result"><span class="header-section-number">9.1.3</span> How to create a <code>summarised_result</code></h3>
+<p>The standard pattern is to build a plain tibble with the 13 required columns, then convert it using <code>omopgenerics::newSummarisedResult()</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(omopgenerics)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">result_id       =</span> <span class="dv">1</span>L,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cdm_name        =</span> <span class="fu">cdmName</span>(cdm),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">group_name      =</span> <span class="st">"cohort_name"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">group_level     =</span> <span class="st">"my_cohort"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">strata_name     =</span> <span class="st">"overall"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">strata_level    =</span> <span class="st">"overall"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">variable_name   =</span> <span class="st">"age"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">variable_level  =</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate_name   =</span> <span class="st">"mean"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate_type   =</span> <span class="st">"numeric"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate_value  =</span> <span class="fu">as.character</span>(mean_age),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">additional_name =</span> <span class="st">"overall"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">additional_level=</span> <span class="st">"overall"</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">newSummarisedResult</span>(</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">settings =</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">result_id       =</span> <span class="dv">1</span>L,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">result_type     =</span> <span class="st">"my_result_type"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">package_name    =</span> <span class="st">"myPackage"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">package_version =</span> <span class="fu">as.character</span>(<span class="fu">packageVersion</span>(<span class="st">"myPackage"</span>))</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In practice you will produce many rows at once. The recommended internal workflow is:</p>
+<ol type="1">
+<li>Compute a tidy intermediate tibble (one row per subject / cohort / stratum / estimate).</li>
+<li>Use <code>visOmopResults::uniteNameLevel()</code> or <code>omopgenerics</code> helpers to encode name–level pairs.</li>
+<li>Call <code>newSummarisedResult()</code> with the appropriate settings.</li>
+</ol>
+</section>
+<section id="using-the-tidy-format-internally" class="level3" data-number="9.1.4">
+<h3 data-number="9.1.4" class="anchored" data-anchor-id="using-the-tidy-format-internally"><span class="header-section-number">9.1.4</span> Using the tidy format internally</h3>
+<p>The <code>tidy()</code> method converts a <code>summarised_result</code> back to a wide, human-readable format:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>result <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This is useful for inspecting results during development, and can also be used internally if your function needs to manipulate results before returning them. However, always return a <code>summarised_result</code> from exported functions — never a tidy tibble.</p>
+</section>
+<section id="suppression" class="level3" data-number="9.1.5">
+<h3 data-number="9.1.5" class="anchored" data-anchor-id="suppression"><span class="header-section-number">9.1.5</span> Suppression</h3>
+<p>If your function produces counts of patients or records, it must support cell suppression. The convention is to expose a <code>minCellCount</code> argument (default <code>5</code>) and apply suppression before returning:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> result <span class="sc">|&gt;</span> <span class="fu">suppress</span>(<span class="at">minCellCount =</span> minCellCount)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>suppress()</code> replaces estimate values with <code>NA</code> where the count is below the threshold, and records the suppression threshold in the settings.</p>
+<p>If your result contains a count of subjects (i.e.&nbsp;unique <code>subject_id</code> values), the estimate should be named <code>count_subjects</code> or <code>n_subjects</code> so that suppression is applied correctly.</p>
+</section>
+<section id="one-result_type-per-function" class="level3" data-number="9.1.6">
+<h3 data-number="9.1.6" class="anchored" data-anchor-id="one-result_type-per-function"><span class="header-section-number">9.1.6</span> One <code>result_type</code> per function</h3>
+<p>Each exported function that returns a <code>summarised_result</code> should produce exactly one <code>result_type</code>. Do not mix different analyses in a single <code>summarised_result</code> returned from one function — this makes it impossible for downstream tools to filter and process results by type.</p>
+</section>
+<section id="registering-a-result_type" class="level3" data-number="9.1.7">
+<h3 data-number="9.1.7" class="anchored" data-anchor-id="registering-a-result_type"><span class="header-section-number">9.1.7</span> Registering a <code>result_type</code></h3>
+<p>Result types should be registered in your package so that <code>visOmopResults</code> and <code>OmopViewer</code> can discover them. Add a call to <code>omopgenerics::registerResultType()</code> in your package’s <code>.onLoad()</code> or document it in the package metadata. See the <code>omopgenerics</code> documentation for the current registration API.</p>
+</section>
+</section>
+<section id="cohort-outputs" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="cohort-outputs"><span class="header-section-number">9.2</span> Cohort outputs</h2>
+<p>Functions that return a modified cohort (rather than a summary) should return a <code>cohort_table</code>. The attrition log must be updated for every filtering step using <code>recordCohortAttrition()</code>. See <a href="core_dependencies.html" class="quarto-xref"><span>Chapter 5</span></a> for the <code>cohort_table</code> class description.</p>
+</section>
+<section id="further-reading" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9.3</span> Further reading</h2>
 <ul>
-<li><p>way to identify result_type</p></li>
-<li><p>unique result_type</p></li>
-<li><p>transform to summarise result</p></li>
-<li><p>tidy</p></li>
-</ul>
-</section>
-<section id="suppression" class="level3" data-number="9.1.3">
-<h3 data-number="9.1.3" class="anchored" data-anchor-id="suppression"><span class="header-section-number">9.1.3</span> Suppression</h3>
-<ul>
-<li><p>make sure that we include a number subjects if relevant</p></li>
-<li><p>use the word count in estimates</p></li>
-</ul>
-</section>
-<section id="register-the-result_type" class="level3" data-number="9.1.4">
-<h3 data-number="9.1.4" class="anchored" data-anchor-id="register-the-result_type"><span class="header-section-number">9.1.4</span> Register the result_type</h3>
-</section>
-</section>
-<section id="further-reading" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">9.2</span> Further reading</h2>
-<ul>
-<li>The summarised result object omopgenerics.</li>
+<li><a href="https://darwin-eu.github.io/omopgenerics/articles/summarised_result.html"><code>omopgenerics</code> summarised_result documentation</a></li>
+<li><a href="https://darwin-eu.github.io/visOmopResults/"><code>visOmopResults</code> package</a></li>
 </ul>
 
 

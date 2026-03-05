@@ -14,7 +14,7 @@
     "href": "getting_started/index.html",
     "title": "Getting started",
     "section": "",
-    "text": "In this first part it is covered how to …",
+    "text": "This first part of the book covers the decisions and steps that come before writing any package code. There are two distinct situations you might be in: starting a new package from scratch, or contributing to a package that already exists. Both are covered here.\nThe chapters are organised as follows:\n\nScope asks the most important question of all: is this package actually needed? It walks through how to evaluate whether new functionality warrants a new package, whether it belongs inside an existing one, or whether it is already covered by the ecosystem.\nEcosystem gives an overview of the full set of packages in the Tidy R OMOP CDM ecosystem. Understanding the landscape — which packages exist, what they do, and how they depend on each other — is essential before making scope decisions or choosing what to import.\nContributing to a package covers the workflow for contributing to an existing package: how to open and respond to GitHub issues, how to write good pull requests, and what to expect from code review.\nSet up your environment walks through the practical steps to get a new package off the ground: creating the package skeleton, adding a licence, writing a first function, setting up tests, a README, a documentation website, and GitHub.",
     "crumbs": [
       "Getting started"
     ]
@@ -24,7 +24,7 @@
     "href": "getting_started/scope.html",
     "title": "1  Scope",
     "section": "",
-    "text": "1.1 Is this package needed?\nBefore deciding to develop a package you must ask yourself many questions starting with: Is this package needed? A package must cover need and be refined.",
+    "text": "1.1 Is this package needed?\nBefore deciding to develop a package you must ask yourself many questions starting with: Is this package needed? A package must cover need and be refined. Are there other tools",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Scope</span>"
@@ -35,7 +35,73 @@
     "href": "getting_started/ecosystem.html",
     "title": "2  Ecosystem",
     "section": "",
-    "text": "2.1 How the package fits in the ecosystem",
+    "text": "2.1 Motivation\nThis chapter gives an overview of the ecosystem of R packages built for the OMOP Common Data Model (CDM) that your new package will become part of. Understanding the ecosystem — which packages exist, what they do, and how they relate to each other — is essential context before writing a single line of code. It will help you avoid reinventing existing functionality, identify the right packages to depend on, and make deliberate choices about where your package sits in the broader landscape.\nThe OMOP CDM is a fixed, well-documented structure: every database mapped to it has the same tables, the same column names, and the same vocabulary conventions. This predictability is a major asset. It means that code written against one OMOP CDM instance should work against any other, regardless of the underlying database management system (DBMS) or institution.\nThe ecosystem described in this chapter exploits that predictability. Rather than writing raw SQL — which is verbose, fragile across different DBMS back-ends, and hard to compose — the packages in this ecosystem are built entirely in R, on top of dplyr and dbplyr. This means that:\nThe foundation is the observation that dplyr verbs applied to a lazy tbl object (a remote table reference) are automatically translated to SQL by dbplyr and executed in the database. Package developers in this ecosystem work at the level of these lazy table references rather than materialising data into R unless absolutely necessary.",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ecosystem</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/ecosystem.html#motivation",
+    "href": "getting_started/ecosystem.html#motivation",
+    "title": "2  Ecosystem",
+    "section": "",
+    "text": "No Java and no SQL need to be written by package developers or end users.\nAnalysis pipelines are expressed using familiar tidyverse-style code and the pipe operator.\nThe same pipeline runs unchanged against DuckDB, PostgreSQL, SQL Server, Spark, and other back-ends.\nPackages are released on CRAN, making installation straightforward.",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ecosystem</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/ecosystem.html#package-groups",
+    "href": "getting_started/ecosystem.html#package-groups",
+    "title": "2  Ecosystem",
+    "section": "2.2 Package groups",
+    "text": "2.2 Package groups\nThe ecosystem is organised into six functional groups. Each group addresses a distinct concern, and packages within a group share conventions and interfaces.\n\n2.2.1 Core\nThe core packages define the shared vocabulary — classes, methods, and synthetic data — that all other packages build on. Depending on one or more core packages is expected; depending on packages in other groups is a deliberate choice that should be made carefully (see Chapter 5).\n\n\n\nPackage\nPurpose\n\n\n\n\nomopgenerics\nDefines the central classes (cdm_reference, cohort_table, summarised_result, codelists) and their generic methods. Every package in the ecosystem imports this.\n\n\nomock\nCreates synthetic OMOP CDM datasets for use in tests and examples. Pipeable API for building up only the tables you need.\n\n\nvisOmopResults\nProvides tools for formatting and visualising summarised_result objects as tables and plots. Also used by analytics packages to present results.\n\n\nCodelistGenerator\nGenerates and manages clinical code lists against the OMOP vocabulary. Also serves as the authoritative source for codelist-related operations across the ecosystem.\n\n\nPatientProfiles\nAdds patient-level feature columns (demographics, intersection flags, date-based variables) to any cohort table. Used internally by many analytics packages.\n\n\n\n\n\n2.2.2 Back-end\nBack-end packages handle database connectivity. They are responsible for creating the cdm_reference object — the central object of the whole ecosystem — against a particular database technology. End users typically load one back-end package; package developers should not need to depend on them directly.\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nCDMConnector\nThe primary back-end for connecting to any DBI-compatible database (DuckDB, PostgreSQL, SQL Server, Redshift, etc.).\n\n\nOmopOnDuckDB\nSpecialised DuckDB back-end, including support for reading Parquet files directly.\n\n\nOmopOnPostgres\nSpecialised PostgreSQL back-end, including support for native indexes.\n\n\nOmopOnSqlServer\nSpecialised SQL Server and Synapse back-end.\n\n\nOmopOnSpark\nBack-end for Apache Spark deployments.\n\n\n\n\n\n2.2.3 Analytics\nAnalytics packages implement the epidemiological methods that are the primary output of studies run on OMOP CDM data. They all take a cdm_reference and one or more cohort_table objects as input, and return results in the summarised_result format.\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nCohortConstructor\nBuilds and refines study cohorts from base clinical events.\n\n\nIncidencePrevalence\nEstimates incidence rates and prevalence from denominator and outcome cohorts.\n\n\nDrugUtilisation\nCharacterises drug use: dose, duration, indication, discontinuation.\n\n\nCohortCharacteristics\nSummarises cohort demographics, comorbidities, and overlap between cohorts.\n\n\nCohortSurvival\nEstimates survival probabilities and competing risks from cohort data.\n\n\nCohortSymmetry\nPerforms sequence symmetry analysis between two drug or exposure cohorts.\n\n\nOmopSketch\nSummarises the content of an OMOP CDM instance: record counts, trends, missing data. Also used as a diagnostic tool.\n\n\n\n\n\n2.2.4 Diagnostics\nDiagnostics packages assess the quality and fitness-for-purpose of codelists and cohorts before and after they are used in a study.\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nCodelistGenerator\nCodelist diagnostics (also listed in Core).\n\n\nOmopSketch\nDatabase-level diagnostics (also listed in Analytics).\n\n\nPhenotypeR\nRuns a full suite of diagnostics at the database, codelist, cohort, and population level.\n\n\nMeasurementDiagnostics\nDiagnostics specific to codelists built from measurement and observation domains.\n\n\n\n\n\n2.2.5 ETL\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nOmopConstructor\nBuilds derived OMOP CDM tables (observation period, drug era, etc.) from source data already in OMOP format. Also runs Achilles analyses.\n\n\n\n\n\n2.2.6 Visualisation\n\n\n\n\n\n\n\nPackage\nPurpose\n\n\n\n\nvisOmopResults\nFormatted tables and plots from summarised_result objects (also listed in Core).\n\n\nOmopViewer\nGenerates interactive Shiny applications automatically from summarised_result objects.",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ecosystem</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/ecosystem.html#how-the-packages-fit-together",
+    "href": "getting_started/ecosystem.html#how-the-packages-fit-together",
+    "title": "2  Ecosystem",
+    "section": "2.3 How the packages fit together",
+    "text": "2.3 How the packages fit together\nThe diagram below captures the dependency structure of the ecosystem. omopgenerics is the central node: almost every package in the ecosystem imports it. PatientProfiles and CodelistGenerator sit just above it, providing functionality that is reused widely by analytics packages. The back-end packages and omock are largely independent of each other; they are connected to the rest of the ecosystem only through the shared cdm_reference class.\n\nImportsImports and suggests\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA key design principle is that the result model is standardised. All analytics packages return a summarised_result object (defined in omopgenerics). This means that visOmopResults and OmopViewer work without modification across every package that produces results — a developer working on, say, CohortSurvival does not need to write any bespoke visualisation code.\nSimilarly, the cohort model is standardised. A cohort_table produced by CohortConstructor can be passed directly to IncidencePrevalence, DrugUtilisation, CohortCharacteristics, or any other analytics package. The shared contract means pipelines can be composed without glue code.",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ecosystem</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/ecosystem.html#how-your-package-fits-in",
+    "href": "getting_started/ecosystem.html#how-your-package-fits-in",
+    "title": "2  Ecosystem",
+    "section": "2.4 How your package fits in",
+    "text": "2.4 How your package fits in\nBefore writing any code, locate your package in this map. There are a few common situations:\nYou are adding a new analytics method. Your package should import omopgenerics (for the cdm_reference and cohort_table classes), likely import PatientProfiles (for adding patient features to your cohort), and return results as a summarised_result. You should use omock and CDMConnector in your test suite but list them under Suggests, not Imports. See Chapter 5 for the distinction.\nYou are adding a new diagnostic tool. Similar to analytics, but you may also want to depend on CodelistGenerator for codelist management. Consider whether PhenotypeR already covers your use case, or whether your tool is genuinely complementary.\nYou are adding a new back-end. Your package should implement the cdm_source interface defined in omopgenerics (see newCdmSource()). Your only required import is omopgenerics; you should not depend on CDMConnector or other back-end packages.\nYou are adding a utility or helper package. If your package provides functionality that multiple other packages will use, it belongs in the Core group. Treat it as a potential dependency of many downstream packages and be especially conservative about what it depends on — every import you add is propagated to all packages that depend on you.\nA practical rule of thumb: the more packages that will depend on yours, the lighter your own dependency footprint should be. A package that sits at the base of the dependency graph needs to be especially stable and minimal. A package at the periphery can afford to be more opinionated.",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ecosystem</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/ecosystem.html#package-statistics",
+    "href": "getting_started/ecosystem.html#package-statistics",
+    "title": "2  Ecosystem",
+    "section": "2.5 Package statistics",
+    "text": "2.5 Package statistics\nThe ecosystem is under active development with frequent CRAN releases. As of 05 Mar 2026 there are around 22 packages in the ecosystem, 18 of which are on CRAN, with a combined total of 277 CRAN releases and 4.07984^{5} total CRAN downloads.\nThe high release frequency is intentional. The ecosystem follows a continuous delivery philosophy: packages are kept in a releasable state at all times, which allows rapid iteration and fast response to bugs. As a new package developer you should expect to release early and often rather than waiting for a “complete” feature set.",
+    "crumbs": [
+      "Getting started",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ecosystem</span>"
+    ]
+  },
+  {
+    "objectID": "getting_started/ecosystem.html#further-reading",
+    "href": "getting_started/ecosystem.html#further-reading",
+    "title": "2  Ecosystem",
+    "section": "2.6 Further reading",
+    "text": "2.6 Further reading\n\nThe OxInfer software page provides an up-to-date summary of all packages, their CRAN versions, and a visualisation of the inter-package dependency graph.\nThe ecosystem presentation gives a walkthrough of the history and structure of the ecosystem, including a detailed tour of omopgenerics.\nThe Book of OHDSI provides essential background on the OMOP CDM itself.\nThe companion book Tidy R programming with the OMOP Common Data Model covers how to use the ecosystem as a researcher, which is useful background even if your focus is package development.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ecosystem</span>"
@@ -112,7 +178,7 @@
     "href": "getting_started/setup.html",
     "title": "4  Set up your environment",
     "section": "",
-    "text": "4.1 Create an empty package\nTo build an R package you will need R installed and an IDE: preferably R Studio or Positron.\nYou will need to install devtools and usethis as they are key to follow the different steps to get started.\nTo work with the Tidy R OMOP ecosystem, you will also need to install the omopgenerics package. Alongside with other packages that may be useful:\nYou can see the list of Tidy R packages in our website.\nTo create an empty package you can do it with usethis:\nlibrary(usethis)\n\ncreate_package(path = \"path/to/folder\")",
+    "text": "4.1 Create an empty package\nTo build an R package you will need R installed and an IDE: preferably RStudio or Positron.\nYou will need to install devtools and usethis as they are key to follow the different steps to get started.\nTo work with the Tidy R OMOP ecosystem, you will also need to install the omopgenerics package. Alongside with other packages that may be useful:\nYou can see the full list of Tidy R packages in our website.\nTo create a new empty package, use usethis::create_package() with the path to the folder where you want the package to live. The folder name becomes the package name.\nlibrary(usethis)\n\ncreate_package(path = \"path/to/MyPackage\")\nThis will:",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -123,7 +189,7 @@
     "href": "getting_started/setup.html#create-an-empty-package",
     "title": "4  Set up your environment",
     "section": "",
-    "text": "TipPackage name\n\n\n\n\n\nThe package will be named by the name of the folder.",
+    "text": "Create the folder MyPackage/ with the standard package structure (R/, DESCRIPTION, NAMESPACE).\nOpen the new project in a fresh RStudio or Positron window.\n\n\n\n\n\n\n\nTipChoosing a package name\n\n\n\nPackage names must start with a letter, contain only letters, numbers, and dots, and ideally be short, distinctive, and easy to remember. Use CamelCase to make multi-word names readable (e.g. CohortConstructor, PatientProfiles). Avoid dots, underscores, and all-lowercase names that are hard to distinguish.\nYou can check whether a name is available on CRAN with available::available(\"MyPackageName\").\n\n\n\n4.1.1 The package structure\nAfter create_package() you will have:\nMyPackage/\n├── R/                  # Your R source files go here\n├── DESCRIPTION         # Package metadata (name, version, dependencies, …)\n├── NAMESPACE           # Exported functions — managed automatically by devtools\n└── MyPackage.Rproj     # RStudio project file\nYou will add more files as you go: tests/, vignettes/, man/, and NEWS.md among others. Most of these are created for you by usethis helpers described later in this chapter.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -134,18 +200,18 @@
     "href": "getting_started/setup.html#add-a-license",
     "title": "4  Set up your environment",
     "section": "4.2 Add a license",
-    "text": "4.2 Add a license\nAdding licenses is very important so you are protected and users know how they can use your product. In general we release using the Apache 2.0 license.\nYou can add a license easily with usethis:\n\nuse_apl2_license()\n\nThis will add the LICENSE.md file and populate the DESCRIPTION file with the relevant license field.\n\n\n\n\n\n\nNoteLicense agreements\n\n\n\n\n\nLicense agreements supported by usethis are:\n\nMore permissive:\n\nMIT: simple and permissive.\nApache 2.0: MIT + provides patent protection.\n\nCopyleft:\n\nGPL v2: requires sharing of improvements.\nGPL v3: requires sharing of improvements.\nAGPL v3: requires sharing of improvements.\nLGPL v2.1: requires sharing of improvements.\nLGPL v3: requires sharing of improvements.\n\nCreative commons licenses appropriate for data packages:\n\nCC0: dedicated to public domain.\nCC-BY: Free to share and adapt, must give appropriate credit.\n\n\n\nuse_mit_license(copyright_holder = NULL)\n\nuse_gpl_license(version = 3, include_future = TRUE)\n\nuse_agpl_license(version = 3, include_future = TRUE)\n\nuse_lgpl_license(version = 3, include_future = TRUE)\n\nuse_apache_license(version = 2, include_future = TRUE)\n\nuse_cc0_license()\n\nuse_ccby_license()\n\nuse_proprietary_license(copyright_holder = \"...\")",
+    "text": "4.2 Add a license\nAdding a license is essential — it tells users how they can use, modify, and redistribute your package, and protects you legally. In the Tidy R OMOP ecosystem we release under the Apache 2.0 license.\n\nuse_apache_license()\n\nThis adds the LICENSE.md file and populates the License field in DESCRIPTION.\n\n\n\n\n\n\nNoteLicense options\n\n\n\n\n\nusethis supports all common open-source licenses. The right choice usually comes down to how permissive you want to be:\n\nMore permissive (anyone can use your code, even in closed-source projects):\n\nMIT: simple and widely understood.\nApache 2.0: like MIT but adds explicit patent protection. This is our default.\n\nCopyleft (anyone who distributes changes must also open-source them):\n\nGPL v3\nAGPL v3: extends GPL to cover use over a network.\nLGPL v3: a weaker copyleft, suitable for libraries.\n\nCreative Commons (appropriate for data packages rather than code):\n\nCC0: dedicated to the public domain.\nCC-BY: free to share and adapt, with attribution.\n\n\n\nuse_mit_license()\nuse_apache_license()\nuse_gpl_license(version = 3)\nuse_agpl_license(version = 3)\nuse_lgpl_license(version = 3)\nuse_cc0_license()\nuse_ccby_license()",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
     ]
   },
   {
-    "objectID": "getting_started/setup.html#create-a-first-mock-function",
-    "href": "getting_started/setup.html#create-a-first-mock-function",
+    "objectID": "getting_started/setup.html#create-a-first-function",
+    "href": "getting_started/setup.html#create-a-first-function",
     "title": "4  Set up your environment",
-    "section": "4.3 Create a first mock function",
-    "text": "4.3 Create a first mock function\nThe R folder contains the relevant files for your package",
+    "section": "4.3 Create a first function",
+    "text": "4.3 Create a first function\nAll R source files live in the R/ folder. Each file can contain one or more functions — the typical convention is one file per function or per closely related group of functions, named to match.\nCreate a new R file with:\n\nuse_r(\"myFunction\")\n\nThis creates R/myFunction.R and opens it. Write your function there:\n\nmyFunction &lt;- function(cohort, overlap = FALSE) {\n  # your code here\n  cohort\n}\n\n\n\n\n\n\n\nTipAdd a roxygen skeleton immediately\n\n\n\nBefore writing the body, add a roxygen2 documentation skeleton with Code → Insert Roxygen Skeleton in RStudio (or Ctrl+Alt+Shift+R). Fill in the @title, @description, @param, and @return tags as you write the function. Doing this from the start is much easier than adding it later. Documentation is covered fully in ?sec-functions.\n\n\nOnce you have written a function, load the whole package into your session with:\n\ndevtools::load_all()  # Ctrl+Shift+L in RStudio\n\nload_all() simulates what happens when the package is installed and loaded — it makes all your functions available without having to restart R. Use it constantly during development.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -156,7 +222,7 @@
     "href": "getting_started/setup.html#check-the-package",
     "title": "4  Set up your environment",
     "section": "4.4 Check the package",
-    "text": "4.4 Check the package",
+    "text": "4.4 Check the package\ndevtools::check() runs R CMD check, which is the official test that CRAN and you should run to verify your package is correct. It checks documentation, dependencies, examples, and tests.\n\ndevtools::check()  # Ctrl+Shift+E in RStudio\n\nA clean check produces output ending with:\n── R CMD check results ─────────────────────────────────────────────────\nDuration: 30s\n\n0 errors ✔ | 0 warnings ✔ | 0 notes ✔\nAim to keep your package at 0 errors, 0 warnings, 0 notes at all times — not just before a release. It is much easier to fix one new note immediately than to diagnose five notes that accumulated over months.\nCommon things to fix early:\n\nA missing @export tag on a function that should be public.\nAn undocumented argument (@param entry missing).\nA package used in code but not listed in DESCRIPTION under Imports or Suggests.\nAn example that fails because it requires a real database.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -167,29 +233,29 @@
     "href": "getting_started/setup.html#create-a-simple-test",
     "title": "4  Set up your environment",
     "section": "4.5 Create a simple test",
-    "text": "4.5 Create a simple test\nWe will see\nAfter adding the test we should check the test works properly. You can run the tests of the active file using:\n\ntest_active_file()\n\nOr you can run all the tests of the package:\n\ntest()",
+    "text": "4.5 Create a simple test\nTests live in tests/testthat/. Set up the testing infrastructure with:\n\nuse_testthat()\n\nThen create a test file for your function:\n\nuse_test(\"myFunction\")\n\nThis creates tests/testthat/test-myFunction.R. A minimal test looks like:\n\ntest_that(\"myFunction returns a cohort table\", {\n  cdm &lt;- mockPatientProfiles()\n  result &lt;- myFunction(cdm$cohort1)\n  expect_s3_class(result, \"cohort_table\")\n  CDMConnector::cdmDisconnect(cdm)\n})\n\nRun the tests for the file you are currently editing:\n\ndevtools::test_active_file()  # Ctrl+Shift+T in RStudio (for active file)\n\nOr run all tests in the package:\n\ndevtools::test()\n\nTesting with OMOP data is covered in detail in ?sec-test-omop. For now, the important habit is: every function you write should have at least one test file created for it before you move on.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
     ]
   },
   {
-    "objectID": "getting_started/setup.html#create-readme.rmd",
-    "href": "getting_started/setup.html#create-readme.rmd",
+    "objectID": "getting_started/setup.html#create-a-readme",
+    "href": "getting_started/setup.html#create-a-readme",
     "title": "4  Set up your environment",
-    "section": "4.6 Create README.Rmd",
-    "text": "4.6 Create README.Rmd",
+    "section": "4.6 Create a README",
+    "text": "4.6 Create a README\nThe README is the first thing people see when they visit your package on GitHub. Create one with:\n\nuse_readme_rmd()\n\nThis creates README.Rmd, which is an R Markdown file that can contain executable code chunks. After editing it, render it to produce README.md:\n\ndevtools::build_readme()\n\nAlways commit both README.Rmd and README.md. GitHub displays README.md automatically on the repository front page.\nA good README for an ecosystem package should include: a one-paragraph description, an installation code block, a minimal usage example using a mock* function (no real database needed), and links to the documentation website. The full README conventions are covered in ?sec-readme.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
     ]
   },
   {
-    "objectID": "getting_started/setup.html#create-website",
-    "href": "getting_started/setup.html#create-website",
+    "objectID": "getting_started/setup.html#create-a-documentation-website",
+    "href": "getting_started/setup.html#create-a-documentation-website",
     "title": "4  Set up your environment",
-    "section": "4.7 Create website",
-    "text": "4.7 Create website",
+    "section": "4.7 Create a documentation website",
+    "text": "4.7 Create a documentation website\nA pkgdown website gives your package a searchable, browsable reference site generated automatically from your roxygen2 documentation and vignettes. Set it up with:\n\nuse_pkgdown()\n\nBuild the site locally to preview it:\n\npkgdown::build_site()\n\nThis creates a docs/ folder. Open docs/index.html in your browser to see it.\nThe ecosystem uses a shared pkgdown theme for visual consistency. Configuration and automated deployment via GitHub Actions are covered in ?sec-automatic-website.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
@@ -200,21 +266,31 @@
     "href": "getting_started/setup.html#set-up-github",
     "title": "4  Set up your environment",
     "section": "4.8 Set up GitHub",
-    "text": "4.8 Set up GitHub\nGitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to GitHub and GitHub Actions at that stage you will learn how to use github for:\n\nAutomatic checking your package\nAutomatic deployment of a documentation website for your package\nAutomatic assessment of test coverage\nAutomatic testing across multiple sources",
+    "text": "4.8 Set up GitHub\nOnce your package is working locally, push it to GitHub so it can benefit from continuous integration: automated checks, test coverage reporting, and website deployment on every push.\nThe fifth part of this book covers GitHub and GitHub Actions in full:\n\nAutomatic checking your package\nAutomatic deployment of a documentation website\nAutomatic assessment of test coverage\nTesting across multiple database backends",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
     ]
   },
   {
-    "objectID": "getting_started/setup.html#package-template",
-    "href": "getting_started/setup.html#package-template",
+    "objectID": "getting_started/setup.html#using-the-package-template",
+    "href": "getting_started/setup.html#using-the-package-template",
     "title": "4  Set up your environment",
-    "section": "4.9 Package template",
-    "text": "4.9 Package template\nAlthough the first time it is quite nice to do all the steps one by one there is a template with all those steps done, you can create a new package repo using this link.\n\n\n\n\n\n\nNoteTemplate link\n\n\n\n\n\nThe GitHub template link can be found: https://github.com/oxford-pharmacoepi/EmptyPackageTemplate.",
+    "section": "4.9 Using the package template",
+    "text": "4.9 Using the package template\nAlthough it is instructive to follow these steps manually the first time, the ecosystem provides a GitHub template repository that does all of this setup for you. Use it to create a new repository with the full scaffold already in place — license, GitHub Actions, pkgdown configuration, and lintr — by clicking the link below:\n👉 Create a new package from the template\n\n\n\n\n\n\nNoteTemplate repository\n\n\n\n\n\nThe source for the template is at https://github.com/oxford-pharmacoepi/EmptyPackageTemplate. You can inspect it to see exactly what files are included.",
     "crumbs": [
       "Getting started",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Set up your environment</span>"
+    ]
+  },
+  {
+    "objectID": "principles/index.html",
+    "href": "principles/index.html",
+    "title": "Principles",
+    "section": "",
+    "text": "This part of the book is the most important. It sets out the conventions and design principles that all packages in the Tidy R OMOP CDM ecosystem follow. Adhering to these principles is what makes the ecosystem feel coherent: a developer who has worked with one package will find the next one immediately familiar, and an end user can compose functions from different packages into a single pipeline without friction.\nThese principles are not arbitrary. Each one exists because of a concrete problem encountered as the ecosystem grew: inconsistent naming caused confusion, ad-hoc result formats made downstream visualisation impossible, duplicated validation logic introduced divergent behaviour. The goal of this part is to give you the reasoning behind each convention, not just the rule.\nThe chapters are organised as follows:\n\nCore dependencies describes the packages that sit at the foundation of the ecosystem — above all omopgenerics — and explains the classes, methods, and utilities they provide. Knowing what is already available prevents you from reimplementing it.\nFunction interfaces covers the naming conventions for functions and arguments, the standard function prefixes used across the ecosystem, and the design principles that make functions easy to compose.\nConventions describes lower-level code style conventions: casing, argument naming, and the rules that apply consistently across all packages.\nError messages and input validation explains how to validate function inputs in a consistent and user-friendly way, making use of the validation helpers provided by omopgenerics.\nFunction outputs introduces the summarised_result object — the standard result format returned by all analytics functions in the ecosystem — and explains how to create, populate, and register result types correctly.\nVisualisations covers how to produce tables and plots from summarised_result objects using visOmopResults, and the conventions packages should follow when adding table* and plot* functions.\nStyling your code describes the code formatting standards used across the ecosystem and the tools used to enforce them.\nReexporting from other packages explains when and how to re-export functions from upstream packages, and the implications of doing so.",
+    "crumbs": [
+      "Principles"
     ]
   },
   {
@@ -222,7 +298,7 @@
     "href": "principles/core_dependencies.html",
     "title": "5  Core dependencies",
     "section": "",
-    "text": "5.1 omopgenerics\nThe Tidy R OMOP CDM packages rely on dplyr and the tidyverse packages to manipulate the data from the cdm object. The cdm object is an object that contains all the tables available and is central for the data manipulation. This cdm object is defined in omopgenerics.",
+    "text": "5.1 omopgenerics\nThe Tidy R OMOP CDM packages rely on dplyr and dbplyr to manipulate data from a cdm_reference object. The cdm_reference is the central object in the ecosystem — a named list of lazy database table references, all pointing to the same underlying data source. It is defined in omopgenerics, the package that every other package in the ecosystem depends on.\nThis chapter describes what omopgenerics provides and which other core packages are useful enough to consider importing or suggesting.\nomopgenerics defines the classes and methods that give the ecosystem its coherence. It is a deliberately minimal package: its only external dependencies are dplyr, dbplyr, cli, glue, and rlang. This keeps its footprint small so that depending on it does not burden downstream packages.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Core dependencies</span>"
@@ -233,7 +309,7 @@
     "href": "principles/core_dependencies.html#omopgenerics",
     "title": "5  Core dependencies",
     "section": "",
-    "text": "5.1.1 Classes\n\n\n5.1.2 Methods\n\n\n5.1.3 Input validation functions\n\n\n5.1.4 Manipulate a cdm_reference object\n\n\n5.1.5 Manipulate a summarised_result object",
+    "text": "5.1.1 Classes\nThe four main classes defined by omopgenerics are:\ncdm_reference is the central object of the whole ecosystem. It is a named list whose elements are lazy table references pointing to OMOP CDM tables in a database, along with any cohort or other tables associated with the CDM. The cdm_reference knows which database back-end it is connected to, what the CDM name is, and what schema to write results into. Every analytical function in the ecosystem takes a cdm_reference (or a table derived from one) as its first argument.\n\nlibrary(omopgenerics)\n\n# Access CDM properties\ncdmName(cdm)\ncdmVersion(cdm)\ncdmSource(cdm)\nsourceType(cdm)\n\n# Insert, read, list, and drop tables in the write schema\ncdm &lt;- insertTable(cdm, name = \"my_table\", table = my_data)\ncdm &lt;- readSourceTable(cdm, name = \"my_table\")\nlistSourceTables(cdm)\ncdm &lt;- dropSourceTable(cdm, name = \"my_table\")\n\ncdm_table is the class of any table that belongs to a cdm_reference. All CDM tables carry a back-reference to their parent cdm_reference, which means you can always navigate from a table back to the full CDM:\n\ncdmReference(cdm$person)   # returns the full cdm_reference\ncdmName(cdm$person)        # works just like cdmName(cdm)\ntableName(cdm$person)      # returns \"person\"\n\nomop_table is a subclass of cdm_table that protects the integrity of the standard OMOP CDM tables. It prevents removal of required columns and enforces that a table assigned to cdm$person must actually be named person. Filtering, mutating, and adding columns are all permitted — only operations that would break the CDM schema are blocked.\n\n# This is blocked — person_id is required\ncdm$person &lt;- cdm$person |&gt; select(-person_id)\n#&gt; Error: person_id is not present in table person\n\n# This is fine — adding a column is allowed\ncdm$person &lt;- cdm$person |&gt; mutate(extra_col = \"my_content\")\n\ncohort_table extends cdm_table with the structure required for a study cohort. A cohort table has exactly four columns (cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) and carries three mandatory attributes stored as database tables: the cohort set (metadata per cohort), the attrition log (a record of how many records and subjects were retained at each step), and the cohort codelist (the clinical codes used to define each cohort).\n\nsettings(cdm$my_cohort)      # cohort set: name, cdm_version, vocabulary_version\ncohortCount(cdm$my_cohort)   # records and subjects per cohort\nattrition(cdm$my_cohort)     # full attrition table\n\n# Record a new attrition step after filtering\ncdm$my_cohort &lt;- cdm$my_cohort |&gt;\n  filter(subject_id %% 2 == 0) |&gt;\n  compute(name = \"my_cohort\") |&gt;\n  recordCohortAttrition(\"Only even subjects\")\n\n\n\n5.1.2 Codelists\nomopgenerics defines three classes for representing clinical code lists:\n\ncodelist: a named list of integer vectors, one per concept set.\ncodelist_with_details: a named list of tibbles, where each tibble contains concept_id alongside additional properties (e.g. concept_name, domain_id).\nconcept_set_expression: a named list of tibbles with concept_id, excluded, descendants, and mapped columns — matching the ATLAS JSON format and the OHDSI TAB guidelines.\n\n\n# Create a simple codelist\ncl &lt;- newCodelist(list(hypertension = c(316866L, 320128L), diabetes = c(201826L)))\n\n# Combine and subset\nc(cl, newCodelist(list(asthma = 317009L)))\ncl[\"hypertension\"]\n\n# Export and import (JSON is compatible with ATLAS)\nexportCodelist(cl, path = here::here(), type = \"json\")\ncl &lt;- importCodelist(path = here::here(), type = \"json\")\n\nIn general, analytical functions in the ecosystem accept a conceptSet argument that can be any of these three classes (or a plain named list of integers that will be coerced to a codelist).\n\n\n5.1.3 The summarised_result class\nsummarised_result is the standard result format for all analytics functions in the ecosystem. It is a tibble with 13 compulsory columns. See Chapter 9 for a full description and guidance on how to create and populate it.\n\n\n5.1.4 Methods\nomopgenerics exports a set of generic S3 methods that packages implement for their own classes:\n\n\n\n\n\n\n\nGeneric\nPurpose\n\n\n\n\ncdmName()\nReturn the name of the CDM instance\n\n\ncdmVersion()\nReturn the CDM version\n\n\ncdmSource()\nReturn the cdm_source object\n\n\nsourceType()\nReturn the back-end type (e.g. \"duckdb\")\n\n\ntableName()\nReturn the name of a cdm_table\n\n\nsettings()\nReturn cohort set metadata\n\n\ncohortCount()\nReturn record/subject counts per cohort\n\n\nattrition()\nReturn the attrition log\n\n\ncohortCodelist()\nReturn the codelist used to build a cohort\n\n\nrecordCohortAttrition()\nAppend a step to the attrition log\n\n\nbind()\nBind two summarised_result objects together\n\n\nsuppress()\nApply small-number suppression to a summarised_result\n\n\n\n\n\n5.1.5 Input validation functions\nomopgenerics provides validate* functions for the arguments that appear repeatedly across the ecosystem. Using these instead of writing bespoke validation code keeps error messages consistent across packages. See Chapter 8 for full details and examples. The available validators are:\nvalidateCdmArgument(), validateCohortArgument(), validateCohortIdArgument(), validateConceptSetArgument(), validateNameArgument(), validateNameStyle(), validateResultArgument(), validateStrataArgument(), validateWindowArgument(), validateAgeGroupArgument().\nThere are also assert* helpers for simpler type checks: assertCharacter(), assertNumeric(), assertLogical(), assertDate(), assertList(), assertClass().\n\n\n5.1.6 Manipulating a cdm_reference\nIn addition to the methods above, omopgenerics provides utilities for working with CDM table collections:\n\n# List tables by type\nomopTables(cdm)       # standard OMOP CDM tables\ncohortTables(cdm)     # cohort tables in the write schema\nachillesTables(cdm)   # Achilles result tables\n\n# Insert and drop\ncdm &lt;- insertTable(cdm, name = \"temp\", table = my_tibble)\ncdm &lt;- dropSourceTable(cdm, name = \"temp\")\n\n\n\n5.1.7 Manipulating a summarised_result\nA summarised_result object has its own set of helper functions:\n\n# Inspect\nsettings(result)          # result-level metadata (result_type, package_name, ...)\ngroupColumns(result)      # columns encoded in group_name / group_level\nstrataColumns(result)     # columns encoded in strata_name / strata_level\n\n# Transform\ntidy(result)              # pivot to wide format — useful for internal computation\nbind(result1, result2)    # combine two summarised_result objects\nsuppress(result, minCellCount = 5)  # apply cell suppression",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Core dependencies</span>"
@@ -244,7 +320,18 @@
     "href": "principles/core_dependencies.html#other-useful-packages",
     "title": "5  Core dependencies",
     "section": "5.2 Other useful packages",
-    "text": "5.2 Other useful packages\nThe omopverse has some core packages that will be useful to simplify the scope of your package:\n\nPatientProfiles: this package is very useful for data manipulation, you can find extract basic demographic information, intersections of cohorts and summarise data in a standard format. Take a look at the list of functions in PatientProfiles to prevent you from duplicating code.\nvisOmopResults: this package is very useful to create data visualisations (tables and plots) from standardised data. There are many different supported types of tables (r visOmopResults::tableType()) and with little customisation you can get quite pretty tables. For plots the support is a bit more limited but it creates some simple ggplot2 visualisations with very little effort. Take a look at the list of functions in visOmopResults to prevent you from duplicating code.\nCodelistGenerator: this package can be useful to query the vocabularies. Take a look at the list of functions in CodelistGenerator to prevent you from duplicating code.\nomock: this package can be very useful for testing. With very few lines of code you can create a mock CDM object with your desired specifications, specially useful can be the function mockCdmFromTables() that will create a viable CDM object from the supplied information. Take a look at the list of functions in omock to prevent you from duplicating code. This package is quite useful, but usually listed in Suggests as you will only need this package for testing purposes.",
+    "text": "5.2 Other useful packages\nBeyond omopgenerics, several other core packages are commonly useful. Unlike omopgenerics, these should generally be listed under Suggests unless your package’s primary purpose depends on them.\nPatientProfiles adds columns to cohort tables: demographics (age, sex, prior observation, future observation), intersection flags and values (e.g. “was the patient on drug X at cohort start?”), and date-relative summaries. Browse the function reference before implementing any feature-derivation logic — it is very likely already there.\nvisOmopResults transforms summarised_result objects into formatted tables and ggplot2 plots. The package supports multiple output formats for tables (gt, flextable, tibble) with a consistent API. See Chapter 10 for guidance on how to use it in your package. Browse the function reference before adding any result-formatting code.\nCodelistGenerator generates codelists by searching the OMOP vocabulary, and provides utilities for subsetting, stratifying, comparing, and diagnosing codelists. If your package works with clinical concepts, check the function reference first.\nomock creates synthetic OMOP CDM datasets for testing. It should almost always be listed under Suggests, not Imports. See ?sec-test-omop for detailed guidance on using it in your test suite.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Core dependencies</span>"
+    ]
+  },
+  {
+    "objectID": "principles/core_dependencies.html#imports-vs-suggests",
+    "href": "principles/core_dependencies.html#imports-vs-suggests",
+    "title": "5  Core dependencies",
+    "section": "5.3 Imports vs Suggests",
+    "text": "5.3 Imports vs Suggests\nA package listed under Imports is loaded automatically when your package is loaded. A package listed under Suggests is not — it must be available but is only used in specific circumstances (tests, vignettes, or optional code paths guarded by requireNamespace()).\nThe key rule for this ecosystem:\n\nAlways Imports: omopgenerics, any package whose classes or generics you use in exported functions.\nUsually Suggests: omock (tests only), CDMConnector / back-end packages (tests only), visOmopResults (unless your package’s core output is visualisation), PatientProfiles (unless your package is built on top of it).\n\nWhen in doubt, prefer Suggests. A lighter Imports list means fewer forced transitive dependencies for your users.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Core dependencies</span>"
@@ -255,7 +342,73 @@
     "href": "principles/function_interfaces.html",
     "title": "6  Function interfaces",
     "section": "",
-    "text": "generate...CohortSet, ...Cohort, add..., summarise..., plot..., table...,",
+    "text": "6.1 Function naming\nConsistent function interfaces are one of the most visible ways the ecosystem signals coherence to developers and end users alike. When every package follows the same naming conventions, a user who has worked with one package can immediately form correct expectations about another. This chapter sets out the conventions used across the ecosystem.\nFunctions in the ecosystem follow a verb-noun pattern using camelCase. The verb indicates what the function does; the noun indicates what it operates on or returns.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Function interfaces</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_interfaces.html#function-naming",
+    "href": "principles/function_interfaces.html#function-naming",
+    "title": "6  Function interfaces",
+    "section": "",
+    "text": "6.1.1 Standard prefixes\nThe ecosystem uses a small set of standard verb prefixes. Using the right prefix for a given function type is important because it communicates intent and enables consistent user mental models.\n\n\n\n\n\n\n\n\nPrefix\nPurpose\nExamples\n\n\n\n\ngenerate*\nCreate a new cohort table in the CDM write schema\ngenerateConceptCohortSet(), generateDemographicCohortSet()\n\n\nadd*\nAdd columns to an existing table (returns the table with extra columns)\naddAge(), addSex(), addIntersect()\n\n\nsummarise*\nCompute aggregated results; returns a summarised_result\nsummariseCharacteristics(), summariseDrugUtilisation()\n\n\nplot*\nCreate a ggplot2 visualisation from a summarised_result\nplotIncidence(), plotSurvival()\n\n\ntable*\nCreate a formatted table from a summarised_result\ntableCharacteristics(), tableDrugUtilisation()\n\n\ncompute*\nMaterialise a lazy query into a temporary database table\ncomputeQuery()\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe generate* prefix is reserved for functions that write a new cohort table to the database. Functions that merely manipulate an existing cohort in memory (filtering, unioning, etc.) without necessarily writing to the database should not use this prefix.\n\n\n\n\n6.1.2 The *CohortSet suffix\nFunctions that create a full cohort_table with potentially multiple cohorts use a *CohortSet suffix:\n\ngenerateConceptCohortSet(cdm, conceptSet = my_codelist, name = \"my_cohort\")\ngenerateDemographicCohortSet(cdm, ageGroup = list(c(0, 17), c(18, 64)), name = \"age_cohort\")\n\nFunctions that operate on an existing cohort table and return a modified version of it (e.g. applying an inclusion criterion) do not use the Set suffix:\n\nrequireIsFirstEntry(cohort)\nrequireAge(cohort, ageRange = c(18, Inf))\n\n\n\n6.1.3 Internal functions\nInternal (unexported) functions should still follow camelCase but are conventionally prefixed with a dot or given a descriptive name that makes clear they are not part of the public API. Functions documented with @noRd are not exported and do not appear in the package documentation website.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Function interfaces</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_interfaces.html#argument-naming",
+    "href": "principles/function_interfaces.html#argument-naming",
+    "title": "6  Function interfaces",
+    "section": "6.2 Argument naming",
+    "text": "6.2 Argument naming\nArguments should also use camelCase. The following argument names are standardised across the ecosystem and should be used whenever they apply:\n\n\n\n\n\n\n\n\nArgument\nType\nDescription\n\n\n\n\ncdm\ncdm_reference\nThe CDM reference object. Always the first argument.\n\n\ncohort\ncohort_table\nA cohort table.\n\n\ncohortId\ninteger or NULL\nIDs of cohorts to operate on; NULL means all cohorts.\n\n\nconceptSet\ncodelist / codelist_with_details / concept_set_expression\nA set of clinical concepts.\n\n\nname\ncharacter(1)\nName for the output table to be written to the CDM.\n\n\nnameStyle\ncharacter(1)\nA glue-style string for naming multiple output columns.\n\n\nstrata\nlist of character vectors\nStratification variables.\n\n\nageGroup\nnamed list or NULL\nAge group definitions.\n\n\nwindow\nlist of integer vectors\nTime windows relative to an index date.\n\n\noverlap\nlogical(1)\nWhether overlapping records should be merged.\n\n\nminCellCount\ninteger(1)\nMinimum cell count for suppression. Default 5.\n\n\n\nWhen adding new arguments, check first whether a standard name already exists in omopgenerics or in widely used packages — reusing names keeps the interface predictable.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Function interfaces</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_interfaces.html#argument-order",
+    "href": "principles/function_interfaces.html#argument-order",
+    "title": "6  Function interfaces",
+    "section": "6.3 Argument order",
+    "text": "6.3 Argument order\nArguments should be ordered as follows:\n\ncdm (if present) — always first.\ncohort or other primary data argument.\ncohortId (if present) — immediately after its parent cohort.\nContent arguments that define what to compute.\nArguments that modify how to compute (stratifications, windows, age groups).\nname — the name of the output table, near the end.\n... — rarely needed; avoid unless implementing a generic.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Function interfaces</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_interfaces.html#the-cdm-argument",
+    "href": "principles/function_interfaces.html#the-cdm-argument",
+    "title": "6  Function interfaces",
+    "section": "6.4 The cdm argument",
+    "text": "6.4 The cdm argument\nAlmost every exported function in an analytics or diagnostics package takes cdm as its first argument. This makes functions pipe-friendly in the sense that the CDM is always at the root of an analysis, and it makes the interface immediately recognisable.\n\n# Standard pattern\nresult &lt;- summariseCohortOverlap(\n  cohort = cdm$my_cohort,\n  cohortId = NULL,\n  strata = list(c(\"sex\"), c(\"age_group\")),\n  minCellCount = 5\n)\n\nNote that for functions operating on a cohort_table, the cdm_reference is accessible through cdmReference(cohort), so it is not always necessary to accept cdm as a separate argument. Functions whose primary input is a cohort table can accept just cohort:\n\n# cohort-first pattern — cdm is accessible via cdmReference(cohort)\nrequireAge(cohort, ageRange = c(18, Inf))",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Function interfaces</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_interfaces.html#boolean-flags",
+    "href": "principles/function_interfaces.html#boolean-flags",
+    "title": "6  Function interfaces",
+    "section": "6.5 Boolean flags",
+    "text": "6.5 Boolean flags\nBoolean arguments should default to FALSE unless TRUE is the overwhelmingly common case. Argument names should be positive statements (prefer overlap = TRUE over noOverlap = FALSE). Avoid arguments that accept a string where a boolean would do.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Function interfaces</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_interfaces.html#dots-...",
+    "href": "principles/function_interfaces.html#dots-...",
+    "title": "6  Function interfaces",
+    "section": "6.6 Dots (...)",
+    "text": "6.6 Dots (...)\nAvoid ... in the interfaces of exported functions unless you are implementing an S3 generic. Dots make it easy to silently swallow misspelled argument names, which leads to confusing behaviour.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Function interfaces</span>"
@@ -266,7 +419,29 @@
     "href": "principles/conventions.html",
     "title": "7  Conventions",
     "section": "",
-    "text": "7.1 Casing\nOur code adheres to some style conventions as decribed in this chapter.\nIn general we use camelCase naming for arguments and functions.",
+    "text": "7.1 Casing\nThis chapter documents the naming and structural conventions observed across the ecosystem. Many will feel familiar if you have already worked with the packages, but having them written down in one place makes it easier to apply them consistently in new code and to identify deviations worth addressing.\nWhere real inconsistencies exist across the current packages, they are noted — the goal is for new packages to conform to these conventions even when older ones pre-date them.\nThe ecosystem uses camelCase for all R identifiers: exported function names, unexported helper function names, argument names, and local variable names.\n# Correct — camelCase throughout\ngenerateIngredientCohortSet(cdm, name = \"dus_cohort\", gapEra = 7)\naddCohortIntersectFlag(cohort, targetCohortTable = \"cohort2\", window = c(-Inf, -1))\nsummariseClinicalRecords(cdm, omopTableName = \"condition_occurrence\")\nThe camelCase rule is enforced by lintr:\nException: strings stored in data. Column names in database tables, variable_name values inside summarised_result objects, result_type strings, cohort names, and table names in the CDM are all snake_case. The camelCase rule applies to R object names and arguments, not to string values that end up in data or in the CDM.\n# The R argument is camelCase...\naddAge(cohort, ageGroup = list(c(0, 17), c(18, 64)))\n\n# ...but values stored as data are snake_case:\n# group_level  = \"acetaminophen\"\n# variable_name = \"number_subjects\"\n# result_type   = \"summarised_characteristics\"\n# cohort name   = \"dus_cohort\"",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#casing",
+    "href": "principles/conventions.html#casing",
+    "title": "7  Conventions",
+    "section": "",
+    "text": "lintr::lint_package(\n  linters = lintr::linters_with_defaults(\n    lintr::object_name_linter(styles = \"camelCase\")\n  )\n)",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#function-naming",
+    "href": "principles/conventions.html#function-naming",
+    "title": "7  Conventions",
+    "section": "7.2 Function naming",
+    "text": "7.2 Function naming\n\n7.2.1 Verb prefixes\nEvery exported function begins with a standard verb prefix. The prefix is not merely a naming choice — it signals the return type, the side effects, and the role the function plays in a pipeline.\n\n\n\n\n\n\n\n\n\nPrefix\nReturns\nSide effects\nRepresentative examples\n\n\n\n\ngenerate*\ncohort_table written to CDM\nWrites table to database\ngenerateConceptCohortSet(), generateIngredientCohortSet(), generateDenominatorCohortSet()\n\n\nrequire*\nModified cohort_table\nMay rewrite cohort table in DB; updates attrition\nrequireIsFirstEntry(), requireAge(), requireSex(), requireCohortIntersect(), requireConceptIntersect()\n\n\nadd*\nInput table with extra columns appended\nNone\naddAge(), addSex(), addDemographics(), addCohortIntersectFlag(), addCohortIntersectCount(), addCohortIntersectDate(), addDrugUse()\n\n\nsummarise*\nsummarised_result\nNone\nsummariseCharacteristics(), summariseClinicalRecords(), summariseDrugUtilisation(), summariseCohortAttrition(), summariseCohortCount()\n\n\nestimate*\nsummarised_result\nNone\nestimateIncidence(), estimatePointPrevalence(), estimatePeriodPrevalence()\n\n\nplot*\nggplot2 object\nNone\nplotRecordCount(), plotIncidence(), plotPrevalence(), plotCohortAttrition()\n\n\ntable*\nFormatted table (gt, flextable, etc.)\nNone\ntableCharacteristics(), tableClinicalRecords(), tableOmopSnapshot(), tableCohortCount()\n\n\nmock*\ncdm_reference (in-memory)\nNone\nmockCohortConstructor(), mockPatientProfiles(), mockDrugUtilisation(), mockOmopSketch(), mockIncidencePrevalence()\n\n\nget*\nPlain R object\nNone\ngetDrugIngredientCodes(), getVocabVersion()\n\n\nnew*\nNew instance of a class\nNone\nnewCodelist(), newSummarisedResult(), newCdmSource()\n\n\ncompute*\nMaterialised table\nWrites temp table to DB\ncomputeTable() (internal convention in PatientProfiles)\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nestimate* is used in IncidencePrevalence rather than summarise* because incidence and prevalence are computed statistics with a specific analytic meaning (rates and proportions over time), not summaries in the general sense. New packages that compute similar analytic estimates should consider whether estimate* or summarise* better describes the result.\n\n\n\n\n\n\n\n\nNote\n\n\n\nrequire* is specific to CohortConstructor and means “apply this inclusion or exclusion criterion and update the cohort attrition”. Do not use require* for functions that merely check or validate inputs — use validate* or assert* for those.\n\n\n\n\n7.2.2 The *CohortSet suffix\nFunctions that generate multiple cohorts at once and return a full cohort_table in the CDM use the *CohortSet suffix:\n\ngenerateConceptCohortSet(cdm, conceptSet = ..., name = \"my_cohort\")\ngenerateIngredientCohortSet(cdm, ingredient = \"acetaminophen\", name = \"dus_cohort\")\ngenerateDenominatorCohortSet(cdm, name = \"denominator\", ageGroup = list(...))\n\nFunctions that return a single cohort or modify an existing table typically do not use this suffix.\n\n\n7.2.3 Noun component\nThe noun should describe what the function operates on or returns clearly enough that users can understand it without reading the documentation:\n\nsummariseClinicalRecords — summarises records in clinical OMOP tables\naddCohortIntersectFlag — adds a flag column indicating cohort intersection\nrequireConceptIntersect — requires intersection with a concept set\n\nAvoid abbreviations unless they are standard in the domain (e.g. Cdm, Omop). Spell out words fully: Incidence not Inc, Characteristics not Chars.\n\n\n7.2.4 mock* functions\nEvery package should provide at least one mock* function so that examples and tests can run without a real database. The naming convention is mock{PackageName}():\n\nmockPatientProfiles()        # PatientProfiles\nmockCohortConstructor()      # CohortConstructor\nmockDrugUtilisation(numberIndividual = 100, source = \"duckdb\")\nmockCohortCharacteristics()  # CohortCharacteristics\nmockOmopSketch()             # OmopSketch\nmockIncidencePrevalence(sampleSize = 1000)\n\nInternally, these functions typically call omock helpers such as mockCdmFromDataset() or mockCdmFromTables(). The mock* function should return a cdm_reference containing whatever tables the package needs, and should support a source argument (\"duckdb\" or \"local\") where appropriate.\nMock functions should be called mockDisconnect(cdm) at the end of examples to release the database connection — a convention from PatientProfiles now used widely.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
@@ -276,8 +451,74 @@
     "objectID": "principles/conventions.html#argument-naming",
     "href": "principles/conventions.html#argument-naming",
     "title": "7  Conventions",
-    "section": "7.2 Argument naming",
-    "text": "7.2 Argument naming",
+    "section": "7.3 Argument naming",
+    "text": "7.3 Argument naming\n\n7.3.1 Standard argument names\nThe following argument names are reserved. Use them whenever your function has an argument that matches the described role.\n\n\n\n\n\n\n\n\nArgument\nType\nRole\n\n\n\n\ncdm\ncdm_reference\nCDM reference object. First argument if present.\n\n\ncohort\ncohort_table\nCohort table to operate on.\n\n\ncohortId\ninteger or NULL\nIDs of cohorts to include; NULL = all.\n\n\nconceptSet\ncodelist / expression\nClinical concept set.\n\n\nname\ncharacter(1)\nName of the output table written into the CDM.\n\n\nnameStyle\ncharacter(1)\nGlue template for naming output columns.\n\n\ntargetCohortTable\ncharacter(1)\nName of a cohort table to intersect with.\n\n\ntargetCohortId\ninteger or NULL\nCohort IDs within targetCohortTable.\n\n\ntableName\ncharacter(1)\nName of an OMOP CDM clinical table.\n\n\nomopTableName\ncharacter(1)\nAs tableName; used in OmopSketch-style functions.\n\n\nindexDate\ncharacter(1)\nColumn name to use as the index date.\n\n\nstrata\nlist of character vectors\nStratification variable sets.\n\n\nageGroup\nnamed list or NULL\nAge group definitions, e.g. list(c(0, 17), c(18, 64)).\n\n\nsex\ncharacter\nSex filter or stratification: \"Male\", \"Female\", \"Both\".\n\n\nwindow\nlength-2 integer vector or named list\nTime window(s) relative to index date.\n\n\nintersections\ninteger or integer vector of length 2\nNumber of required intersections.\n\n\ngapEra\ninteger(1)\nDays between records below which they are merged into one era.\n\n\nminCellCount\ninteger(1)\nMinimum cell count for suppression. Default 5.\n\n\ntype\ncharacter(1)\nOutput format for table*: \"gt\", \"flextable\", \"tibble\", \"datatable\".\n\n\nfacet\ncharacter or formula\nColumns to facet by in plot* functions.\n\n\ncolour\ncharacter\nColumns to colour by in plot* functions.\n\n\n\n\n\n7.3.2 Argument order\nArguments should appear in this order:\n\ncdm (if the function takes the CDM directly)\ncohort (if the function takes a cohort table)\ncohortId\nContent arguments (what to compute, concept sets, windows, etc.)\nModifier arguments (flags and options that adjust behaviour)\nname (near the end, since it is often left at its default)\n\n\n# cdm first, then content, then name\ngenerateIngredientCohortSet(\n  cdm = cdm,\n  name = \"dus_cohort\",\n  ingredient = \"acetaminophen\",\n  gapEra = 7\n)\n\n# cohort first, then targetCohortTable, then window, then name\nrequireCohortIntersect(\n  cohort = cdm$fractures,\n  targetCohortTable = \"gibleed\",\n  intersections = c(1, Inf),\n  window = c(-Inf, 0),\n  name = \"fractures_with_gi_bleed\"\n)\n\n\n\n7.3.3 The nameStyle argument\nadd* functions in PatientProfiles that produce multiple columns use a nameStyle argument — a glue-style template that controls how the new column names are constructed. Available template variables depend on the function but commonly include {cohort_name}, {window_name}, {concept_name}, and {value}.\n\n# Default nameStyle — column is named automatically\naddCohortIntersectFlag(cohort, targetCohortTable = \"cohort2\", window = c(-Inf, -1))\n\n# Custom nameStyle — single column named \"prior_infection\"\naddCohortIntersectFlag(\n  cohort,\n  targetCohortTable = \"cohort2\",\n  window = c(-Inf, -1),\n  nameStyle = \"prior_infection\"\n)\n\n# Multi-window nameStyle — columns like \"prior_morphine\", \"future_aspirin\"\naddCohortIntersectCount(\n  cohort,\n  targetCohortTable = \"drugs\",\n  window = list(\"prior\" = c(-Inf, -1), \"future\" = c(1, Inf)),\n  nameStyle = \"{window_name}_{cohort_name}\"\n)\n\nWhen your add* function can produce multiple columns, provide a sensible default nameStyle and document the available template variables in the function’s roxygen entry.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#windows",
+    "href": "principles/conventions.html#windows",
+    "title": "7  Conventions",
+    "section": "7.4 Windows",
+    "text": "7.4 Windows\nTime windows are integer vectors of length 2: c(start, end), where values are days relative to an index date (typically cohort_start_date).\n\n0 means the index date itself.\n-Inf means no lower bound (any time before).\nInf means no upper bound (any time after).\n\nWhen multiple windows are needed, they are passed as a named list. The names become the window labels in nameStyle templates and in additional_name/additional_level columns of summarised_result objects:\n\nwindow = list(\n  \"short_term\" = c(1, 30),\n  \"mid_term\"   = c(31, 180),\n  \"long_term\"  = c(181, 365)\n)",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#sex-values",
+    "href": "principles/conventions.html#sex-values",
+    "title": "7  Conventions",
+    "section": "7.5 Sex values",
+    "text": "7.5 Sex values\nWhen sex is stored as a value — in strata_level, as a column value, or in cohort settings — the standard values are \"Male\", \"Female\", and \"Both\". These use an initial capital. This convention is established in IncidencePrevalence and used consistently across the ecosystem.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#data-values-in-summarised_result",
+    "href": "principles/conventions.html#data-values-in-summarised_result",
+    "title": "7  Conventions",
+    "section": "7.6 Data values in summarised_result",
+    "text": "7.6 Data values in summarised_result\nString values stored inside summarised_result columns use snake_case. This applies to variable_name, variable_level, estimate_name, result_type, and values in group_level and strata_level:\n\n# Typical variable_name values\n\"number_records\"\n\"number_subjects\"\n\"age\"\n\"sex\"\n\n# Typical estimate_name values\n\"count\"\n\"mean\"\n\"sd\"\n\"q25\"\n\"median\"\n\"q75\"\n\n# Typical result_type values\n\"summarised_characteristics\"\n\"summarised_drug_utilisation\"\n\"cohort_count\"",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#column-naming-in-cohort-tables",
+    "href": "principles/conventions.html#column-naming-in-cohort-tables",
+    "title": "7  Conventions",
+    "section": "7.7 Column naming in cohort tables",
+    "text": "7.7 Column naming in cohort tables\nColumns added to cohort tables by add* functions use snake_case. The names are derived from the nameStyle template and typically combine a descriptor of the value type, a cohort or concept name, and a window name when multiple windows are used:\n\n\n\n\n\n\n\nPattern\nExample column name\n\n\n\n\nSingle target, default style\ncohort_2_minf_to_m1\n\n\nCustom nameStyle = \"prior_infection\"\nprior_infection\n\n\nnameStyle = \"{window_name}_{cohort_name}\"\nprior_morphine, future_aspirin\n\n\naddAge()\nage\n\n\naddSex()\nsex\n\n\naddPriorObservation()\nprior_observation",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#the-summarise-tableplot-pattern",
+    "href": "principles/conventions.html#the-summarise-tableplot-pattern",
+    "title": "7  Conventions",
+    "section": "7.8 The summarise → table/plot pattern",
+    "text": "7.8 The summarise → table/plot pattern\nAll analytics packages follow the same two-step workflow:\n\nA summarise* (or estimate*) function queries the CDM and returns a summarised_result.\nA paired table* or plot* function formats that result for display.\n\nDo not pipe table* or plot* functions directly onto summarise* calls in production code. The summarised_result object is the exportable artefact — you may want to save it, combine it with results from other databases, or suppress it before rendering.\n\n# Correct workflow\nresult &lt;- summariseCharacteristics(cdm$my_cohort)\nresult |&gt; tableCharacteristics(type = \"gt\")\n\n# Also fine for quick exploration, but not recommended in scripts\n# cdm$my_cohort |&gt;\n#   summariseCharacteristics() |&gt;\n#   tableCharacteristics()",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
+    ]
+  },
+  {
+    "objectID": "principles/conventions.html#inconsistencies-to-be-aware-of",
+    "href": "principles/conventions.html#inconsistencies-to-be-aware-of",
+    "title": "7  Conventions",
+    "section": "7.9 Inconsistencies to be aware of",
+    "text": "7.9 Inconsistencies to be aware of\nThe ecosystem has grown over several years, and a small number of inconsistencies currently exist:\n\nomopTableName vs tableName: OmopSketch uses omopTableName for the name of a CDM clinical table; other packages use tableName. New packages should prefer tableName unless interoperating closely with OmopSketch patterns.\nsex argument type: Some older functions accept sex = TRUE (logical, meaning “stratify by sex”) while newer ones accept sex = c(\"Male\", \"Female\", \"Both\") (character, meaning “filter to these groups”). Check the package you are building on and match its convention; prefer the character form in new code.\nestimate* vs summarise*: IncidencePrevalence uses estimate* for its main output functions. Other packages use summarise*. Both conventions will coexist; choose the one that best describes what your function computes.\nmockDisconnect() location: The mockDisconnect() helper is exported from PatientProfiles. Packages that use it in examples need PatientProfiles in Suggests.\n\nWhen you find a convention that is not documented here or that appears applied inconsistently, please open an issue on the book repository.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Conventions</span>"
@@ -288,51 +529,73 @@
     "href": "principles/error_and_validation.html",
     "title": "8  Error messages and input validation",
     "section": "",
-    "text": "8.1 omopgenerics validatin functions\nGiving users good and informative error messages is key for a good user experience. To do so it is important that we perform an input validation at the beginning of each function. On the other hand we do not want to spend more time checking the input than executing the function, so don’t overdo it. In general we would check that any input function has the desired type and length and that the desired evaluation looks feasible with the current input parameters.\nSome arguments that are consistent across different functions and packages have their own validate functions in the omopgenerics package:\nIt is important that we assign the output to the variable as the object might change during the validation process to ensure different allowed inputs but as the output of the validation process will always be the same this simplifys the code as you do not have to think about the different allowed inputs.\nthe ageGroup argument can be a good example of this behavior:\nlibrary(omopgenerics, warn.conflicts = FALSE)\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(c(0, 1), c(10, 20)))\nageGroup\n\n$age_group\n$age_group$`0 to 1`\n[1] 0 1\n\n$age_group$`10 to 20`\n[1] 10 20\n\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(\n  my_column = list(\"young\" = c(0, 19), 20, c(21, Inf)), \n  list(c(0, 9), c(10, 19), c(20, 29), c(30, Inf))\n))\nageGroup\n\n$my_column\n$my_column$young\n[1]  0 19\n\n$my_column$`20 to 20`\n[1] 20 20\n\n$my_column$`21 or above`\n[1]  21 Inf\n\n\n$age_group_2\n$age_group_2$`0 to 9`\n[1] 0 9\n\n$age_group_2$`10 to 19`\n[1] 10 19\n\n$age_group_2$`20 to 29`\n[1] 20 29\n\n$age_group_2$`30 or above`\n[1]  30 Inf\nAs you can see the output is always a named list that contains named intervals the function itself will also throw explanatory errors if they are not properly formatted:\nvalidateAgeGroupArgument(\n  ageGroup = list(age_group1 = list(c(0, 19), c(20, Inf)), age_group2 = list(c(0, Inf))),\n  multipleAgeGroup = FALSE\n)\n\nError:\n! Multiple age group are not allowed\n\nvalidateAgeGroupArgument(\n  ageGroup = list(age_group1 = list(c(-5, 19), c(20, Inf)))\n)\n\nError in `purrr::map()`:\nℹ In index: 1.\nℹ With name: age_group1.\nCaused by error:\n! Elements of `ageGroup` argument must be greater or equal to \"0\".\n\nvalidateAgeGroupArgument(\n  ageGroup = NULL, null = FALSE \n)\n\nError:\n! `ageGroup` argument can not be NULL.",
+    "text": "8.1 The two kinds of validation helpers in omopgenerics\nGiving users informative error messages is one of the most important things you can do to make a package pleasant to use. A cryptic error from deep inside a dplyr pipeline — or worse, a silent wrong result — is much harder to debug than a clear message at the top of the function that says exactly what was wrong with the input.\nThe rule of thumb is: validate at the boundary, trust inside. Check all inputs at the very start of each exported function, before any work is done. Once those checks pass, do not re-check the same things in internal helpers.\nThat said, do not overdo it. Avoid checking things that are guaranteed by earlier checks, and avoid checks that cost more than the function itself. In general, check that each argument has the expected type, that it has the expected length, and that any logical constraints between arguments are satisfied.\nomopgenerics provides two families of validation helpers that together cover almost everything you need.\nvalidate* functions are for arguments that appear consistently across many packages — cdm, cohort, cohortId, conceptSet, window, ageGroup, strata, name, nameStyle, and result. These functions do more than just check: they also coerce and normalise the input to a canonical form. You must assign their return value back to the variable, because the cleaned-up version is what the rest of your function should use.\nassert* functions are for simple type and constraint checks. They do not transform the input — they either pass silently or throw an error. Use these for arguments that do not have a dedicated validate* function.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
-    "objectID": "principles/error_and_validation.html#omopgenerics-validatin-functions",
-    "href": "principles/error_and_validation.html#omopgenerics-validatin-functions",
+    "objectID": "principles/error_and_validation.html#validate-functions",
+    "href": "principles/error_and_validation.html#validate-functions",
     "title": "8  Error messages and input validation",
-    "section": "",
-    "text": "validatevalidateAgeGroupArgument() is used to validate the ageGroup argument. The output ageGroup will always be formatted as a named list (name of the age group) and each age group will be defined by named intervals.\nvalidateCdmArgument() is used to validate the cdm argument. By default only the class is validated as this can take time, but specific checks can be triggered if needed.\nvalidateCohortArgument() is used to validate cohort argument, very used in many packages, this validates that the input is a properly formatted cohort. Extra checks can be triggered if needed.\nvalidateCohortIdArgument() is used to validate cohortId argument\nvalidateConceptSetArgument()\nvalidateNameArgument()\nvalidateNameStyle()\nvalidateResultArgument()\nvalidateStrataArgument()\nvalidateWindowArgument()",
+    "section": "8.2 validate* functions",
+    "text": "8.2 validate* functions\nThe following validate* functions are available in omopgenerics. Import them with @importFrom omopgenerics validateCdmArgument (and so on) rather than calling them with omopgenerics::.\n\n\n\n\n\n\n\nFunction\nValidates and normalises\n\n\n\n\nvalidateCdmArgument(cdm)\nCDM reference: checks class, optionally checks required tables\n\n\nvalidateCohortArgument(cohort)\nCohort table: checks class, required columns, attributes\n\n\nvalidateCohortIdArgument(cohortId, cohort)\nCohort IDs: resolves NULL to all IDs, checks IDs exist in cohort\n\n\nvalidateConceptSetArgument(conceptSet)\nConcept set: accepts codelist, codelist_with_details, or concept_set_expression\n\n\nvalidateWindowArgument(window)\nWindow: accepts vector or named list, always returns named list\n\n\nvalidateAgeGroupArgument(ageGroup)\nAge groups: accepts several input forms, always returns named list of named intervals\n\n\nvalidateStrataArgument(strata, cohort)\nStrata: checks that all columns named in strata exist in the cohort\n\n\nvalidateNameArgument(name, cdm)\nTable name: checks it is a valid identifier, optionally checks it doesn’t already exist\n\n\nvalidateNameStyle(nameStyle, ...)\nName style template: checks it is a valid glue template\n\n\nvalidateResultArgument(result)\nSummarised result: checks class and required columns\n\n\n\n\n8.2.1 Normalisation is the point\nThe most important property of validate* functions is that they accept several reasonable input forms and always return a single canonical form. This means the rest of your function only has to handle one form, which keeps the logic clean.\nThe ageGroup argument illustrates this well. Users can supply it in several ways:\n\nlibrary(omopgenerics, warn.conflicts = FALSE)\n\n# Simple unnamed intervals\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(c(0, 17), c(18, 64)))\nageGroup\n\n$age_group\n$age_group$`0 to 17`\n[1]  0 17\n\n$age_group$`18 to 64`\n[1] 18 64\n\n# Complex named multi-column form\nageGroup &lt;- validateAgeGroupArgument(ageGroup = list(\n  age_at_start = list(\"child\" = c(0, 17), \"adult\" = c(18, 64)),\n  age_at_end   = list(c(0, 49), c(50, Inf))\n))\nageGroup\n\n$age_at_start\n$age_at_start$child\n[1]  0 17\n\n$age_at_start$adult\n[1] 18 64\n\n\n$age_at_end\n$age_at_end$`0 to 49`\n[1]  0 49\n\n$age_at_end$`50 or above`\n[1]  50 Inf\n\n\nWhatever you pass in, the output is always a named list of named intervals. The function also throws clear errors if the input is malformed:\n\n# Overlapping age groups when only one column is allowed\nvalidateAgeGroupArgument(\n  ageGroup = list(group1 = list(c(0, 19), c(20, Inf)), group2 = list(c(0, Inf))),\n  multipleAgeGroup = FALSE\n)\n\nError:\n! Multiple age group are not allowed\n\n# Negative ages\nvalidateAgeGroupArgument(ageGroup = list(c(-5, 19), c(20, Inf)))\n\nError in `purrr::map()`:\nℹ In index: 1.\nCaused by error:\n! Elements of `ageGroup` argument must be greater or equal to \"0\".\n\n# NULL not allowed\nvalidateAgeGroupArgument(ageGroup = NULL, null = FALSE)\n\nError:\n! `ageGroup` argument can not be NULL.\n\n\nThe same principle applies to validateWindowArgument(), which accepts either a plain c(0, Inf) vector or a named list of windows, and always returns a named list.\n\n\n8.2.2 The {{ syntax for cohortId\nvalidateCohortIdArgument() supports tidyselect semantics, so users can pass things like starts_with(\"fracture\") to select cohort IDs by name. To make this work, you must wrap the argument in double curly braces {{ when you pass it to the validator:\n\ncohortId &lt;- validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)\n\nWithout {{, tidyselect expressions will not be evaluated correctly.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
-    "objectID": "principles/error_and_validation.html#omopgenerics-assert-functions",
-    "href": "principles/error_and_validation.html#omopgenerics-assert-functions",
+    "objectID": "principles/error_and_validation.html#assert-functions",
+    "href": "principles/error_and_validation.html#assert-functions",
     "title": "8  Error messages and input validation",
-    "section": "8.2 omopgenerics assert functions",
-    "text": "8.2 omopgenerics assert functions\nThe omopgenerics package contains some functions for simple validation steps this can be useful helpers to validate an input with a single line of code, they also contain arguments to check if they have",
+    "section": "8.3 assert* functions",
+    "text": "8.3 assert* functions\nUse assert* functions for arguments that do not have a dedicated validate* function. Unlike validate*, these functions return the input invisibly and are used purely for their side effect of throwing an error.\n\n\n\nFunction\nChecks\n\n\n\n\nassertCharacter(x, ...)\nx is a character vector\n\n\nassertNumeric(x, ...)\nx is numeric\n\n\nassertLogical(x, ...)\nx is logical\n\n\nassertDate(x, ...)\nx is a Date\n\n\nassertList(x, ...)\nx is a list\n\n\nassertClass(x, class, ...)\nx has the specified class(es)\n\n\nassertChoice(x, choices, ...)\nx is one of the allowed values\n\n\nassertTable(x, ...)\nx is a table (data frame or tbl_sql)\n\n\nassertTrue(expr, ...)\nThe expression evaluates to TRUE\n\n\n\nAll of these accept common modifiers as arguments:\n\n\n\n\n\n\n\n\nModifier\nType\nMeaning\n\n\n\n\nlength\ninteger or NULL\nRequired length; NULL skips the check\n\n\nnull\nlogical\nWhether NULL is a valid input (default FALSE)\n\n\nna\nlogical\nWhether NA values are allowed (default FALSE)\n\n\nnamed\nlogical\nWhether elements must be named\n\n\nunique\nlogical\nWhether elements must be unique\n\n\nmin\nnumeric\nMinimum value (for assertNumeric)\n\n\nmax\nnumeric\nMaximum value (for assertNumeric)\n\n\nintegerish\nlogical\nWhether numeric must be whole numbers (for assertNumeric)\n\n\nminNchar\ninteger\nMinimum number of characters per element (for assertCharacter)\n\n\ncall\ncall\nPassed to the cli error message for better call context",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
-    "objectID": "principles/error_and_validation.html#examples",
-    "href": "principles/error_and_validation.html#examples",
+    "objectID": "principles/error_and_validation.html#putting-it-together-a-validation-block",
+    "href": "principles/error_and_validation.html#putting-it-together-a-validation-block",
     "title": "8  Error messages and input validation",
-    "section": "8.3 Examples",
-    "text": "8.3 Examples\nLet’s say we have a function with four arguments (cohort, cohortId, window and overlap), we could easily validate the input arguments of the function with 4 lines of code:\n\nmyFunction &lt;- function(cohort, cohortId = NULL, window = c(0, Inf), overlap = FALSE) {\n  # input check\n  cohort &lt;- omopgenerics::validateCohortArgument(cohort = cohort)\n  cohortId &lt;- omopgenerics::validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)\n  window &lt;- omopgenerics::validateWindowArgument(window = window)\n  omopgenerics::assertLogical(overlap, length = 1)\n  \n  # code ...\n  \n}\n\nNote the {{ symbols are needed to be able to use tidyselect verbs such as starts_with() or contains().\nA second example that needs some custom extra code can be:\n\nmyFunction &lt;- function(cdm, conceptSet, days = 180L, startDate = NULL, overlap = TRUE) {\n  # input check\n  cdm &lt;- omopgenerics::validateCdmArgument(cdm = cdm)\n  conceptSet &lt;- omopgenerics::validateCdmArgument(conceptSet = conceptSet)\n  omopgenerics::assertNumeric(days, integerish = TRUE, min = 0, length = 1)\n  omopgenerics::assertDate(startDate, length = 1, null = TRUE)\n  if (overlap & days &gt; 365) {\n    cli::cli_abort(c(x = \"{.var days} is can not be &gt;= 365 if {.var overlap} is TRUE.\"))\n  }\n\n  # code ...\n  \n}\n\nYou can throw custom error and warning messages using the cli package.",
+    "section": "8.4 Putting it together: a validation block",
+    "text": "8.4 Putting it together: a validation block\nHere is the recommended pattern. Validation comes first, before any computation. validate* results are always reassigned. assert* calls are written as statements.\n\nmyFunction &lt;- function(cohort, cohortId = NULL, window = c(0, Inf), overlap = FALSE) {\n  # validate and normalise\n  cohort   &lt;- omopgenerics::validateCohortArgument(cohort = cohort)\n  cohortId &lt;- omopgenerics::validateCohortIdArgument(cohortId = {{cohortId}}, cohort = cohort)\n  window   &lt;- omopgenerics::validateWindowArgument(window = window)\n  \n  # simple type checks\n  omopgenerics::assertLogical(overlap, length = 1)\n  \n  # business logic checks\n  if (overlap && any(sapply(window, function(w) diff(w) &gt; 365))) {\n    cli::cli_abort(c(\n      \"x\" = \"Windows longer than 365 days are not supported when {.var overlap} is {.val TRUE}.\"\n    ))\n  }\n  \n  # ... function body\n}\n\nA second example with a CDM reference:\n\nmyFunction2 &lt;- function(cdm, conceptSet, days = 180L, startDate = NULL, overlap = TRUE) {\n  # validate and normalise\n  cdm        &lt;- omopgenerics::validateCdmArgument(cdm = cdm)\n  conceptSet &lt;- omopgenerics::validateConceptSetArgument(conceptSet = conceptSet)\n  \n  # simple type checks\n  omopgenerics::assertNumeric(days, integerish = TRUE, min = 0, length = 1)\n  omopgenerics::assertDate(startDate, length = 1, null = TRUE)\n  omopgenerics::assertLogical(overlap, length = 1)\n  \n  # business logic checks\n  if (overlap && days &gt; 365) {\n    cli::cli_abort(c(\n      \"x\" = \"{.var days} cannot be &gt;= 365 when {.var overlap} is {.val TRUE}.\"\n    ))\n  }\n  \n  # ... function body\n}",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
     ]
   },
   {
-    "objectID": "principles/error_and_validation.html#conclusions",
-    "href": "principles/error_and_validation.html#conclusions",
+    "objectID": "principles/error_and_validation.html#writing-good-error-messages-with-cli",
+    "href": "principles/error_and_validation.html#writing-good-error-messages-with-cli",
     "title": "8  Error messages and input validation",
-    "section": "8.4 Conclusions",
-    "text": "8.4 Conclusions\nValidating arguments is a very important step to give user a good experience and prevent running undesired code in big datasets. The omopgenerics provides you with some functionality to keep the validation step short and consistent with other packages.",
+    "section": "8.5 Writing good error messages with cli",
+    "text": "8.5 Writing good error messages with cli\nCustom errors and warnings should use the cli package, which is already a dependency of omopgenerics. Do not use stop() or warning().\n\n# Error\ncli::cli_abort(c(\n  \"x\" = \"Argument {.var days} must be a positive integer.\",\n  \"i\" = \"You supplied {.val {days}}.\"\n))\n\n# Warning  \ncli::cli_warn(c(\n  \"!\" = \"Cohort {.val {name}} already exists in the CDM and will be overwritten.\"\n))\n\n# Informational message\ncli::cli_inform(c(\n  \"i\" = \"Computing {length(cohortId)} cohort{?s}.\"\n))\n\nA few conventions for error messages:\n\nUse {.var argument_name} to refer to an argument by name.\nUse {.val {value}} to show the actual value that was supplied.\nUse {.fn function_name} to refer to a function.\nUse {.cls class_name} to refer to a class.\nUse named elements \"x\" for errors, \"!\" for warnings, \"i\" for hints or additional information.\nWrite error messages in the present tense from the user’s perspective: “must be”, “cannot be”, “is not” rather than “expected”, “got”.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
+    ]
+  },
+  {
+    "objectID": "principles/error_and_validation.html#what-to-validate-and-what-to-skip",
+    "href": "principles/error_and_validation.html#what-to-validate-and-what-to-skip",
+    "title": "8  Error messages and input validation",
+    "section": "8.6 What to validate and what to skip",
+    "text": "8.6 What to validate and what to skip\nValidate arguments that users are likely to pass in many ways or get wrong:\n\nArguments with a standard validate* function — always validate these.\nType-sensitive arguments: anything the rest of the function passes directly to dplyr or database operations.\nArguments with constraints relative to each other (e.g. days must be positive when overlap is TRUE).\n\nDo not validate:\n\nInternal function arguments that are never user-facing.\nThings already guaranteed by a validate* call (e.g. do not re-check that cohortId is numeric after calling validateCohortIdArgument).\nConstants you define yourself inside the function.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
+    ]
+  },
+  {
+    "objectID": "principles/error_and_validation.html#summary",
+    "href": "principles/error_and_validation.html#summary",
+    "title": "8  Error messages and input validation",
+    "section": "8.7 Summary",
+    "text": "8.7 Summary\nValidating arguments is one of the most impactful things you can do for users — it turns opaque database errors into clear messages that point directly to the problem. omopgenerics makes this straightforward: use validate* for the standard OMOP arguments (and always reassign the result), use assert* for simple type checks, and use cli for any custom messages. A complete validation block for a typical function takes four or five lines and requires no custom logic.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Error messages and input validation</span>"
@@ -343,7 +606,7 @@
     "href": "principles/function_outputs.html",
     "title": "9  Function outputs",
     "section": "",
-    "text": "9.1 The summarised_result object\nThe summarised_result object is an S3 class defined by omopgenerics that aims to standardise the result outputs that contain estimates.",
+    "text": "9.1 The summarised_result object\nThe summarised_result is the standard result format returned by all analytics functions in the ecosystem. It is an S3 class built on top of a tibble, defined in omopgenerics. Every package that produces estimates — prevalence, drug use, cohort characteristics, survival — returns a summarised_result. This standardisation is what allows visOmopResults and OmopViewer to work uniformly across the whole ecosystem without any package-specific code.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Function outputs</span>"
@@ -354,7 +617,18 @@
     "href": "principles/function_outputs.html#the-summarised_result-object",
     "title": "9  Function outputs",
     "section": "",
-    "text": "9.1.1 The summarised_result basis\nThe summarised result is a tibble wi\n\nMain table\nSettings. Compulsory settings are:\n\nresult_type\npackage_name\npackage_version Other columns that are always created in settings:\ngroup, strata, additional\nmin_cell_count this column will always exists (it will be “0” by default).\n\n\nThe tidy format, a summarised result can easily be converted to a simpler table, you can use internally this format\n\n\n9.1.2 How to create a summarised result\nPlease include only one result_type this make it easy\n\nway to identify result_type\nunique result_type\ntransform to summarise result\ntidy\n\n\n\n9.1.3 Suppression\n\nmake sure that we include a number subjects if relevant\nuse the word count in estimates\n\n\n\n9.1.4 Register the result_type",
+    "text": "9.1.1 Structure\nA summarised_result is a tibble with exactly 13 compulsory columns:\n\n\n\n\n\n\n\n\n\nColumn\nType\nNA allowed\nDescription\n\n\n\n\nresult_id\ninteger\nNo\nGroups rows sharing the same result settings.\n\n\ncdm_name\ncharacter\nNo\nName of the CDM instance used.\n\n\ngroup_name\ncharacter\nNo\nName side of the group name–level pair.\n\n\ngroup_level\ncharacter\nNo\nLevel side of the group name–level pair.\n\n\nstrata_name\ncharacter\nNo\nName side of the strata name–level pair.\n\n\nstrata_level\ncharacter\nNo\nLevel side of the strata name–level pair.\n\n\nvariable_name\ncharacter\nNo\nName of the variable being estimated.\n\n\nvariable_level\ncharacter\nYes\nSub-level of the variable (e.g. a category).\n\n\nestimate_name\ncharacter\nNo\nName of the estimate (snake_case).\n\n\nestimate_type\ncharacter\nNo\nType of the estimate value (see below).\n\n\nestimate_value\ncharacter\nNo\nValue of the estimate, always stored as character.\n\n\nadditional_name\ncharacter\nNo\nName side of the additional name–level pair.\n\n\nadditional_level\ncharacter\nNo\nLevel side of the additional name–level pair.\n\n\n\nThe estimate_type column must be one of the values returned by omopgenerics::estimateTypeChoices(): \"numeric\", \"integer\", \"date\", \"character\", \"proportion\", \"percentage\", \"logical\".\n\n9.1.1.1 Name–level pairs\nThree pairs of columns — group_name/group_level, strata_name/strata_level, additional_name/additional_level — follow the same encoding. When a result applies to multiple dimensions simultaneously, the column names are concatenated with &&& and the values likewise:\ngroup_name:  \"cohort_name &&& sex\"\ngroup_level: \"asthma_cohort &&& Female\"\n\ngroup: high-level identifiers, typically cohort name or codelist name.\nstrata: stratification dimensions such as age group or sex.\nadditional: any further dimensions that don’t fit in group or strata (e.g. time window, analysis type).\n\nWhen a result is not stratified, these columns should contain \"overall\" / \"overall\".\n\n\n\n9.1.2 Settings attribute\nEvery summarised_result has a settings attribute — a tibble with one row per result_id — that stores metadata about how the results were generated. Three settings columns are compulsory:\n\n\n\n\n\n\n\nSetting\nDescription\n\n\n\n\nresult_type\nA short snake_case string identifying the type of analysis (e.g. \"summarised_characteristics\"). Must be unique within a package.\n\n\npackage_name\nThe name of the package that generated the result.\n\n\npackage_version\nThe version of that package.\n\n\n\nAdditional settings columns store analysis-specific parameters (e.g. strata, ageGroup, window). A min_cell_count column is always present, defaulting to \"0\".\n\n\n9.1.3 How to create a summarised_result\nThe standard pattern is to build a plain tibble with the 13 required columns, then convert it using omopgenerics::newSummarisedResult():\n\nlibrary(omopgenerics)\n\nresult &lt;- tibble::tibble(\n  result_id       = 1L,\n  cdm_name        = cdmName(cdm),\n  group_name      = \"cohort_name\",\n  group_level     = \"my_cohort\",\n  strata_name     = \"overall\",\n  strata_level    = \"overall\",\n  variable_name   = \"age\",\n  variable_level  = NA_character_,\n  estimate_name   = \"mean\",\n  estimate_type   = \"numeric\",\n  estimate_value  = as.character(mean_age),\n  additional_name = \"overall\",\n  additional_level= \"overall\"\n) |&gt;\n  newSummarisedResult(\n    settings = tibble::tibble(\n      result_id       = 1L,\n      result_type     = \"my_result_type\",\n      package_name    = \"myPackage\",\n      package_version = as.character(packageVersion(\"myPackage\"))\n    )\n  )\n\nIn practice you will produce many rows at once. The recommended internal workflow is:\n\nCompute a tidy intermediate tibble (one row per subject / cohort / stratum / estimate).\nUse visOmopResults::uniteNameLevel() or omopgenerics helpers to encode name–level pairs.\nCall newSummarisedResult() with the appropriate settings.\n\n\n\n9.1.4 Using the tidy format internally\nThe tidy() method converts a summarised_result back to a wide, human-readable format:\n\nresult |&gt; tidy()\n\nThis is useful for inspecting results during development, and can also be used internally if your function needs to manipulate results before returning them. However, always return a summarised_result from exported functions — never a tidy tibble.\n\n\n9.1.5 Suppression\nIf your function produces counts of patients or records, it must support cell suppression. The convention is to expose a minCellCount argument (default 5) and apply suppression before returning:\n\nresult &lt;- result |&gt; suppress(minCellCount = minCellCount)\n\nsuppress() replaces estimate values with NA where the count is below the threshold, and records the suppression threshold in the settings.\nIf your result contains a count of subjects (i.e. unique subject_id values), the estimate should be named count_subjects or n_subjects so that suppression is applied correctly.\n\n\n9.1.6 One result_type per function\nEach exported function that returns a summarised_result should produce exactly one result_type. Do not mix different analyses in a single summarised_result returned from one function — this makes it impossible for downstream tools to filter and process results by type.\n\n\n9.1.7 Registering a result_type\nResult types should be registered in your package so that visOmopResults and OmopViewer can discover them. Add a call to omopgenerics::registerResultType() in your package’s .onLoad() or document it in the package metadata. See the omopgenerics documentation for the current registration API.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Function outputs</span>"
+    ]
+  },
+  {
+    "objectID": "principles/function_outputs.html#cohort-outputs",
+    "href": "principles/function_outputs.html#cohort-outputs",
+    "title": "9  Function outputs",
+    "section": "9.2 Cohort outputs",
+    "text": "9.2 Cohort outputs\nFunctions that return a modified cohort (rather than a summary) should return a cohort_table. The attrition log must be updated for every filtering step using recordCohortAttrition(). See Chapter 5 for the cohort_table class description.",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Function outputs</span>"
@@ -364,11 +638,230 @@
     "objectID": "principles/function_outputs.html#further-reading",
     "href": "principles/function_outputs.html#further-reading",
     "title": "9  Function outputs",
-    "section": "9.2 Further reading",
-    "text": "9.2 Further reading\n\nThe summarised result object omopgenerics.",
+    "section": "9.3 Further reading",
+    "text": "9.3 Further reading\n\nomopgenerics summarised_result documentation\nvisOmopResults package",
     "crumbs": [
       "Principles",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Function outputs</span>"
+    ]
+  },
+  {
+    "objectID": "principles/visualisations.html",
+    "href": "principles/visualisations.html",
+    "title": "10  Visualisations",
+    "section": "",
+    "text": "10.1 The visOmopResults API\nAll visualisation in the ecosystem is built on top of visOmopResults. This package provides a consistent API for transforming summarised_result objects into formatted tables and ggplot2 plots. By using it rather than writing bespoke formatting code, your package inherits consistent output across all result types and avoids duplicating logic that is already maintained centrally.\nThis chapter explains the conventions for adding table* and plot* functions to your package.\nvisOmopResults exposes two main families of functions:\nMost packages do not call these low-level functions directly. Instead they implement thin table* and plot* wrapper functions that call into visOmopResults with sensible defaults.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visualisations</span>"
+    ]
+  },
+  {
+    "objectID": "principles/visualisations.html#the-visomopresults-api",
+    "href": "principles/visualisations.html#the-visomopresults-api",
+    "title": "10  Visualisations",
+    "section": "",
+    "text": "visOmopTable() and its wrappers produce formatted tables. The output format (gt, flextable, tibble, or datatable) is controlled by a type argument.\nvisOmopPlot() and specific plot helpers produce ggplot2 objects that can be further customised.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visualisations</span>"
+    ]
+  },
+  {
+    "objectID": "principles/visualisations.html#adding-table-functions",
+    "href": "principles/visualisations.html#adding-table-functions",
+    "title": "10  Visualisations",
+    "section": "10.2 Adding table* functions",
+    "text": "10.2 Adding table* functions\nEvery summarise* function should have a corresponding table* function that formats its output for display. The convention is:\n\ntableMyResult &lt;- function(result, type = \"gt\", ...) {\n  # optionally filter/reshape result before passing to visOmopResults\n  visOmopResults::visOmopTable(\n    result = result,\n    type   = type,\n    ...\n  )\n}\n\nKey points:\n\nThe first argument is always a summarised_result, typically the output of the matching summarise* function.\ntype defaults to \"gt\" in function signatures but use type = \"flextable\" in README examples — flextable renders better in GitHub Markdown.\nPass ... through to visOmopResults::visOmopTable() to expose column renaming, formatting, and other options without duplicating them in your own function signature.\nValidate the result argument using omopgenerics::validateResultArgument().\n\nA minimal example:\n\n#' Format summarised characteristics as a table\n#'\n#' @param result A \\code{summarised_result} object as returned by\n#'   \\code{summariseCharacteristics()}.\n#' @param type Output format. One of \\code{\"gt\"} (default), \\code{\"flextable\"},\n#'   \\code{\"tibble\"}, or \\code{\"datatable\"}.\n#' @param ... Additional arguments passed to\n#'   \\code{\\link[visOmopResults]{visOmopTable}}.\n#'\n#' @return A formatted table object of the class determined by \\code{type}.\n#' @export\ntableCharacteristics &lt;- function(result, type = \"gt\", ...) {\n  result &lt;- omopgenerics::validateResultArgument(result)\n  visOmopResults::visOmopTable(result = result, type = type, ...)\n}",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visualisations</span>"
+    ]
+  },
+  {
+    "objectID": "principles/visualisations.html#adding-plot-functions",
+    "href": "principles/visualisations.html#adding-plot-functions",
+    "title": "10  Visualisations",
+    "section": "10.3 Adding plot* functions",
+    "text": "10.3 Adding plot* functions\nSimilarly, plot* functions wrap visOmopResults plot helpers:\n\n#' Plot incidence estimates\n#'\n#' @param result A \\code{summarised_result} object as returned by\n#'   \\code{estimateIncidence()}.\n#' @param ... Additional arguments passed to the underlying plot function.\n#'\n#' @return A \\code{ggplot2} object.\n#' @export\nplotIncidence &lt;- function(result, ...) {\n  result &lt;- omopgenerics::validateResultArgument(result)\n  visOmopResults::plotEstimates(result = result, ...)\n}\n\nBecause plot* functions return ggplot2 objects, users can add layers, change themes, and save the plot using standard ggplot2 idioms. Do not apply a custom theme inside your package’s plot functions — leave theming to the user.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visualisations</span>"
+    ]
+  },
+  {
+    "objectID": "principles/visualisations.html#checking-what-is-already-available",
+    "href": "principles/visualisations.html#checking-what-is-already-available",
+    "title": "10  Visualisations",
+    "section": "10.4 Checking what is already available",
+    "text": "10.4 Checking what is already available\nBefore writing any visualisation code, check the visOmopResults function reference. The package is actively extended, and the function you need may already exist. Duplicating it in your own package creates a maintenance burden and means your users get a subtly different experience.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visualisations</span>"
+    ]
+  },
+  {
+    "objectID": "principles/visualisations.html#what-not-to-do",
+    "href": "principles/visualisations.html#what-not-to-do",
+    "title": "10  Visualisations",
+    "section": "10.5 What not to do",
+    "text": "10.5 What not to do\n\nDo not return raw gt or flextable objects directly from table* functions — always go through visOmopResults::visOmopTable() so that the type argument works consistently.\nDo not hard-code column names or formatting inside your package — use the visOmopResults API so that changes to the formatting logic can be made in one place.\nDo not depend on ggplot2 directly unless your package needs to construct plots from scratch (i.e. not from a summarised_result). For summarised_result-based plots, use visOmopResults.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visualisations</span>"
+    ]
+  },
+  {
+    "objectID": "principles/visualisations.html#suggesting-vs-importing-visomopresults",
+    "href": "principles/visualisations.html#suggesting-vs-importing-visomopresults",
+    "title": "10  Visualisations",
+    "section": "10.6 Suggesting vs importing visOmopResults",
+    "text": "10.6 Suggesting vs importing visOmopResults\nFor most packages, visOmopResults should be listed under Imports rather than Suggests, because the table* and plot* functions are part of the package’s exported API and will fail if visOmopResults is not installed. If your package only uses visOmopResults in vignettes or optional code paths, Suggests is appropriate.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Visualisations</span>"
+    ]
+  },
+  {
+    "objectID": "principles/styling.html",
+    "href": "principles/styling.html",
+    "title": "11  Styling your code",
+    "section": "",
+    "text": "11.1 Code style\nConsistent code style across the ecosystem means that any contributor can read and navigate any package without having to mentally re-parse a different formatting convention. This chapter describes the style rules used and the tools that enforce them.\nThe ecosystem follows the tidyverse style guide with one important modification: function and argument names use camelCase, not snake_case. This applies to all exported functions, unexported functions, and arguments. Object names inside function bodies should also use camelCase.\n# Correct\nsummariseCohortOverlap &lt;- function(cohort, cohortId = NULL, minCellCount = 5) {\n  resultData &lt;- computeOverlap(cohort, cohortId)\n  resultData |&gt; formatOutput(minCellCount = minCellCount)\n}\n\n# Incorrect — snake_case names\nsummarise_cohort_overlap &lt;- function(cohort, cohort_id = NULL, min_cell_count = 5) {\n  result_data &lt;- compute_overlap(cohort, cohort_id)\n}\nThe rationale for camelCase over snake_case is historical consistency: the earliest packages in the ecosystem (including omopgenerics and PatientProfiles) used camelCase, and changing convention mid-ecosystem would introduce more confusion than it resolves.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Styling your code</span>"
+    ]
+  },
+  {
+    "objectID": "principles/styling.html#linting",
+    "href": "principles/styling.html#linting",
+    "title": "11  Styling your code",
+    "section": "11.2 Linting",
+    "text": "11.2 Linting\nAll packages in the ecosystem use lintr to enforce style. The standard configuration is:\n\nlintr::lint_package(\n  linters = lintr::linters_with_defaults(\n    lintr::object_name_linter(styles = \"camelCase\")\n  )\n)\n\nThis checks all camelCase naming conventions, line length, spacing, and other tidyverse style rules, with the camelCase override for names.\nYou should run lint_package() before opening any pull request. The GitHub Actions CI workflow (see ?sec-automatic-checks) runs linting automatically on every push.\nTo add lintr configuration to your package so that the linter settings are stored in the repository:\n\nusethis::use_lintr()\n\nThis creates a .lintr file at the root of your package. Edit it to match the ecosystem configuration:\nlinters: linters_with_defaults(\n  object_name_linter(styles = \"camelCase\")\n)",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Styling your code</span>"
+    ]
+  },
+  {
+    "objectID": "principles/styling.html#formatting",
+    "href": "principles/styling.html#formatting",
+    "title": "11  Styling your code",
+    "section": "11.3 Formatting",
+    "text": "11.3 Formatting\nUse styler to automatically format code. The standard command is:\n\nstyler::style_pkg()\n\n\n\n\n\n\n\nImportant\n\n\n\nWhen contributing to an existing package, do not restyle code that you have not otherwise modified. Reformatting unrelated lines makes diffs harder to review and is a common source of merge conflicts. Only restyle the lines you have actively changed.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Styling your code</span>"
+    ]
+  },
+  {
+    "objectID": "principles/styling.html#line-length",
+    "href": "principles/styling.html#line-length",
+    "title": "11  Styling your code",
+    "section": "11.4 Line length",
+    "text": "11.4 Line length\nThe maximum line length is 80 characters. Long function calls should be broken across lines with one argument per line, with the closing parenthesis on its own line:\n\n# Correct\nresult &lt;- summariseCharacteristics(\n  cohort = cdm$my_cohort,\n  strata = list(c(\"sex\"), c(\"age_group\")),\n  minCellCount = 5\n)\n\n# Avoid — too long for a single line\nresult &lt;- summariseCharacteristics(cohort = cdm$my_cohort, strata = list(c(\"sex\"), c(\"age_group\")), minCellCount = 5)",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Styling your code</span>"
+    ]
+  },
+  {
+    "objectID": "principles/styling.html#pipes",
+    "href": "principles/styling.html#pipes",
+    "title": "11  Styling your code",
+    "section": "11.5 Pipes",
+    "text": "11.5 Pipes\nUse the native pipe |&gt; introduced in R 4.1. The %&gt;% pipe from magrittr should not be used in new code. The native pipe is imported automatically and requires no additional dependency.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Styling your code</span>"
+    ]
+  },
+  {
+    "objectID": "principles/styling.html#assignment",
+    "href": "principles/styling.html#assignment",
+    "title": "11  Styling your code",
+    "section": "11.6 Assignment",
+    "text": "11.6 Assignment\nUse &lt;- for assignment, not =. Reserve = for argument passing inside function calls.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Styling your code</span>"
+    ]
+  },
+  {
+    "objectID": "principles/styling.html#spacing",
+    "href": "principles/styling.html#spacing",
+    "title": "11  Styling your code",
+    "section": "11.7 Spacing",
+    "text": "11.7 Spacing\n\nPut spaces around all binary operators (&lt;-, +, -, ==, |&gt;, etc.).\nPut a space after commas but not before.\nDo not put spaces inside parentheses: f(x, y) not f( x, y ).\n\nThese rules are enforced by lintr and will be flagged automatically.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Styling your code</span>"
+    ]
+  },
+  {
+    "objectID": "principles/reexports.html",
+    "href": "principles/reexports.html",
+    "title": "12  Reexporting from other packages",
+    "section": "",
+    "text": "12.1 When to re-export\nRe-exporting a function from another package means making it available as if it were part of your own package. When a user attaches your package with library(myPackage), re-exported functions appear in the namespace and can be called without a package prefix.\nThis is a feature that should be used sparingly and deliberately. This chapter explains when re-exporting is appropriate, how to do it, and what the implications are.\nRe-exporting is appropriate in a small number of situations:\nYou are implementing a generic defined in omopgenerics. If omopgenerics defines a generic (e.g. settings(), cohortCount(), attrition()) and your package provides a method for it, you should re-export the generic so users can call it without loading omopgenerics explicitly. This is the most common legitimate use of re-exports in this ecosystem.\nYour package is a high-level wrapper. If your package intentionally acts as a one-stop interface (e.g. a meta-package or a workflow package) and re-exports functions to save users from loading multiple packages, that is reasonable — but document the choice explicitly.\nYou re-export the pipe. Re-exporting |&gt; is not necessary since R 4.1, as it is a base R operator. Do not re-export %&gt;% from magrittr.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Reexporting from other packages</span>"
+    ]
+  },
+  {
+    "objectID": "principles/reexports.html#when-not-to-re-export",
+    "href": "principles/reexports.html#when-not-to-re-export",
+    "title": "12  Reexporting from other packages",
+    "section": "12.2 When not to re-export",
+    "text": "12.2 When not to re-export\n\nDo not re-export functions simply because your package depends on them internally. That they are in Imports does not mean they belong in your namespace.\nDo not re-export large swaths of another package’s API. This creates namespace pollution for your users and tightly couples your package’s public interface to the internals of another package.\nDo not re-export functions that are likely to change in upstream packages — every breaking change upstream becomes a breaking change in your package too.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Reexporting from other packages</span>"
+    ]
+  },
+  {
+    "objectID": "principles/reexports.html#how-to-re-export",
+    "href": "principles/reexports.html#how-to-re-export",
+    "title": "12  Reexporting from other packages",
+    "section": "12.3 How to re-export",
+    "text": "12.3 How to re-export\nUse the @importFrom and @export roxygen2 tags together:\n\n#' @importFrom omopgenerics settings\n#' @export\nomopgenerics::settings\n\nThis pattern tells roxygen2 to import the function from omopgenerics and re-export it from your package’s namespace. After running devtools::document(), the function will appear in your NAMESPACE file with both importFrom and export entries.\nAlternatively, for generics you implement, you can use the @rdname tag to link your method to the upstream documentation:\n\n#' @rdname omopgenerics::settings\n#' @export\nsettings.myClass &lt;- function(x, ...) {\n  # your implementation\n}",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Reexporting from other packages</span>"
+    ]
+  },
+  {
+    "objectID": "principles/reexports.html#implications-of-re-exporting",
+    "href": "principles/reexports.html#implications-of-re-exporting",
+    "title": "12  Reexporting from other packages",
+    "section": "12.4 Implications of re-exporting",
+    "text": "12.4 Implications of re-exporting\nRe-exporting creates a public commitment. If omopgenerics changes or removes settings(), your package will break at the namespace level — not just internally. Users loading your package will see settings() in your namespace, and if it disappears, they will blame your package.\nFor this reason, only re-export functions from packages whose stability you trust and whose interfaces are unlikely to change in breaking ways. omopgenerics generics are the safest candidates because the package is deliberately stable and versioned.",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Reexporting from other packages</span>"
+    ]
+  },
+  {
+    "objectID": "principles/reexports.html#checking-your-exports",
+    "href": "principles/reexports.html#checking-your-exports",
+    "title": "12  Reexporting from other packages",
+    "section": "12.5 Checking your exports",
+    "text": "12.5 Checking your exports\nAfter calling devtools::document(), inspect your NAMESPACE file to confirm that only the functions you intended to export appear there. An unexpectedly large export list is a sign that re-exports have been added too liberally.\nYou can also use:\n\n# List all exports from your package\ngetNamespaceExports(\"myPackage\")",
+    "crumbs": [
+      "Principles",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Reexporting from other packages</span>"
+    ]
+  },
+  {
+    "objectID": "documentation/index.html",
+    "href": "documentation/index.html",
+    "title": "Contributing documentation",
+    "section": "",
+    "text": "Documentation is not optional. A well-documented package is one that people can actually use, contribute to, and trust. For packages in the Tidy R OMOP CDM ecosystem — which are tools for epidemiological research — clear documentation can directly affect the quality of scientific work that depends on them.\nThis part of the book covers all the layers of documentation that a package should have, from inline code comments to a full pkgdown website. Each layer serves a different audience and a different purpose, and all of them matter.\nThe chapters are organised as follows:\n\nDocumenting code covers inline comments: when to write them, what they should say, and how to use them to communicate intent to future contributors (including your future self).\nDocumenting functions covers roxygen2 documentation: how to write titles, descriptions, parameter documentation, and examples that genuinely help users understand and use your functions.\nREADME covers the package README: the first thing a new user will read. It should communicate the package’s purpose clearly and include working examples that demonstrate its value.\nVignettes covers long-form documentation: how to write vignettes that walk users through realistic use cases and help them understand not just individual functions but how to compose them into a complete analysis.\nDocumentation website covers how to set up and customise a pkgdown website, organise the reference index, and deploy the site automatically via GitHub Actions.",
+    "crumbs": [
+      "Contributing documentation"
     ]
   },
   {
@@ -668,13 +1161,33 @@
     ]
   },
   {
+    "objectID": "github/index.html",
+    "href": "github/index.html",
+    "title": "GitHub",
+    "section": "",
+    "text": "GitHub is the central platform for developing, testing, and distributing packages in the Tidy R OMOP CDM ecosystem. Beyond version control, it provides the infrastructure for continuous integration: automatically running checks, building the documentation website, measuring test coverage, and testing against multiple database backends — all triggered on every push or pull request.\nSetting this infrastructure up correctly from the beginning pays dividends throughout the life of a package. It ensures that regressions are caught immediately, that the documentation is always up to date, and that contributors can trust that their changes have been properly validated before merging.\nThis part of the book covers the GitHub setup used across the ecosystem. The chapters are organised as follows:\n\nSet up GitHub walks through the initial steps for connecting a package repository to GitHub: repository settings, branch protection, issue and pull request templates, and the conventions used across the ecosystem.\nAutomatic R-CDM checks explains how to configure a GitHub Actions workflow that runs R CMD check on every push and pull request, including checks specific to OMOP CDM packages.\nWebsite deployment covers the GitHub Actions workflow for automatically building and deploying your pkgdown documentation website whenever changes are pushed to the main branch.\nTest coverage describes how to integrate Codecov with GitHub Actions to automatically measure and report test coverage on every pull request.\nTesting multiple DBMS explains how to configure GitHub Actions workflows that test your package against multiple database management systems — DuckDB, PostgreSQL, SQL Server — to ensure consistent behaviour across backends.",
+    "crumbs": [
+      "GitHub"
+    ]
+  },
+  {
+    "objectID": "maintainance/index.html",
+    "href": "maintainance/index.html",
+    "title": "Maintaining a package",
+    "section": "",
+    "text": "Getting a package to a first release is a significant achievement, but it is only the beginning. Maintaining a package — keeping it working as its dependencies evolve, responding to issues, managing releases, and communicating changes clearly — is an ongoing commitment that requires its own discipline and practices.\nThe good news is that the infrastructure set up in the previous parts of this book (automated checks, test coverage, multi-DBMS testing) does a great deal of the maintenance work automatically. The chapters in this part cover the human side: the decisions and processes that cannot be automated.\nThis part currently contains one chapter:\n\nSubmit to CRAN walks through the process of preparing and submitting a package to CRAN for the first time, and the ongoing practices for subsequent releases: deciding on version numbers, maintaining a NEWS.md changelog, checking reverse dependencies, and responding to CRAN policy changes.\n\nFurther chapters on longer-term maintenance practices — handling breaking changes, deprecation workflows, and managing a growing contributor community — will be added in future editions of this book.",
+    "crumbs": [
+      "Maintaining a package"
+    ]
+  },
+  {
     "objectID": "maintainance/releasing.html",
     "href": "maintainance/releasing.html",
     "title": "26  Submit to CRAN",
     "section": "",
     "text": "What version to release (major, minor or patch)\nForced releases by cran\nnews\nreverse dependency",
     "crumbs": [
-      "Maintaing a package",
+      "Maintaining a package",
       "<span class='chapter-number'>26</span>  <span class='chapter-title'>Submit to CRAN</span>"
     ]
   }

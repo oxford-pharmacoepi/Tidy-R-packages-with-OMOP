@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -39,10 +74,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -322,7 +357,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../maintainance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maintaing a package</span></a>
+ <span class="menu-text">Maintaining a package</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -347,7 +382,25 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#casing" id="toc-casing" class="nav-link active" data-scroll-target="#casing"><span class="header-section-number">7.1</span> Casing</a></li>
-  <li><a href="#argument-naming" id="toc-argument-naming" class="nav-link" data-scroll-target="#argument-naming"><span class="header-section-number">7.2</span> Argument naming</a></li>
+  <li><a href="#function-naming" id="toc-function-naming" class="nav-link" data-scroll-target="#function-naming"><span class="header-section-number">7.2</span> Function naming</a>
+  <ul class="collapse">
+  <li><a href="#verb-prefixes" id="toc-verb-prefixes" class="nav-link" data-scroll-target="#verb-prefixes"><span class="header-section-number">7.2.1</span> Verb prefixes</a></li>
+  <li><a href="#the-cohortset-suffix" id="toc-the-cohortset-suffix" class="nav-link" data-scroll-target="#the-cohortset-suffix"><span class="header-section-number">7.2.2</span> The <code>*CohortSet</code> suffix</a></li>
+  <li><a href="#noun-component" id="toc-noun-component" class="nav-link" data-scroll-target="#noun-component"><span class="header-section-number">7.2.3</span> Noun component</a></li>
+  <li><a href="#mock-functions" id="toc-mock-functions" class="nav-link" data-scroll-target="#mock-functions"><span class="header-section-number">7.2.4</span> <code>mock*</code> functions</a></li>
+  </ul></li>
+  <li><a href="#argument-naming" id="toc-argument-naming" class="nav-link" data-scroll-target="#argument-naming"><span class="header-section-number">7.3</span> Argument naming</a>
+  <ul class="collapse">
+  <li><a href="#standard-argument-names" id="toc-standard-argument-names" class="nav-link" data-scroll-target="#standard-argument-names"><span class="header-section-number">7.3.1</span> Standard argument names</a></li>
+  <li><a href="#argument-order" id="toc-argument-order" class="nav-link" data-scroll-target="#argument-order"><span class="header-section-number">7.3.2</span> Argument order</a></li>
+  <li><a href="#the-namestyle-argument" id="toc-the-namestyle-argument" class="nav-link" data-scroll-target="#the-namestyle-argument"><span class="header-section-number">7.3.3</span> The <code>nameStyle</code> argument</a></li>
+  </ul></li>
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows"><span class="header-section-number">7.4</span> Windows</a></li>
+  <li><a href="#sex-values" id="toc-sex-values" class="nav-link" data-scroll-target="#sex-values"><span class="header-section-number">7.5</span> Sex values</a></li>
+  <li><a href="#data-values-in-summarised_result" id="toc-data-values-in-summarised_result" class="nav-link" data-scroll-target="#data-values-in-summarised_result"><span class="header-section-number">7.6</span> Data values in <code>summarised_result</code></a></li>
+  <li><a href="#column-naming-in-cohort-tables" id="toc-column-naming-in-cohort-tables" class="nav-link" data-scroll-target="#column-naming-in-cohort-tables"><span class="header-section-number">7.7</span> Column naming in cohort tables</a></li>
+  <li><a href="#the-summarise-tableplot-pattern" id="toc-the-summarise-tableplot-pattern" class="nav-link" data-scroll-target="#the-summarise-tableplot-pattern"><span class="header-section-number">7.8</span> The <code>summarise</code> → <code>table</code>/<code>plot</code> pattern</a></li>
+  <li><a href="#inconsistencies-to-be-aware-of" id="toc-inconsistencies-to-be-aware-of" class="nav-link" data-scroll-target="#inconsistencies-to-be-aware-of"><span class="header-section-number">7.9</span> Inconsistencies to be aware of</a></li>
   </ul>
 </nav>
     </div>
@@ -356,7 +409,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/conventions.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conventions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conventions</span></h1>
+<h1 class="title"><span id="sec-conventions" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conventions</span></span></h1>
 </div>
 
 
@@ -373,13 +426,485 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Our code adheres to some style conventions as decribed in this chapter.</p>
+<p>This chapter documents the naming and structural conventions observed across the ecosystem. Many will feel familiar if you have already worked with the packages, but having them written down in one place makes it easier to apply them consistently in new code and to identify deviations worth addressing.</p>
+<p>Where real inconsistencies exist across the current packages, they are noted — the goal is for new packages to conform to these conventions even when older ones pre-date them.</p>
 <section id="casing" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="casing"><span class="header-section-number">7.1</span> Casing</h2>
-<p>In general we use <a href="https://www.freecodecamp.org/news/snake-case-vs-camel-case-vs-pascal-case-vs-kebab-case-whats-the-difference/"><strong>camelCase</strong></a> naming for arguments and functions.</p>
+<p>The ecosystem uses <strong>camelCase</strong> for all R identifiers: exported function names, unexported helper function names, argument names, and local variable names.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correct — camelCase throughout</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">generateIngredientCohortSet</span>(cdm, <span class="at">name =</span> <span class="st">"dus_cohort"</span>, <span class="at">gapEra =</span> <span class="dv">7</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">addCohortIntersectFlag</span>(cohort, <span class="at">targetCohortTable =</span> <span class="st">"cohort2"</span>, <span class="at">window =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summariseClinicalRecords</span>(cdm, <span class="at">omopTableName =</span> <span class="st">"condition_occurrence"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The camelCase rule is enforced by lintr:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lintr<span class="sc">::</span><span class="fu">lint_package</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">linters =</span> lintr<span class="sc">::</span><span class="fu">linters_with_defaults</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    lintr<span class="sc">::</span><span class="fu">object_name_linter</span>(<span class="at">styles =</span> <span class="st">"camelCase"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Exception: strings stored in data.</strong> Column names in database tables, <code>variable_name</code> values inside <code>summarised_result</code> objects, <code>result_type</code> strings, cohort names, and table names in the CDM are all <code>snake_case</code>. The camelCase rule applies to R object names and arguments, not to string values that end up in data or in the CDM.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The R argument is camelCase...</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addAge</span>(cohort, <span class="at">ageGroup =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">17</span>), <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">64</span>)))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ...but values stored as data are snake_case:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># group_level  = "acetaminophen"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># variable_name = "number_subjects"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># result_type   = "summarised_characteristics"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># cohort name   = "dus_cohort"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="argument-naming" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="argument-naming"><span class="header-section-number">7.2</span> Argument naming</h2>
+<section id="function-naming" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="function-naming"><span class="header-section-number">7.2</span> Function naming</h2>
+<section id="verb-prefixes" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="verb-prefixes"><span class="header-section-number">7.2.1</span> Verb prefixes</h3>
+<p>Every exported function begins with a standard verb prefix. The prefix is not merely a naming choice — it signals the return type, the side effects, and the role the function plays in a pipeline.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Prefix</th>
+<th>Returns</th>
+<th>Side effects</th>
+<th>Representative examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>generate*</code></td>
+<td><code>cohort_table</code> written to CDM</td>
+<td>Writes table to database</td>
+<td><code>generateConceptCohortSet()</code>, <code>generateIngredientCohortSet()</code>, <code>generateDenominatorCohortSet()</code></td>
+</tr>
+<tr class="even">
+<td><code>require*</code></td>
+<td>Modified <code>cohort_table</code></td>
+<td>May rewrite cohort table in DB; updates attrition</td>
+<td><code>requireIsFirstEntry()</code>, <code>requireAge()</code>, <code>requireSex()</code>, <code>requireCohortIntersect()</code>, <code>requireConceptIntersect()</code></td>
+</tr>
+<tr class="odd">
+<td><code>add*</code></td>
+<td>Input table with extra columns appended</td>
+<td>None</td>
+<td><code>addAge()</code>, <code>addSex()</code>, <code>addDemographics()</code>, <code>addCohortIntersectFlag()</code>, <code>addCohortIntersectCount()</code>, <code>addCohortIntersectDate()</code>, <code>addDrugUse()</code></td>
+</tr>
+<tr class="even">
+<td><code>summarise*</code></td>
+<td><code>summarised_result</code></td>
+<td>None</td>
+<td><code>summariseCharacteristics()</code>, <code>summariseClinicalRecords()</code>, <code>summariseDrugUtilisation()</code>, <code>summariseCohortAttrition()</code>, <code>summariseCohortCount()</code></td>
+</tr>
+<tr class="odd">
+<td><code>estimate*</code></td>
+<td><code>summarised_result</code></td>
+<td>None</td>
+<td><code>estimateIncidence()</code>, <code>estimatePointPrevalence()</code>, <code>estimatePeriodPrevalence()</code></td>
+</tr>
+<tr class="even">
+<td><code>plot*</code></td>
+<td><code>ggplot2</code> object</td>
+<td>None</td>
+<td><code>plotRecordCount()</code>, <code>plotIncidence()</code>, <code>plotPrevalence()</code>, <code>plotCohortAttrition()</code></td>
+</tr>
+<tr class="odd">
+<td><code>table*</code></td>
+<td>Formatted table (<code>gt</code>, <code>flextable</code>, etc.)</td>
+<td>None</td>
+<td><code>tableCharacteristics()</code>, <code>tableClinicalRecords()</code>, <code>tableOmopSnapshot()</code>, <code>tableCohortCount()</code></td>
+</tr>
+<tr class="even">
+<td><code>mock*</code></td>
+<td><code>cdm_reference</code> (in-memory)</td>
+<td>None</td>
+<td><code>mockCohortConstructor()</code>, <code>mockPatientProfiles()</code>, <code>mockDrugUtilisation()</code>, <code>mockOmopSketch()</code>, <code>mockIncidencePrevalence()</code></td>
+</tr>
+<tr class="odd">
+<td><code>get*</code></td>
+<td>Plain R object</td>
+<td>None</td>
+<td><code>getDrugIngredientCodes()</code>, <code>getVocabVersion()</code></td>
+</tr>
+<tr class="even">
+<td><code>new*</code></td>
+<td>New instance of a class</td>
+<td>None</td>
+<td><code>newCodelist()</code>, <code>newSummarisedResult()</code>, <code>newCdmSource()</code></td>
+</tr>
+<tr class="odd">
+<td><code>compute*</code></td>
+<td>Materialised table</td>
+<td>Writes temp table to DB</td>
+<td><code>computeTable()</code> (internal convention in PatientProfiles)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>estimate*</code> is used in <code>IncidencePrevalence</code> rather than <code>summarise*</code> because incidence and prevalence are computed statistics with a specific analytic meaning (rates and proportions over time), not summaries in the general sense. New packages that compute similar analytic estimates should consider whether <code>estimate*</code> or <code>summarise*</code> better describes the result.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>require*</code> is specific to <code>CohortConstructor</code> and means “apply this inclusion or exclusion criterion and update the cohort attrition”. Do not use <code>require*</code> for functions that merely check or validate inputs — use <code>validate*</code> or <code>assert*</code> for those.</p>
+</div>
+</div>
+</section>
+<section id="the-cohortset-suffix" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="the-cohortset-suffix"><span class="header-section-number">7.2.2</span> The <code>*CohortSet</code> suffix</h3>
+<p>Functions that generate multiple cohorts at once and return a full <code>cohort_table</code> in the CDM use the <code>*CohortSet</code> suffix:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">generateConceptCohortSet</span>(cdm, <span class="at">conceptSet =</span> ..., <span class="at">name =</span> <span class="st">"my_cohort"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">generateIngredientCohortSet</span>(cdm, <span class="at">ingredient =</span> <span class="st">"acetaminophen"</span>, <span class="at">name =</span> <span class="st">"dus_cohort"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">generateDenominatorCohortSet</span>(cdm, <span class="at">name =</span> <span class="st">"denominator"</span>, <span class="at">ageGroup =</span> <span class="fu">list</span>(...))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Functions that return a single cohort or modify an existing table typically do not use this suffix.</p>
+</section>
+<section id="noun-component" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="noun-component"><span class="header-section-number">7.2.3</span> Noun component</h3>
+<p>The noun should describe what the function operates on or returns clearly enough that users can understand it without reading the documentation:</p>
+<ul>
+<li><code>summariseClinicalRecords</code> — summarises records in clinical OMOP tables</li>
+<li><code>addCohortIntersectFlag</code> — adds a flag column indicating cohort intersection</li>
+<li><code>requireConceptIntersect</code> — requires intersection with a concept set</li>
+</ul>
+<p>Avoid abbreviations unless they are standard in the domain (e.g.&nbsp;<code>Cdm</code>, <code>Omop</code>). Spell out words fully: <code>Incidence</code> not <code>Inc</code>, <code>Characteristics</code> not <code>Chars</code>.</p>
+</section>
+<section id="mock-functions" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="mock-functions"><span class="header-section-number">7.2.4</span> <code>mock*</code> functions</h3>
+<p>Every package should provide at least one <code>mock*</code> function so that examples and tests can run without a real database. The naming convention is <code>mock{PackageName}()</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mockPatientProfiles</span>()        <span class="co"># PatientProfiles</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mockCohortConstructor</span>()      <span class="co"># CohortConstructor</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mockDrugUtilisation</span>(<span class="at">numberIndividual =</span> <span class="dv">100</span>, <span class="at">source =</span> <span class="st">"duckdb"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mockCohortCharacteristics</span>()  <span class="co"># CohortCharacteristics</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mockOmopSketch</span>()             <span class="co"># OmopSketch</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mockIncidencePrevalence</span>(<span class="at">sampleSize =</span> <span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Internally, these functions typically call <code>omock</code> helpers such as <code>mockCdmFromDataset()</code> or <code>mockCdmFromTables()</code>. The <code>mock*</code> function should return a <code>cdm_reference</code> containing whatever tables the package needs, and should support a <code>source</code> argument (<code>"duckdb"</code> or <code>"local"</code>) where appropriate.</p>
+<p>Mock functions should be called <code>mockDisconnect(cdm)</code> at the end of examples to release the database connection — a convention from <code>PatientProfiles</code> now used widely.</p>
+</section>
+</section>
+<section id="argument-naming" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="argument-naming"><span class="header-section-number">7.3</span> Argument naming</h2>
+<section id="standard-argument-names" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="standard-argument-names"><span class="header-section-number">7.3.1</span> Standard argument names</h3>
+<p>The following argument names are reserved. Use them whenever your function has an argument that matches the described role.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Type</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cdm</code></td>
+<td><code>cdm_reference</code></td>
+<td>CDM reference object. First argument if present.</td>
+</tr>
+<tr class="even">
+<td><code>cohort</code></td>
+<td><code>cohort_table</code></td>
+<td>Cohort table to operate on.</td>
+</tr>
+<tr class="odd">
+<td><code>cohortId</code></td>
+<td><code>integer</code> or <code>NULL</code></td>
+<td>IDs of cohorts to include; <code>NULL</code> = all.</td>
+</tr>
+<tr class="even">
+<td><code>conceptSet</code></td>
+<td>codelist / expression</td>
+<td>Clinical concept set.</td>
+</tr>
+<tr class="odd">
+<td><code>name</code></td>
+<td><code>character(1)</code></td>
+<td>Name of the output table written into the CDM.</td>
+</tr>
+<tr class="even">
+<td><code>nameStyle</code></td>
+<td><code>character(1)</code></td>
+<td>Glue template for naming output columns.</td>
+</tr>
+<tr class="odd">
+<td><code>targetCohortTable</code></td>
+<td><code>character(1)</code></td>
+<td>Name of a cohort table to intersect with.</td>
+</tr>
+<tr class="even">
+<td><code>targetCohortId</code></td>
+<td><code>integer</code> or <code>NULL</code></td>
+<td>Cohort IDs within <code>targetCohortTable</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>tableName</code></td>
+<td><code>character(1)</code></td>
+<td>Name of an OMOP CDM clinical table.</td>
+</tr>
+<tr class="even">
+<td><code>omopTableName</code></td>
+<td><code>character(1)</code></td>
+<td>As <code>tableName</code>; used in OmopSketch-style functions.</td>
+</tr>
+<tr class="odd">
+<td><code>indexDate</code></td>
+<td><code>character(1)</code></td>
+<td>Column name to use as the index date.</td>
+</tr>
+<tr class="even">
+<td><code>strata</code></td>
+<td><code>list</code> of <code>character</code> vectors</td>
+<td>Stratification variable sets.</td>
+</tr>
+<tr class="odd">
+<td><code>ageGroup</code></td>
+<td>named <code>list</code> or <code>NULL</code></td>
+<td>Age group definitions, e.g.&nbsp;<code>list(c(0, 17), c(18, 64))</code>.</td>
+</tr>
+<tr class="even">
+<td><code>sex</code></td>
+<td><code>character</code></td>
+<td>Sex filter or stratification: <code>"Male"</code>, <code>"Female"</code>, <code>"Both"</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>window</code></td>
+<td>length-2 integer vector or named <code>list</code></td>
+<td>Time window(s) relative to index date.</td>
+</tr>
+<tr class="even">
+<td><code>intersections</code></td>
+<td>integer or integer vector of length 2</td>
+<td>Number of required intersections.</td>
+</tr>
+<tr class="odd">
+<td><code>gapEra</code></td>
+<td><code>integer(1)</code></td>
+<td>Days between records below which they are merged into one era.</td>
+</tr>
+<tr class="even">
+<td><code>minCellCount</code></td>
+<td><code>integer(1)</code></td>
+<td>Minimum cell count for suppression. Default <code>5</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>type</code></td>
+<td><code>character(1)</code></td>
+<td>Output format for <code>table*</code>: <code>"gt"</code>, <code>"flextable"</code>, <code>"tibble"</code>, <code>"datatable"</code>.</td>
+</tr>
+<tr class="even">
+<td><code>facet</code></td>
+<td><code>character</code> or formula</td>
+<td>Columns to facet by in <code>plot*</code> functions.</td>
+</tr>
+<tr class="odd">
+<td><code>colour</code></td>
+<td><code>character</code></td>
+<td>Columns to colour by in <code>plot*</code> functions.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="argument-order" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="argument-order"><span class="header-section-number">7.3.2</span> Argument order</h3>
+<p>Arguments should appear in this order:</p>
+<ol type="1">
+<li><code>cdm</code> (if the function takes the CDM directly)</li>
+<li><code>cohort</code> (if the function takes a cohort table)</li>
+<li><code>cohortId</code></li>
+<li>Content arguments (what to compute, concept sets, windows, etc.)</li>
+<li>Modifier arguments (flags and options that adjust behaviour)</li>
+<li><code>name</code> (near the end, since it is often left at its default)</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cdm first, then content, then name</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">generateIngredientCohortSet</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cdm =</span> cdm,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"dus_cohort"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ingredient =</span> <span class="st">"acetaminophen"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">gapEra =</span> <span class="dv">7</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># cohort first, then targetCohortTable, then window, then name</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">requireCohortIntersect</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cohort =</span> cdm<span class="sc">$</span>fractures,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">targetCohortTable =</span> <span class="st">"gibleed"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">intersections =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">Inf</span>),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">window =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">0</span>),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"fractures_with_gi_bleed"</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="the-namestyle-argument" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="the-namestyle-argument"><span class="header-section-number">7.3.3</span> The <code>nameStyle</code> argument</h3>
+<p><code>add*</code> functions in <code>PatientProfiles</code> that produce multiple columns use a <code>nameStyle</code> argument — a <a href="https://glue.tidyverse.org">glue</a>-style template that controls how the new column names are constructed. Available template variables depend on the function but commonly include <code>{cohort_name}</code>, <code>{window_name}</code>, <code>{concept_name}</code>, and <code>{value}</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default nameStyle — column is named automatically</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">addCohortIntersectFlag</span>(cohort, <span class="at">targetCohortTable =</span> <span class="st">"cohort2"</span>, <span class="at">window =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom nameStyle — single column named "prior_infection"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">addCohortIntersectFlag</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  cohort,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">targetCohortTable =</span> <span class="st">"cohort2"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">window =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">nameStyle =</span> <span class="st">"prior_infection"</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Multi-window nameStyle — columns like "prior_morphine", "future_aspirin"</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">addCohortIntersectCount</span>(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  cohort,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">targetCohortTable =</span> <span class="st">"drugs"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">window =</span> <span class="fu">list</span>(<span class="st">"prior"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="st">"future"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">Inf</span>)),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">nameStyle =</span> <span class="st">"{window_name}_{cohort_name}"</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>When your <code>add*</code> function can produce multiple columns, provide a sensible default <code>nameStyle</code> and document the available template variables in the function’s roxygen entry.</p>
+</section>
+</section>
+<section id="windows" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="windows"><span class="header-section-number">7.4</span> Windows</h2>
+<p>Time windows are integer vectors of length 2: <code>c(start, end)</code>, where values are days relative to an index date (typically <code>cohort_start_date</code>).</p>
+<ul>
+<li><code>0</code> means the index date itself.</li>
+<li><code>-Inf</code> means no lower bound (any time before).</li>
+<li><code>Inf</code> means no upper bound (any time after).</li>
+</ul>
+<p>When multiple windows are needed, they are passed as a <strong>named list</strong>. The names become the window labels in <code>nameStyle</code> templates and in <code>additional_name</code>/<code>additional_level</code> columns of <code>summarised_result</code> objects:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>window <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"short_term"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">30</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"mid_term"</span>   <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">31</span>, <span class="dv">180</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"long_term"</span>  <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">181</span>, <span class="dv">365</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="sex-values" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="sex-values"><span class="header-section-number">7.5</span> Sex values</h2>
+<p>When sex is stored as a value — in <code>strata_level</code>, as a column value, or in cohort settings — the standard values are <code>"Male"</code>, <code>"Female"</code>, and <code>"Both"</code>. These use an initial capital. This convention is established in <code>IncidencePrevalence</code> and used consistently across the ecosystem.</p>
+</section>
+<section id="data-values-in-summarised_result" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="data-values-in-summarised_result"><span class="header-section-number">7.6</span> Data values in <code>summarised_result</code></h2>
+<p>String values stored inside <code>summarised_result</code> columns use <code>snake_case</code>. This applies to <code>variable_name</code>, <code>variable_level</code>, <code>estimate_name</code>, <code>result_type</code>, and values in <code>group_level</code> and <code>strata_level</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Typical variable_name values</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">"number_records"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">"number_subjects"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">"age"</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">"sex"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Typical estimate_name values</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">"count"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">"mean"</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="st">"sd"</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="st">"q25"</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="st">"median"</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">"q75"</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Typical result_type values</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="st">"summarised_characteristics"</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="st">"summarised_drug_utilisation"</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="st">"cohort_count"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="column-naming-in-cohort-tables" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="column-naming-in-cohort-tables"><span class="header-section-number">7.7</span> Column naming in cohort tables</h2>
+<p>Columns added to cohort tables by <code>add*</code> functions use <code>snake_case</code>. The names are derived from the <code>nameStyle</code> template and typically combine a descriptor of the value type, a cohort or concept name, and a window name when multiple windows are used:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pattern</th>
+<th>Example column name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Single target, default style</td>
+<td><code>cohort_2_minf_to_m1</code></td>
+</tr>
+<tr class="even">
+<td>Custom <code>nameStyle = "prior_infection"</code></td>
+<td><code>prior_infection</code></td>
+</tr>
+<tr class="odd">
+<td><code>nameStyle = "{window_name}_{cohort_name}"</code></td>
+<td><code>prior_morphine</code>, <code>future_aspirin</code></td>
+</tr>
+<tr class="even">
+<td><code>addAge()</code></td>
+<td><code>age</code></td>
+</tr>
+<tr class="odd">
+<td><code>addSex()</code></td>
+<td><code>sex</code></td>
+</tr>
+<tr class="even">
+<td><code>addPriorObservation()</code></td>
+<td><code>prior_observation</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-summarise-tableplot-pattern" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="the-summarise-tableplot-pattern"><span class="header-section-number">7.8</span> The <code>summarise</code> → <code>table</code>/<code>plot</code> pattern</h2>
+<p>All analytics packages follow the same two-step workflow:</p>
+<ol type="1">
+<li>A <code>summarise*</code> (or <code>estimate*</code>) function queries the CDM and returns a <code>summarised_result</code>.</li>
+<li>A paired <code>table*</code> or <code>plot*</code> function formats that result for display.</li>
+</ol>
+<p>Do not pipe <code>table*</code> or <code>plot*</code> functions directly onto <code>summarise*</code> calls in production code. The <code>summarised_result</code> object is the exportable artefact — you may want to save it, combine it with results from other databases, or suppress it before rendering.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correct workflow</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">summariseCharacteristics</span>(cdm<span class="sc">$</span>my_cohort)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>result <span class="sc">|&gt;</span> <span class="fu">tableCharacteristics</span>(<span class="at">type =</span> <span class="st">"gt"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Also fine for quick exploration, but not recommended in scripts</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># cdm$my_cohort |&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   summariseCharacteristics() |&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   tableCharacteristics()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="inconsistencies-to-be-aware-of" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="inconsistencies-to-be-aware-of"><span class="header-section-number">7.9</span> Inconsistencies to be aware of</h2>
+<p>The ecosystem has grown over several years, and a small number of inconsistencies currently exist:</p>
+<ul>
+<li><p><strong><code>omopTableName</code> vs <code>tableName</code></strong>: <code>OmopSketch</code> uses <code>omopTableName</code> for the name of a CDM clinical table; other packages use <code>tableName</code>. New packages should prefer <code>tableName</code> unless interoperating closely with <code>OmopSketch</code> patterns.</p></li>
+<li><p><strong><code>sex</code> argument type</strong>: Some older functions accept <code>sex = TRUE</code> (logical, meaning “stratify by sex”) while newer ones accept <code>sex = c("Male", "Female", "Both")</code> (character, meaning “filter to these groups”). Check the package you are building on and match its convention; prefer the character form in new code.</p></li>
+<li><p><strong><code>estimate*</code> vs <code>summarise*</code></strong>: <code>IncidencePrevalence</code> uses <code>estimate*</code> for its main output functions. Other packages use <code>summarise*</code>. Both conventions will coexist; choose the one that best describes what your function computes.</p></li>
+<li><p><strong><code>mockDisconnect()</code> location</strong>: The <code>mockDisconnect()</code> helper is exported from <code>PatientProfiles</code>. Packages that use it in examples need <code>PatientProfiles</code> in <code>Suggests</code>.</p></li>
+</ul>
+<p>When you find a convention that is not documented here or that appears applied inconsistently, please open an issue on the book repository.</p>
 
 
 </section>

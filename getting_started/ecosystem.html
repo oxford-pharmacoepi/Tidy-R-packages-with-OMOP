@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,10 +39,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -322,7 +322,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../maintainance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maintaing a package</span></a>
+ <span class="menu-text">Maintaining a package</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -346,7 +346,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-the-package-fits-in-the-ecosystem" id="toc-how-the-package-fits-in-the-ecosystem" class="nav-link active" data-scroll-target="#how-the-package-fits-in-the-ecosystem"><span class="header-section-number">2.1</span> How the package fits in the ecosystem</a></li>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation"><span class="header-section-number">2.1</span> Motivation</a></li>
+  <li><a href="#package-groups" id="toc-package-groups" class="nav-link" data-scroll-target="#package-groups"><span class="header-section-number">2.2</span> Package groups</a>
+  <ul class="collapse">
+  <li><a href="#core" id="toc-core" class="nav-link" data-scroll-target="#core"><span class="header-section-number">2.2.1</span> Core</a></li>
+  <li><a href="#back-end" id="toc-back-end" class="nav-link" data-scroll-target="#back-end"><span class="header-section-number">2.2.2</span> Back-end</a></li>
+  <li><a href="#analytics" id="toc-analytics" class="nav-link" data-scroll-target="#analytics"><span class="header-section-number">2.2.3</span> Analytics</a></li>
+  <li><a href="#diagnostics" id="toc-diagnostics" class="nav-link" data-scroll-target="#diagnostics"><span class="header-section-number">2.2.4</span> Diagnostics</a></li>
+  <li><a href="#etl" id="toc-etl" class="nav-link" data-scroll-target="#etl"><span class="header-section-number">2.2.5</span> ETL</a></li>
+  <li><a href="#visualisation" id="toc-visualisation" class="nav-link" data-scroll-target="#visualisation"><span class="header-section-number">2.2.6</span> Visualisation</a></li>
+  </ul></li>
+  <li><a href="#how-the-packages-fit-together" id="toc-how-the-packages-fit-together" class="nav-link" data-scroll-target="#how-the-packages-fit-together"><span class="header-section-number">2.3</span> How the packages fit together</a></li>
+  <li><a href="#how-your-package-fits-in" id="toc-how-your-package-fits-in" class="nav-link" data-scroll-target="#how-your-package-fits-in"><span class="header-section-number">2.4</span> How your package fits in</a></li>
+  <li><a href="#package-statistics" id="toc-package-statistics" class="nav-link" data-scroll-target="#package-statistics"><span class="header-section-number">2.5</span> Package statistics</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">2.6</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -372,8 +385,276 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="how-the-package-fits-in-the-ecosystem" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="how-the-package-fits-in-the-ecosystem"><span class="header-section-number">2.1</span> How the package fits in the ecosystem</h2>
+<p>This chapter gives an overview of the ecosystem of R packages built for the OMOP Common Data Model (CDM) that your new package will become part of. Understanding the ecosystem — which packages exist, what they do, and how they relate to each other — is essential context before writing a single line of code. It will help you avoid reinventing existing functionality, identify the right packages to depend on, and make deliberate choices about where your package sits in the broader landscape.</p>
+<section id="motivation" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">2.1</span> Motivation</h2>
+<p>The OMOP CDM is a fixed, well-documented structure: every database mapped to it has the same tables, the same column names, and the same vocabulary conventions. This predictability is a major asset. It means that code written against one OMOP CDM instance should work against any other, regardless of the underlying database management system (DBMS) or institution.</p>
+<p>The ecosystem described in this chapter exploits that predictability. Rather than writing raw SQL — which is verbose, fragile across different DBMS back-ends, and hard to compose — the packages in this ecosystem are built entirely in R, on top of <a href="https://dplyr.tidyverse.org/">dplyr</a> and <a href="https://dbplyr.tidyverse.org/">dbplyr</a>. This means that:</p>
+<ul>
+<li><strong>No Java</strong> and <strong>no SQL</strong> need to be written by package developers or end users.</li>
+<li>Analysis pipelines are expressed using familiar tidyverse-style code and the pipe operator.</li>
+<li>The same pipeline runs unchanged against DuckDB, PostgreSQL, SQL Server, Spark, and other back-ends.</li>
+<li>Packages are released on CRAN, making installation straightforward.</li>
+</ul>
+<p>The foundation is the observation that dplyr verbs applied to a lazy <code>tbl</code> object (a remote table reference) are automatically translated to SQL by dbplyr and executed in the database. Package developers in this ecosystem work at the level of these lazy table references rather than materialising data into R unless absolutely necessary.</p>
+</section>
+<section id="package-groups" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="package-groups"><span class="header-section-number">2.2</span> Package groups</h2>
+<p>The ecosystem is organised into six functional groups. Each group addresses a distinct concern, and packages within a group share conventions and interfaces.</p>
+<section id="core" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="core"><span class="header-section-number">2.2.1</span> Core</h3>
+<p>The core packages define the shared vocabulary — classes, methods, and synthetic data — that all other packages build on. Depending on one or more core packages is expected; depending on packages in other groups is a deliberate choice that should be made carefully (see <a href="../principles/core_dependencies.html" class="quarto-xref"><span>Chapter 5</span></a>).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="github.com/darwin-eu/omopgenerics"><code>omopgenerics</code></a></td>
+<td>Defines the central classes (<code>cdm_reference</code>, <code>cohort_table</code>, <code>summarised_result</code>, codelists) and their generic methods. Every package in the ecosystem imports this.</td>
+</tr>
+<tr class="even">
+<td><code>omock</code></td>
+<td>Creates synthetic OMOP CDM datasets for use in tests and examples. Pipeable API for building up only the tables you need.</td>
+</tr>
+<tr class="odd">
+<td><code>visOmopResults</code></td>
+<td>Provides tools for formatting and visualising <code>summarised_result</code> objects as tables and plots. Also used by analytics packages to present results.</td>
+</tr>
+<tr class="even">
+<td><code>CodelistGenerator</code></td>
+<td>Generates and manages clinical code lists against the OMOP vocabulary. Also serves as the authoritative source for codelist-related operations across the ecosystem.</td>
+</tr>
+<tr class="odd">
+<td><code>PatientProfiles</code></td>
+<td>Adds patient-level feature columns (demographics, intersection flags, date-based variables) to any cohort table. Used internally by many analytics packages.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="back-end" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="back-end"><span class="header-section-number">2.2.2</span> Back-end</h3>
+<p>Back-end packages handle database connectivity. They are responsible for creating the <code>cdm_reference</code> object — the central object of the whole ecosystem — against a particular database technology. End users typically load one back-end package; package developers should not need to depend on them directly.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>CDMConnector</code></td>
+<td>The primary back-end for connecting to any DBI-compatible database (DuckDB, PostgreSQL, SQL Server, Redshift, etc.).</td>
+</tr>
+<tr class="even">
+<td><code>OmopOnDuckDB</code></td>
+<td>Specialised DuckDB back-end, including support for reading Parquet files directly.</td>
+</tr>
+<tr class="odd">
+<td><code>OmopOnPostgres</code></td>
+<td>Specialised PostgreSQL back-end, including support for native indexes.</td>
+</tr>
+<tr class="even">
+<td><code>OmopOnSqlServer</code></td>
+<td>Specialised SQL Server and Synapse back-end.</td>
+</tr>
+<tr class="odd">
+<td><code>OmopOnSpark</code></td>
+<td>Back-end for Apache Spark deployments.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="analytics" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="analytics"><span class="header-section-number">2.2.3</span> Analytics</h3>
+<p>Analytics packages implement the epidemiological methods that are the primary output of studies run on OMOP CDM data. They all take a <code>cdm_reference</code> and one or more <code>cohort_table</code> objects as input, and return results in the <code>summarised_result</code> format.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>CohortConstructor</code></td>
+<td>Builds and refines study cohorts from base clinical events.</td>
+</tr>
+<tr class="even">
+<td><code>IncidencePrevalence</code></td>
+<td>Estimates incidence rates and prevalence from denominator and outcome cohorts.</td>
+</tr>
+<tr class="odd">
+<td><code>DrugUtilisation</code></td>
+<td>Characterises drug use: dose, duration, indication, discontinuation.</td>
+</tr>
+<tr class="even">
+<td><code>CohortCharacteristics</code></td>
+<td>Summarises cohort demographics, comorbidities, and overlap between cohorts.</td>
+</tr>
+<tr class="odd">
+<td><code>CohortSurvival</code></td>
+<td>Estimates survival probabilities and competing risks from cohort data.</td>
+</tr>
+<tr class="even">
+<td><code>CohortSymmetry</code></td>
+<td>Performs sequence symmetry analysis between two drug or exposure cohorts.</td>
+</tr>
+<tr class="odd">
+<td><code>OmopSketch</code></td>
+<td>Summarises the content of an OMOP CDM instance: record counts, trends, missing data. Also used as a diagnostic tool.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="diagnostics" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="diagnostics"><span class="header-section-number">2.2.4</span> Diagnostics</h3>
+<p>Diagnostics packages assess the quality and fitness-for-purpose of codelists and cohorts before and after they are used in a study.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>CodelistGenerator</code></td>
+<td>Codelist diagnostics (also listed in Core).</td>
+</tr>
+<tr class="even">
+<td><code>OmopSketch</code></td>
+<td>Database-level diagnostics (also listed in Analytics).</td>
+</tr>
+<tr class="odd">
+<td><code>PhenotypeR</code></td>
+<td>Runs a full suite of diagnostics at the database, codelist, cohort, and population level.</td>
+</tr>
+<tr class="even">
+<td><code>MeasurementDiagnostics</code></td>
+<td>Diagnostics specific to codelists built from measurement and observation domains.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="etl" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="etl"><span class="header-section-number">2.2.5</span> ETL</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>OmopConstructor</code></td>
+<td>Builds derived OMOP CDM tables (observation period, drug era, etc.) from source data already in OMOP format. Also runs Achilles analyses.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="visualisation" class="level3" data-number="2.2.6">
+<h3 data-number="2.2.6" class="anchored" data-anchor-id="visualisation"><span class="header-section-number">2.2.6</span> Visualisation</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>visOmopResults</code></td>
+<td>Formatted tables and plots from <code>summarised_result</code> objects (also listed in Core).</td>
+</tr>
+<tr class="even">
+<td><code>OmopViewer</code></td>
+<td>Generates interactive Shiny applications automatically from <code>summarised_result</code> objects.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="how-the-packages-fit-together" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="how-the-packages-fit-together"><span class="header-section-number">2.3</span> How the packages fit together</h2>
+<p>The diagram below captures the dependency structure of the ecosystem. <code>omopgenerics</code> is the central node: almost every package in the ecosystem imports it. <code>PatientProfiles</code> and <code>CodelistGenerator</code> sit just above it, providing functionality that is reused widely by analytics packages. The back-end packages and <code>omock</code> are largely independent of each other; they are connected to the rest of the ecosystem only through the shared <code>cdm_reference</code> class.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Imports</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Imports and suggests</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ecosystem_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ecosystem_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>A key design principle is that the <strong>result model is standardised</strong>. All analytics packages return a <code>summarised_result</code> object (defined in <code>omopgenerics</code>). This means that <code>visOmopResults</code> and <code>OmopViewer</code> work without modification across every package that produces results — a developer working on, say, <code>CohortSurvival</code> does not need to write any bespoke visualisation code.</p>
+<p>Similarly, the <strong>cohort model is standardised</strong>. A <code>cohort_table</code> produced by <code>CohortConstructor</code> can be passed directly to <code>IncidencePrevalence</code>, <code>DrugUtilisation</code>, <code>CohortCharacteristics</code>, or any other analytics package. The shared contract means pipelines can be composed without glue code.</p>
+</section>
+<section id="how-your-package-fits-in" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="how-your-package-fits-in"><span class="header-section-number">2.4</span> How your package fits in</h2>
+<p>Before writing any code, locate your package in this map. There are a few common situations:</p>
+<p><strong>You are adding a new analytics method.</strong> Your package should import <code>omopgenerics</code> (for the <code>cdm_reference</code> and <code>cohort_table</code> classes), likely import <code>PatientProfiles</code> (for adding patient features to your cohort), and return results as a <code>summarised_result</code>. You should use <code>omock</code> and <code>CDMConnector</code> in your test suite but list them under <code>Suggests</code>, not <code>Imports</code>. See <a href="../principles/core_dependencies.html" class="quarto-xref"><span>Chapter 5</span></a> for the distinction.</p>
+<p><strong>You are adding a new diagnostic tool.</strong> Similar to analytics, but you may also want to depend on <code>CodelistGenerator</code> for codelist management. Consider whether <code>PhenotypeR</code> already covers your use case, or whether your tool is genuinely complementary.</p>
+<p><strong>You are adding a new back-end.</strong> Your package should implement the <code>cdm_source</code> interface defined in <code>omopgenerics</code> (see <code>newCdmSource()</code>). Your only required import is <code>omopgenerics</code>; you should not depend on <code>CDMConnector</code> or other back-end packages.</p>
+<p><strong>You are adding a utility or helper package.</strong> If your package provides functionality that multiple other packages will use, it belongs in the Core group. Treat it as a potential dependency of many downstream packages and be especially conservative about what <em>it</em> depends on — every import you add is propagated to all packages that depend on you.</p>
+<p>A practical rule of thumb: <strong>the more packages that will depend on yours, the lighter your own dependency footprint should be.</strong> A package that sits at the base of the dependency graph needs to be especially stable and minimal. A package at the periphery can afford to be more opinionated.</p>
+</section>
+<section id="package-statistics" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="package-statistics"><span class="header-section-number">2.5</span> Package statistics</h2>
+<p>The ecosystem is under active development with frequent CRAN releases. As of 05 Mar 2026 there are around 22 packages in the ecosystem, 18 of which are on CRAN, with a combined total of 277 CRAN releases and 4.07984^{5} total CRAN downloads.</p>
+<p>The high release frequency is intentional. The ecosystem follows a continuous delivery philosophy: packages are kept in a releasable state at all times, which allows rapid iteration and fast response to bugs. As a new package developer you should expect to release early and often rather than waiting for a “complete” feature set.</p>
+</section>
+<section id="further-reading" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">2.6</span> Further reading</h2>
+<ul>
+<li>The <a href="https://oxford-pharmacoepi.github.io/Oxinfer/packages/summary.html">OxInfer software page</a> provides an up-to-date summary of all packages, their CRAN versions, and a visualisation of the inter-package dependency graph.</li>
+<li>The <a href="https://ohdsi.github.io/Tidy-R-with-OMOP-WG/Presentations/ecosystem">ecosystem presentation</a> gives a walkthrough of the history and structure of the ecosystem, including a detailed tour of <code>omopgenerics</code>.</li>
+<li><a href="https://ohdsi.github.io/TheBookOfOhdsi/">The Book of OHDSI</a> provides essential background on the OMOP CDM itself.</li>
+<li>The companion book <a href="https://ohdsi.github.io/Tidy-R-programming-with-OMOP/">Tidy R programming with the OMOP Common Data Model</a> covers how to <em>use</em> the ecosystem as a researcher, which is useful background even if your focus is package development.</li>
+</ul>
 
 
 </section>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -39,10 +74,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -322,7 +357,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../maintainance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maintaing a package</span></a>
+ <span class="menu-text">Maintaining a package</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -349,12 +384,15 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#omopgenerics" id="toc-omopgenerics" class="nav-link active" data-scroll-target="#omopgenerics"><span class="header-section-number">5.1</span> omopgenerics</a>
   <ul class="collapse">
   <li><a href="#classes" id="toc-classes" class="nav-link" data-scroll-target="#classes"><span class="header-section-number">5.1.1</span> Classes</a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">5.1.2</span> Methods</a></li>
-  <li><a href="#input-validation-functions" id="toc-input-validation-functions" class="nav-link" data-scroll-target="#input-validation-functions"><span class="header-section-number">5.1.3</span> Input validation functions</a></li>
-  <li><a href="#manipulate-a-cdm_reference-object" id="toc-manipulate-a-cdm_reference-object" class="nav-link" data-scroll-target="#manipulate-a-cdm_reference-object"><span class="header-section-number">5.1.4</span> Manipulate a <code>cdm_reference</code> object</a></li>
-  <li><a href="#manipulate-a-summarised_result-object" id="toc-manipulate-a-summarised_result-object" class="nav-link" data-scroll-target="#manipulate-a-summarised_result-object"><span class="header-section-number">5.1.5</span> Manipulate a <code>summarised_result</code> object</a></li>
+  <li><a href="#codelists" id="toc-codelists" class="nav-link" data-scroll-target="#codelists"><span class="header-section-number">5.1.2</span> Codelists</a></li>
+  <li><a href="#the-summarised_result-class" id="toc-the-summarised_result-class" class="nav-link" data-scroll-target="#the-summarised_result-class"><span class="header-section-number">5.1.3</span> The <code>summarised_result</code> class</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">5.1.4</span> Methods</a></li>
+  <li><a href="#input-validation-functions" id="toc-input-validation-functions" class="nav-link" data-scroll-target="#input-validation-functions"><span class="header-section-number">5.1.5</span> Input validation functions</a></li>
+  <li><a href="#manipulating-a-cdm_reference" id="toc-manipulating-a-cdm_reference" class="nav-link" data-scroll-target="#manipulating-a-cdm_reference"><span class="header-section-number">5.1.6</span> Manipulating a <code>cdm_reference</code></a></li>
+  <li><a href="#manipulating-a-summarised_result" id="toc-manipulating-a-summarised_result" class="nav-link" data-scroll-target="#manipulating-a-summarised_result"><span class="header-section-number">5.1.7</span> Manipulating a <code>summarised_result</code></a></li>
   </ul></li>
   <li><a href="#other-useful-packages" id="toc-other-useful-packages" class="nav-link" data-scroll-target="#other-useful-packages"><span class="header-section-number">5.2</span> Other useful packages</a></li>
+  <li><a href="#imports-vs-suggests" id="toc-imports-vs-suggests" class="nav-link" data-scroll-target="#imports-vs-suggests"><span class="header-section-number">5.3</span> Imports vs Suggests</a></li>
   </ul>
 </nav>
     </div>
@@ -363,7 +401,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/core_dependencies.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Core dependencies</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Core dependencies</span></h1>
+<h1 class="title"><span id="sec-core-dependencies" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Core dependencies</span></span></h1>
 </div>
 
 
@@ -380,34 +418,203 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The <em>Tidy R OMOP CDM</em> packages rely on <a href="https://dplyr.tidyverse.org">dplyr</a> and the <a href="https://www.tidyverse.org">tidyverse</a> packages to manipulate the data from the <code>cdm</code> object. The <code>cdm</code> object is an object that contains all the tables available and is central for the data manipulation. This <code>cdm</code> object is defined in <a href="https://darwin-eu.github.io/omopgenerics/">omopgenerics</a>.</p>
+<p>The <em>Tidy R OMOP CDM</em> packages rely on <a href="https://dplyr.tidyverse.org">dplyr</a> and <a href="https://dbplyr.tidyverse.org">dbplyr</a> to manipulate data from a <code>cdm_reference</code> object. The <code>cdm_reference</code> is the central object in the ecosystem — a named list of lazy database table references, all pointing to the same underlying data source. It is defined in <a href="https://darwin-eu.github.io/omopgenerics/">omopgenerics</a>, the package that every other package in the ecosystem depends on.</p>
+<p>This chapter describes what <code>omopgenerics</code> provides and which other core packages are useful enough to consider importing or suggesting.</p>
 <section id="omopgenerics" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="omopgenerics"><span class="header-section-number">5.1</span> omopgenerics</h2>
+<p><code>omopgenerics</code> defines the classes and methods that give the ecosystem its coherence. It is a deliberately minimal package: its only external dependencies are <code>dplyr</code>, <code>dbplyr</code>, <code>cli</code>, <code>glue</code>, and <code>rlang</code>. This keeps its footprint small so that depending on it does not burden downstream packages.</p>
 <section id="classes" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="classes"><span class="header-section-number">5.1.1</span> Classes</h3>
+<p>The four main classes defined by <code>omopgenerics</code> are:</p>
+<p><strong><code>cdm_reference</code></strong> is the central object of the whole ecosystem. It is a named list whose elements are lazy table references pointing to OMOP CDM tables in a database, along with any cohort or other tables associated with the CDM. The <code>cdm_reference</code> knows which database back-end it is connected to, what the CDM name is, and what schema to write results into. Every analytical function in the ecosystem takes a <code>cdm_reference</code> (or a table derived from one) as its first argument.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(omopgenerics)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Access CDM properties</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cdmName</span>(cdm)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cdmVersion</span>(cdm)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cdmSource</span>(cdm)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sourceType</span>(cdm)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Insert, read, list, and drop tables in the write schema</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>cdm <span class="ot">&lt;-</span> <span class="fu">insertTable</span>(cdm, <span class="at">name =</span> <span class="st">"my_table"</span>, <span class="at">table =</span> my_data)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>cdm <span class="ot">&lt;-</span> <span class="fu">readSourceTable</span>(cdm, <span class="at">name =</span> <span class="st">"my_table"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">listSourceTables</span>(cdm)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>cdm <span class="ot">&lt;-</span> <span class="fu">dropSourceTable</span>(cdm, <span class="at">name =</span> <span class="st">"my_table"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong><code>cdm_table</code></strong> is the class of any table that belongs to a <code>cdm_reference</code>. All CDM tables carry a back-reference to their parent <code>cdm_reference</code>, which means you can always navigate from a table back to the full CDM:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cdmReference</span>(cdm<span class="sc">$</span>person)   <span class="co"># returns the full cdm_reference</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cdmName</span>(cdm<span class="sc">$</span>person)        <span class="co"># works just like cdmName(cdm)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tableName</span>(cdm<span class="sc">$</span>person)      <span class="co"># returns "person"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong><code>omop_table</code></strong> is a subclass of <code>cdm_table</code> that protects the integrity of the standard OMOP CDM tables. It prevents removal of required columns and enforces that a table assigned to <code>cdm$person</code> must actually be named <code>person</code>. Filtering, mutating, and adding columns are all permitted — only operations that would break the CDM schema are blocked.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is blocked — person_id is required</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>cdm<span class="sc">$</span>person <span class="ot">&lt;-</span> cdm<span class="sc">$</span>person <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>person_id)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: person_id is not present in table person</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># This is fine — adding a column is allowed</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>cdm<span class="sc">$</span>person <span class="ot">&lt;-</span> cdm<span class="sc">$</span>person <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">extra_col =</span> <span class="st">"my_content"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong><code>cohort_table</code></strong> extends <code>cdm_table</code> with the structure required for a study cohort. A cohort table has exactly four columns (<code>cohort_definition_id</code>, <code>subject_id</code>, <code>cohort_start_date</code>, <code>cohort_end_date</code>) and carries three mandatory attributes stored as database tables: the cohort set (metadata per cohort), the attrition log (a record of how many records and subjects were retained at each step), and the cohort codelist (the clinical codes used to define each cohort).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">settings</span>(cdm<span class="sc">$</span>my_cohort)      <span class="co"># cohort set: name, cdm_version, vocabulary_version</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cohortCount</span>(cdm<span class="sc">$</span>my_cohort)   <span class="co"># records and subjects per cohort</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">attrition</span>(cdm<span class="sc">$</span>my_cohort)     <span class="co"># full attrition table</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Record a new attrition step after filtering</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>cdm<span class="sc">$</span>my_cohort <span class="ot">&lt;-</span> cdm<span class="sc">$</span>my_cohort <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(subject_id <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>(<span class="at">name =</span> <span class="st">"my_cohort"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recordCohortAttrition</span>(<span class="st">"Only even subjects"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="methods" class="level3" data-number="5.1.2">
-<h3 data-number="5.1.2" class="anchored" data-anchor-id="methods"><span class="header-section-number">5.1.2</span> Methods</h3>
+<section id="codelists" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="codelists"><span class="header-section-number">5.1.2</span> Codelists</h3>
+<p><code>omopgenerics</code> defines three classes for representing clinical code lists:</p>
+<ul>
+<li><strong><code>codelist</code></strong>: a named list of integer vectors, one per concept set.</li>
+<li><strong><code>codelist_with_details</code></strong>: a named list of tibbles, where each tibble contains <code>concept_id</code> alongside additional properties (e.g.&nbsp;<code>concept_name</code>, <code>domain_id</code>).</li>
+<li><strong><code>concept_set_expression</code></strong>: a named list of tibbles with <code>concept_id</code>, <code>excluded</code>, <code>descendants</code>, and <code>mapped</code> columns — matching the ATLAS JSON format and the OHDSI TAB guidelines.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simple codelist</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">newCodelist</span>(<span class="fu">list</span>(<span class="at">hypertension =</span> <span class="fu">c</span>(<span class="dv">316866</span>L, <span class="dv">320128</span>L), <span class="at">diabetes =</span> <span class="fu">c</span>(<span class="dv">201826</span>L)))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine and subset</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(cl, <span class="fu">newCodelist</span>(<span class="fu">list</span>(<span class="at">asthma =</span> <span class="dv">317009</span>L)))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>cl[<span class="st">"hypertension"</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Export and import (JSON is compatible with ATLAS)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">exportCodelist</span>(cl, <span class="at">path =</span> here<span class="sc">::</span><span class="fu">here</span>(), <span class="at">type =</span> <span class="st">"json"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">importCodelist</span>(<span class="at">path =</span> here<span class="sc">::</span><span class="fu">here</span>(), <span class="at">type =</span> <span class="st">"json"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In general, analytical functions in the ecosystem accept a <code>conceptSet</code> argument that can be any of these three classes (or a plain named list of integers that will be coerced to a <code>codelist</code>).</p>
 </section>
-<section id="input-validation-functions" class="level3" data-number="5.1.3">
-<h3 data-number="5.1.3" class="anchored" data-anchor-id="input-validation-functions"><span class="header-section-number">5.1.3</span> Input validation functions</h3>
+<section id="the-summarised_result-class" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="the-summarised_result-class"><span class="header-section-number">5.1.3</span> The <code>summarised_result</code> class</h3>
+<p><code>summarised_result</code> is the standard result format for all analytics functions in the ecosystem. It is a tibble with 13 compulsory columns. See <a href="function_outputs.html" class="quarto-xref"><span>Chapter 9</span></a> for a full description and guidance on how to create and populate it.</p>
 </section>
-<section id="manipulate-a-cdm_reference-object" class="level3" data-number="5.1.4">
-<h3 data-number="5.1.4" class="anchored" data-anchor-id="manipulate-a-cdm_reference-object"><span class="header-section-number">5.1.4</span> Manipulate a <code>cdm_reference</code> object</h3>
+<section id="methods" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="methods"><span class="header-section-number">5.1.4</span> Methods</h3>
+<p><code>omopgenerics</code> exports a set of generic S3 methods that packages implement for their own classes:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Generic</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cdmName()</code></td>
+<td>Return the name of the CDM instance</td>
+</tr>
+<tr class="even">
+<td><code>cdmVersion()</code></td>
+<td>Return the CDM version</td>
+</tr>
+<tr class="odd">
+<td><code>cdmSource()</code></td>
+<td>Return the <code>cdm_source</code> object</td>
+</tr>
+<tr class="even">
+<td><code>sourceType()</code></td>
+<td>Return the back-end type (e.g.&nbsp;<code>"duckdb"</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>tableName()</code></td>
+<td>Return the name of a <code>cdm_table</code></td>
+</tr>
+<tr class="even">
+<td><code>settings()</code></td>
+<td>Return cohort set metadata</td>
+</tr>
+<tr class="odd">
+<td><code>cohortCount()</code></td>
+<td>Return record/subject counts per cohort</td>
+</tr>
+<tr class="even">
+<td><code>attrition()</code></td>
+<td>Return the attrition log</td>
+</tr>
+<tr class="odd">
+<td><code>cohortCodelist()</code></td>
+<td>Return the codelist used to build a cohort</td>
+</tr>
+<tr class="even">
+<td><code>recordCohortAttrition()</code></td>
+<td>Append a step to the attrition log</td>
+</tr>
+<tr class="odd">
+<td><code>bind()</code></td>
+<td>Bind two <code>summarised_result</code> objects together</td>
+</tr>
+<tr class="even">
+<td><code>suppress()</code></td>
+<td>Apply small-number suppression to a <code>summarised_result</code></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="manipulate-a-summarised_result-object" class="level3" data-number="5.1.5">
-<h3 data-number="5.1.5" class="anchored" data-anchor-id="manipulate-a-summarised_result-object"><span class="header-section-number">5.1.5</span> Manipulate a <code>summarised_result</code> object</h3>
+<section id="input-validation-functions" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="input-validation-functions"><span class="header-section-number">5.1.5</span> Input validation functions</h3>
+<p><code>omopgenerics</code> provides <code>validate*</code> functions for the arguments that appear repeatedly across the ecosystem. Using these instead of writing bespoke validation code keeps error messages consistent across packages. See <a href="error_and_validation.html" class="quarto-xref"><span>Chapter 8</span></a> for full details and examples. The available validators are:</p>
+<p><code>validateCdmArgument()</code>, <code>validateCohortArgument()</code>, <code>validateCohortIdArgument()</code>, <code>validateConceptSetArgument()</code>, <code>validateNameArgument()</code>, <code>validateNameStyle()</code>, <code>validateResultArgument()</code>, <code>validateStrataArgument()</code>, <code>validateWindowArgument()</code>, <code>validateAgeGroupArgument()</code>.</p>
+<p>There are also <code>assert*</code> helpers for simpler type checks: <code>assertCharacter()</code>, <code>assertNumeric()</code>, <code>assertLogical()</code>, <code>assertDate()</code>, <code>assertList()</code>, <code>assertClass()</code>.</p>
+</section>
+<section id="manipulating-a-cdm_reference" class="level3" data-number="5.1.6">
+<h3 data-number="5.1.6" class="anchored" data-anchor-id="manipulating-a-cdm_reference"><span class="header-section-number">5.1.6</span> Manipulating a <code>cdm_reference</code></h3>
+<p>In addition to the methods above, <code>omopgenerics</code> provides utilities for working with CDM table collections:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List tables by type</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">omopTables</span>(cdm)       <span class="co"># standard OMOP CDM tables</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cohortTables</span>(cdm)     <span class="co"># cohort tables in the write schema</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">achillesTables</span>(cdm)   <span class="co"># Achilles result tables</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Insert and drop</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>cdm <span class="ot">&lt;-</span> <span class="fu">insertTable</span>(cdm, <span class="at">name =</span> <span class="st">"temp"</span>, <span class="at">table =</span> my_tibble)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>cdm <span class="ot">&lt;-</span> <span class="fu">dropSourceTable</span>(cdm, <span class="at">name =</span> <span class="st">"temp"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="manipulating-a-summarised_result" class="level3" data-number="5.1.7">
+<h3 data-number="5.1.7" class="anchored" data-anchor-id="manipulating-a-summarised_result"><span class="header-section-number">5.1.7</span> Manipulating a <code>summarised_result</code></h3>
+<p>A <code>summarised_result</code> object has its own set of helper functions:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">settings</span>(result)          <span class="co"># result-level metadata (result_type, package_name, ...)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">groupColumns</span>(result)      <span class="co"># columns encoded in group_name / group_level</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">strataColumns</span>(result)     <span class="co"># columns encoded in strata_name / strata_level</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(result)              <span class="co"># pivot to wide format — useful for internal computation</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bind</span>(result1, result2)    <span class="co"># combine two summarised_result objects</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">suppress</span>(result, <span class="at">minCellCount =</span> <span class="dv">5</span>)  <span class="co"># apply cell suppression</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 </section>
 <section id="other-useful-packages" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="other-useful-packages"><span class="header-section-number">5.2</span> Other useful packages</h2>
-<p>The <em>omopverse</em> has some core packages that will be useful to simplify the scope of your package:</p>
+<p>Beyond <code>omopgenerics</code>, several other core packages are commonly useful. Unlike <code>omopgenerics</code>, these should generally be listed under <code>Suggests</code> unless your package’s primary purpose depends on them.</p>
+<p><strong><a href="https://darwin-eu.github.io/PatientProfiles/">PatientProfiles</a></strong> adds columns to cohort tables: demographics (age, sex, prior observation, future observation), intersection flags and values (e.g.&nbsp;“was the patient on drug X at cohort start?”), and date-relative summaries. Browse the <a href="https://darwin-eu.github.io/PatientProfiles/reference/index.html">function reference</a> before implementing any feature-derivation logic — it is very likely already there.</p>
+<p><strong><a href="https://darwin-eu.github.io/visOmopResults/">visOmopResults</a></strong> transforms <code>summarised_result</code> objects into formatted tables and <code>ggplot2</code> plots. The package supports multiple output formats for tables (gt, flextable, tibble) with a consistent API. See <a href="visualisations.html" class="quarto-xref"><span>Chapter 10</span></a> for guidance on how to use it in your package. Browse the <a href="https://darwin-eu.github.io/visOmopResults/reference/index.html">function reference</a> before adding any result-formatting code.</p>
+<p><strong><a href="https://darwin-eu.github.io/CodelistGenerator/">CodelistGenerator</a></strong> generates codelists by searching the OMOP vocabulary, and provides utilities for subsetting, stratifying, comparing, and diagnosing codelists. If your package works with clinical concepts, check the <a href="https://darwin-eu.github.io/CodelistGenerator/reference/index.html">function reference</a> first.</p>
+<p><strong><a href="https://ohdsi.github.io/omock/">omock</a></strong> creates synthetic OMOP CDM datasets for testing. It should almost always be listed under <code>Suggests</code>, not <code>Imports</code>. See <span class="quarto-unresolved-ref">?sec-test-omop</span> for detailed guidance on using it in your test suite.</p>
+</section>
+<section id="imports-vs-suggests" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="imports-vs-suggests"><span class="header-section-number">5.3</span> Imports vs Suggests</h2>
+<p>A package listed under <code>Imports</code> is loaded automatically when your package is loaded. A package listed under <code>Suggests</code> is not — it must be available but is only used in specific circumstances (tests, vignettes, or optional code paths guarded by <code>requireNamespace()</code>).</p>
+<p>The key rule for this ecosystem:</p>
 <ul>
-<li><p><a href="https://darwin-eu.github.io/PatientProfiles/">PatientProfiles</a>: this package is very useful for data manipulation, you can find extract basic demographic information, intersections of cohorts and summarise data in a standard format. Take a look at the <a href="https://darwin-eu.github.io/PatientProfiles/reference/index.html">list</a> of functions in PatientProfiles to prevent you from duplicating code.</p></li>
-<li><p><a href="https://darwin-eu.github.io/visOmopResults/">visOmopResults</a>: this package is very useful to create data visualisations (tables and plots) from standardised data. There are many different supported types of tables (<code>r visOmopResults::tableType()</code>) and with little customisation you can get quite pretty tables. For plots the support is a bit more limited but it creates some simple <a href="https://ggplot2.tidyverse.org">ggplot2</a> visualisations with very little effort. Take a look at the <a href="https://darwin-eu.github.io/visOmopResults/reference/index.html">list</a> of functions in visOmopResults to prevent you from duplicating code.</p></li>
-<li><p><a href="https://darwin-eu.github.io/CodelistGenerator/">CodelistGenerator</a>: this package can be useful to query the vocabularies. Take a look at the <a href="https://darwin-eu.github.io/CodelistGenerator/reference/index.html">list</a> of functions in CodelistGenerator to prevent you from duplicating code.</p></li>
-<li><p><a href="https://ohdsi.github.io/omock/">omock</a>: this package can be very useful for testing. With very few lines of code you can create a mock CDM object with your desired specifications, specially useful can be the function <a href="https://ohdsi.github.io/omock/reference/mockCdmFromTables.html"><code>mockCdmFromTables()</code></a> that will create a viable CDM object from the supplied information. Take a look at the <a href="https://ohdsi.github.io/omock/reference/index.html">list</a> of functions in omock to prevent you from duplicating code. This package is quite useful, but usually listed in Suggests as you will only need this package for testing purposes.</p></li>
+<li><strong>Always <code>Imports</code></strong>: <code>omopgenerics</code>, any package whose classes or generics you use in exported functions.</li>
+<li><strong>Usually <code>Suggests</code></strong>: <code>omock</code> (tests only), <code>CDMConnector</code> / back-end packages (tests only), <code>visOmopResults</code> (unless your package’s core output is visualisation), <code>PatientProfiles</code> (unless your package is built on top of it).</li>
 </ul>
+<p>When in doubt, prefer <code>Suggests</code>. A lighter <code>Imports</code> list means fewer forced transitive dependencies for your users.</p>
 
 
 </section>

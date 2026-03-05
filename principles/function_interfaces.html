@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -39,10 +74,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -322,7 +357,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../maintainance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maintaing a package</span></a>
+ <span class="menu-text">Maintaining a package</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -341,15 +376,31 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#function-naming" id="toc-function-naming" class="nav-link active" data-scroll-target="#function-naming"><span class="header-section-number">6.1</span> Function naming</a>
+  <ul class="collapse">
+  <li><a href="#standard-prefixes" id="toc-standard-prefixes" class="nav-link" data-scroll-target="#standard-prefixes"><span class="header-section-number">6.1.1</span> Standard prefixes</a></li>
+  <li><a href="#the-cohortset-suffix" id="toc-the-cohortset-suffix" class="nav-link" data-scroll-target="#the-cohortset-suffix"><span class="header-section-number">6.1.2</span> The <code>*CohortSet</code> suffix</a></li>
+  <li><a href="#internal-functions" id="toc-internal-functions" class="nav-link" data-scroll-target="#internal-functions"><span class="header-section-number">6.1.3</span> Internal functions</a></li>
+  </ul></li>
+  <li><a href="#argument-naming" id="toc-argument-naming" class="nav-link" data-scroll-target="#argument-naming"><span class="header-section-number">6.2</span> Argument naming</a></li>
+  <li><a href="#argument-order" id="toc-argument-order" class="nav-link" data-scroll-target="#argument-order"><span class="header-section-number">6.3</span> Argument order</a></li>
+  <li><a href="#the-cdm-argument" id="toc-the-cdm-argument" class="nav-link" data-scroll-target="#the-cdm-argument"><span class="header-section-number">6.4</span> The <code>cdm</code> argument</a></li>
+  <li><a href="#boolean-flags" id="toc-boolean-flags" class="nav-link" data-scroll-target="#boolean-flags"><span class="header-section-number">6.5</span> Boolean flags</a></li>
+  <li><a href="#dots-..." id="toc-dots-..." class="nav-link" data-scroll-target="#dots-..."><span class="header-section-number">6.6</span> Dots (<code>...</code>)</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/function_interfaces.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Function interfaces</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Function interfaces</span></h1>
+<h1 class="title"><span id="sec-function-interfaces" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Function interfaces</span></span></h1>
 </div>
 
 
@@ -366,9 +417,208 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><code>generate...CohortSet</code>, <code>...Cohort</code>, <code>add...</code>, <code>summarise...</code>, <code>plot...</code>, <code>table...</code>,</p>
+<p>Consistent function interfaces are one of the most visible ways the ecosystem signals coherence to developers and end users alike. When every package follows the same naming conventions, a user who has worked with one package can immediately form correct expectations about another. This chapter sets out the conventions used across the ecosystem.</p>
+<section id="function-naming" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="function-naming"><span class="header-section-number">6.1</span> Function naming</h2>
+<p>Functions in the ecosystem follow a <strong>verb-noun</strong> pattern using <strong>camelCase</strong>. The verb indicates what the function does; the noun indicates what it operates on or returns.</p>
+<section id="standard-prefixes" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="standard-prefixes"><span class="header-section-number">6.1.1</span> Standard prefixes</h3>
+<p>The ecosystem uses a small set of standard verb prefixes. Using the right prefix for a given function type is important because it communicates intent and enables consistent user mental models.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Prefix</th>
+<th>Purpose</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>generate*</code></td>
+<td>Create a new cohort table in the CDM write schema</td>
+<td><code>generateConceptCohortSet()</code>, <code>generateDemographicCohortSet()</code></td>
+</tr>
+<tr class="even">
+<td><code>add*</code></td>
+<td>Add columns to an existing table (returns the table with extra columns)</td>
+<td><code>addAge()</code>, <code>addSex()</code>, <code>addIntersect()</code></td>
+</tr>
+<tr class="odd">
+<td><code>summarise*</code></td>
+<td>Compute aggregated results; returns a <code>summarised_result</code></td>
+<td><code>summariseCharacteristics()</code>, <code>summariseDrugUtilisation()</code></td>
+</tr>
+<tr class="even">
+<td><code>plot*</code></td>
+<td>Create a <code>ggplot2</code> visualisation from a <code>summarised_result</code></td>
+<td><code>plotIncidence()</code>, <code>plotSurvival()</code></td>
+</tr>
+<tr class="odd">
+<td><code>table*</code></td>
+<td>Create a formatted table from a <code>summarised_result</code></td>
+<td><code>tableCharacteristics()</code>, <code>tableDrugUtilisation()</code></td>
+</tr>
+<tr class="even">
+<td><code>compute*</code></td>
+<td>Materialise a lazy query into a temporary database table</td>
+<td><code>computeQuery()</code></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>generate*</code> prefix is reserved for functions that write a new cohort table to the database. Functions that merely manipulate an existing cohort in memory (filtering, unioning, etc.) without necessarily writing to the database should not use this prefix.</p>
+</div>
+</div>
+</section>
+<section id="the-cohortset-suffix" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="the-cohortset-suffix"><span class="header-section-number">6.1.2</span> The <code>*CohortSet</code> suffix</h3>
+<p>Functions that create a full <code>cohort_table</code> with potentially multiple cohorts use a <code>*CohortSet</code> suffix:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">generateConceptCohortSet</span>(cdm, <span class="at">conceptSet =</span> my_codelist, <span class="at">name =</span> <span class="st">"my_cohort"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">generateDemographicCohortSet</span>(cdm, <span class="at">ageGroup =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">17</span>), <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">64</span>)), <span class="at">name =</span> <span class="st">"age_cohort"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Functions that operate on an existing cohort table and return a modified version of it (e.g.&nbsp;applying an inclusion criterion) do not use the <code>Set</code> suffix:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">requireIsFirstEntry</span>(cohort)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">requireAge</span>(cohort, <span class="at">ageRange =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="cn">Inf</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="internal-functions" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="internal-functions"><span class="header-section-number">6.1.3</span> Internal functions</h3>
+<p>Internal (unexported) functions should still follow camelCase but are conventionally prefixed with a dot or given a descriptive name that makes clear they are not part of the public API. Functions documented with <code>@noRd</code> are not exported and do not appear in the package documentation website.</p>
+</section>
+</section>
+<section id="argument-naming" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="argument-naming"><span class="header-section-number">6.2</span> Argument naming</h2>
+<p>Arguments should also use camelCase. The following argument names are standardised across the ecosystem and should be used whenever they apply:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cdm</code></td>
+<td><code>cdm_reference</code></td>
+<td>The CDM reference object. Always the first argument.</td>
+</tr>
+<tr class="even">
+<td><code>cohort</code></td>
+<td><code>cohort_table</code></td>
+<td>A cohort table.</td>
+</tr>
+<tr class="odd">
+<td><code>cohortId</code></td>
+<td><code>integer</code> or <code>NULL</code></td>
+<td>IDs of cohorts to operate on; <code>NULL</code> means all cohorts.</td>
+</tr>
+<tr class="even">
+<td><code>conceptSet</code></td>
+<td><code>codelist</code> / <code>codelist_with_details</code> / <code>concept_set_expression</code></td>
+<td>A set of clinical concepts.</td>
+</tr>
+<tr class="odd">
+<td><code>name</code></td>
+<td><code>character(1)</code></td>
+<td>Name for the output table to be written to the CDM.</td>
+</tr>
+<tr class="even">
+<td><code>nameStyle</code></td>
+<td><code>character(1)</code></td>
+<td>A glue-style string for naming multiple output columns.</td>
+</tr>
+<tr class="odd">
+<td><code>strata</code></td>
+<td><code>list</code> of <code>character</code> vectors</td>
+<td>Stratification variables.</td>
+</tr>
+<tr class="even">
+<td><code>ageGroup</code></td>
+<td>named list or <code>NULL</code></td>
+<td>Age group definitions.</td>
+</tr>
+<tr class="odd">
+<td><code>window</code></td>
+<td><code>list</code> of integer vectors</td>
+<td>Time windows relative to an index date.</td>
+</tr>
+<tr class="even">
+<td><code>overlap</code></td>
+<td><code>logical(1)</code></td>
+<td>Whether overlapping records should be merged.</td>
+</tr>
+<tr class="odd">
+<td><code>minCellCount</code></td>
+<td><code>integer(1)</code></td>
+<td>Minimum cell count for suppression. Default <code>5</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>When adding new arguments, check first whether a standard name already exists in <code>omopgenerics</code> or in widely used packages — reusing names keeps the interface predictable.</p>
+</section>
+<section id="argument-order" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="argument-order"><span class="header-section-number">6.3</span> Argument order</h2>
+<p>Arguments should be ordered as follows:</p>
+<ol type="1">
+<li><code>cdm</code> (if present) — always first.</li>
+<li><code>cohort</code> or other primary data argument.</li>
+<li><code>cohortId</code> (if present) — immediately after its parent <code>cohort</code>.</li>
+<li>Content arguments that define <em>what</em> to compute.</li>
+<li>Arguments that modify <em>how</em> to compute (stratifications, windows, age groups).</li>
+<li><code>name</code> — the name of the output table, near the end.</li>
+<li><code>...</code> — rarely needed; avoid unless implementing a generic.</li>
+</ol>
+</section>
+<section id="the-cdm-argument" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="the-cdm-argument"><span class="header-section-number">6.4</span> The <code>cdm</code> argument</h2>
+<p>Almost every exported function in an analytics or diagnostics package takes <code>cdm</code> as its first argument. This makes functions pipe-friendly in the sense that the CDM is always at the root of an analysis, and it makes the interface immediately recognisable.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard pattern</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">summariseCohortOverlap</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cohort =</span> cdm<span class="sc">$</span>my_cohort,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cohortId =</span> <span class="cn">NULL</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">strata =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"sex"</span>), <span class="fu">c</span>(<span class="st">"age_group"</span>)),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">minCellCount =</span> <span class="dv">5</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Note that for functions operating on a <code>cohort_table</code>, the <code>cdm_reference</code> is accessible through <code>cdmReference(cohort)</code>, so it is not always necessary to accept <code>cdm</code> as a separate argument. Functions whose primary input is a cohort table can accept just <code>cohort</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cohort-first pattern — cdm is accessible via cdmReference(cohort)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">requireAge</span>(cohort, <span class="at">ageRange =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="cn">Inf</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="boolean-flags" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="boolean-flags"><span class="header-section-number">6.5</span> Boolean flags</h2>
+<p>Boolean arguments should default to <code>FALSE</code> unless <code>TRUE</code> is the overwhelmingly common case. Argument names should be positive statements (prefer <code>overlap = TRUE</code> over <code>noOverlap = FALSE</code>). Avoid arguments that accept a string where a boolean would do.</p>
+</section>
+<section id="dots-..." class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="dots-..."><span class="header-section-number">6.6</span> Dots (<code>...</code>)</h2>
+<p>Avoid <code>...</code> in the interfaces of exported functions unless you are implementing an S3 generic. Dots make it easy to silently swallow misspelled argument names, which leads to confusing behaviour.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

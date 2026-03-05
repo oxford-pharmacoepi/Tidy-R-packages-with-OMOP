@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -357,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../maintainance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maintaing a package</span></a>
+ <span class="menu-text">Maintaining a package</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -381,15 +381,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#create-an-empty-package" id="toc-create-an-empty-package" class="nav-link active" data-scroll-target="#create-an-empty-package"><span class="header-section-number">4.1</span> Create an empty package</a></li>
+  <li><a href="#create-an-empty-package" id="toc-create-an-empty-package" class="nav-link active" data-scroll-target="#create-an-empty-package"><span class="header-section-number">4.1</span> Create an empty package</a>
+  <ul class="collapse">
+  <li><a href="#the-package-structure" id="toc-the-package-structure" class="nav-link" data-scroll-target="#the-package-structure"><span class="header-section-number">4.1.1</span> The package structure</a></li>
+  </ul></li>
   <li><a href="#add-a-license" id="toc-add-a-license" class="nav-link" data-scroll-target="#add-a-license"><span class="header-section-number">4.2</span> Add a license</a></li>
-  <li><a href="#create-a-first-mock-function" id="toc-create-a-first-mock-function" class="nav-link" data-scroll-target="#create-a-first-mock-function"><span class="header-section-number">4.3</span> Create a first mock function</a></li>
+  <li><a href="#create-a-first-function" id="toc-create-a-first-function" class="nav-link" data-scroll-target="#create-a-first-function"><span class="header-section-number">4.3</span> Create a first function</a></li>
   <li><a href="#check-the-package" id="toc-check-the-package" class="nav-link" data-scroll-target="#check-the-package"><span class="header-section-number">4.4</span> Check the package</a></li>
   <li><a href="#create-a-simple-test" id="toc-create-a-simple-test" class="nav-link" data-scroll-target="#create-a-simple-test"><span class="header-section-number">4.5</span> Create a simple test</a></li>
-  <li><a href="#create-readme.rmd" id="toc-create-readme.rmd" class="nav-link" data-scroll-target="#create-readme.rmd"><span class="header-section-number">4.6</span> Create <code>README.Rmd</code></a></li>
-  <li><a href="#create-website" id="toc-create-website" class="nav-link" data-scroll-target="#create-website"><span class="header-section-number">4.7</span> Create website</a></li>
+  <li><a href="#create-a-readme" id="toc-create-a-readme" class="nav-link" data-scroll-target="#create-a-readme"><span class="header-section-number">4.6</span> Create a README</a></li>
+  <li><a href="#create-a-documentation-website" id="toc-create-a-documentation-website" class="nav-link" data-scroll-target="#create-a-documentation-website"><span class="header-section-number">4.7</span> Create a documentation website</a></li>
   <li><a href="#set-up-github" id="toc-set-up-github" class="nav-link" data-scroll-target="#set-up-github"><span class="header-section-number">4.8</span> Set up GitHub</a></li>
-  <li><a href="#package-template" id="toc-package-template" class="nav-link" data-scroll-target="#package-template"><span class="header-section-number">4.9</span> Package template</a></li>
+  <li><a href="#using-the-package-template" id="toc-using-the-package-template" class="nav-link" data-scroll-target="#using-the-package-template"><span class="header-section-number">4.9</span> Using the package template</a></li>
   </ul>
 </nav>
     </div>
@@ -415,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>To build an R package you will need <a href="https://cran.r-project.org/bin/windows/base/">R</a> installed and an IDE: preferably <a href="https://posit.co/download/rstudio-desktop/">R Studio</a> or <a href="https://github.com/posit-dev/positron/releases">Positron</a>.</p>
+<p>To build an R package you will need <a href="https://cran.r-project.org/bin/windows/base/">R</a> installed and an IDE: preferably <a href="https://posit.co/download/rstudio-desktop/">RStudio</a> or <a href="https://github.com/posit-dev/positron/releases">Positron</a>.</p>
 <p>You will need to install <a href="https://devtools.r-lib.org">devtools</a> and <a href="https://usethis.r-lib.org">usethis</a> as they are key to follow the different steps to get started.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use base R</span></span>
@@ -425,151 +428,238 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pak)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">pkg_install</span>(<span class="fu">c</span>(<span class="st">"usethis"</span>, <span class="st">"devtools"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>To work with the Tidy R OMOP ecosystem, you will also need to install the <a href="https://darwin-eu-dev.github.io/omopgenerics/">omopgenerics</a> package. Alongside with other packages that may be useful:</p>
+<p>To work with the Tidy R OMOP ecosystem, you will also need to install the <a href="https://darwin-eu.github.io/omopgenerics/">omopgenerics</a> package. Alongside with other packages that may be useful:</p>
 <ul>
-<li><a href="https://darwin-eu-dev.github.io/PatientProfiles/">PatientProfiles</a> for data manipulation.</li>
-<li><a href="https://darwin-eu.github.io/CodelistDiagnostics/">CodelistDiagnostics</a> to query the vocabularies.</li>
-<li><a href="https://darwin-eu.github.io/visOmopResults/">visOmopResults</a> for data visualisation.</li>
+<li><a href="https://darwin-eu.github.io/PatientProfiles/">PatientProfiles</a> for patient-level feature extraction.</li>
+<li><a href="https://darwin-eu.github.io/CodelistGenerator/">CodelistGenerator</a> to query the OMOP vocabularies.</li>
+<li><a href="https://darwin-eu.github.io/visOmopResults/">visOmopResults</a> for formatting and visualising results.</li>
 </ul>
-<p>You can see the list of Tidy R packages in our <a href="https://oxford-pharmacoepi.github.io/Oxinfer/packages/summary.html">website</a>.</p>
+<p>You can see the full list of Tidy R packages in our <a href="https://oxford-pharmacoepi.github.io/Oxinfer/packages/summary.html">website</a>.</p>
 <section id="create-an-empty-package" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="create-an-empty-package"><span class="header-section-number">4.1</span> Create an empty package</h2>
-<p>To create an empty package you can do it with <em>usethis</em>:</p>
+<p>To create a new empty package, use <code>usethis::create_package()</code> with the path to the folder where you want the package to live. The folder name becomes the package name.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">create_package</span>(<span class="at">path =</span> <span class="st">"path/to/folder"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">create_package</span>(<span class="at">path =</span> <span class="st">"path/to/MyPackage"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>This will:</p>
+<ul>
+<li>Create the folder <code>MyPackage/</code> with the standard package structure (<code>R/</code>, <code>DESCRIPTION</code>, <code>NAMESPACE</code>).</li>
+<li>Open the new project in a fresh RStudio or Positron window.</li>
+</ul>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Package name
+<span class="screen-reader-only">Tip</span>Choosing a package name
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The package will be named by the name of the folder.</p>
+<p>Package names must start with a letter, contain only letters, numbers, and dots, and ideally be short, distinctive, and easy to remember. Use CamelCase to make multi-word names readable (e.g.&nbsp;<code>CohortConstructor</code>, <code>PatientProfiles</code>). Avoid dots, underscores, and all-lowercase names that are hard to distinguish.</p>
+<p>You can check whether a name is available on CRAN with <code>available::available("MyPackageName")</code>.</p>
 </div>
 </div>
-</div>
+<section id="the-package-structure" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="the-package-structure"><span class="header-section-number">4.1.1</span> The package structure</h3>
+<p>After <code>create_package()</code> you will have:</p>
+<pre><code>MyPackage/
+├── R/                  # Your R source files go here
+├── DESCRIPTION         # Package metadata (name, version, dependencies, …)
+├── NAMESPACE           # Exported functions — managed automatically by devtools
+└── MyPackage.Rproj     # RStudio project file</code></pre>
+<p>You will add more files as you go: <code>tests/</code>, <code>vignettes/</code>, <code>man/</code>, and <code>NEWS.md</code> among others. Most of these are created for you by <code>usethis</code> helpers described later in this chapter.</p>
+</section>
 </section>
 <section id="add-a-license" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="add-a-license"><span class="header-section-number">4.2</span> Add a license</h2>
-<p>Adding licenses is very important so you are protected and users know how they can use your product. In general we release using the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> license.</p>
-<p>You can add a license easily with usethis:</p>
+<p>Adding a license is essential — it tells users how they can use, modify, and redistribute your package, and protects you legally. In the Tidy R OMOP ecosystem we release under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> license.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_apl2_license</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_apache_license</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This will add the <code>LICENSE.md</code> file and populate the DESCRIPTION file with the relevant license field.</p>
+<p>This adds the <code>LICENSE.md</code> file and populates the <code>License</code> field in <code>DESCRIPTION</code>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>License agreements
+<span class="screen-reader-only">Note</span>License options
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>License agreements supported by <code>usethis</code> are:</p>
+<p><code>usethis</code> supports all common open-source licenses. The right choice usually comes down to how permissive you want to be:</p>
 <ul>
-<li><p>More permissive:</p>
+<li>More permissive (anyone can use your code, even in closed-source projects):
 <ul>
-<li><a href="https://choosealicense.com/licenses/mit/">MIT</a>: simple and permissive.</li>
-<li><a href="https://choosealicense.com/licenses/apache-2.0/">Apache 2.0</a>: MIT + provides patent protection.</li>
+<li><a href="https://choosealicense.com/licenses/mit/">MIT</a>: simple and widely understood.</li>
+<li><a href="https://choosealicense.com/licenses/apache-2.0/">Apache 2.0</a>: like MIT but adds explicit patent protection. This is our default.</li>
 </ul></li>
-<li><p>Copyleft:</p>
+<li>Copyleft (anyone who distributes changes must also open-source them):
 <ul>
-<li><a href="https://choosealicense.com/licenses/gpl-2.0/">GPL v2</a>: requires sharing of improvements.</li>
-<li><a href="https://choosealicense.com/licenses/gpl-3.0/">GPL v3</a>: requires sharing of improvements.</li>
-<li><a href="https://choosealicense.com/licenses/agpl-3.0/">AGPL v3</a>: requires sharing of improvements.</li>
-<li><a href="https://choosealicense.com/licenses/lgpl-2.1/">LGPL v2.1</a>: requires sharing of improvements.</li>
-<li><a href="https://choosealicense.com/licenses/lgpl-3.0/">LGPL v3</a>: requires sharing of improvements.</li>
+<li><a href="https://choosealicense.com/licenses/gpl-3.0/">GPL v3</a></li>
+<li><a href="https://choosealicense.com/licenses/agpl-3.0/">AGPL v3</a>: extends GPL to cover use over a network.</li>
+<li><a href="https://choosealicense.com/licenses/lgpl-3.0/">LGPL v3</a>: a weaker copyleft, suitable for libraries.</li>
 </ul></li>
-<li><p>Creative commons licenses appropriate for data packages:</p>
+<li>Creative Commons (appropriate for data packages rather than code):
 <ul>
-<li><a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>: dedicated to public domain.</li>
-<li><a href="https://creativecommons.org/licenses/by/4.0/">CC-BY</a>: Free to share and adapt, must give appropriate credit.</li>
+<li><a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>: dedicated to the public domain.</li>
+<li><a href="https://creativecommons.org/licenses/by/4.0/">CC-BY</a>: free to share and adapt, with attribution.</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_mit_license</span>(<span class="at">copyright_holder =</span> <span class="cn">NULL</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">use_gpl_license</span>(<span class="at">version =</span> <span class="dv">3</span>, <span class="at">include_future =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">use_agpl_license</span>(<span class="at">version =</span> <span class="dv">3</span>, <span class="at">include_future =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">use_lgpl_license</span>(<span class="at">version =</span> <span class="dv">3</span>, <span class="at">include_future =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">use_apache_license</span>(<span class="at">version =</span> <span class="dv">2</span>, <span class="at">include_future =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">use_cc0_license</span>()</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">use_ccby_license</span>()</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">use_proprietary_license</span>(<span class="at">copyright_holder =</span> <span class="st">"..."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_mit_license</span>()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_apache_license</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">use_gpl_license</span>(<span class="at">version =</span> <span class="dv">3</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">use_agpl_license</span>(<span class="at">version =</span> <span class="dv">3</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">use_lgpl_license</span>(<span class="at">version =</span> <span class="dv">3</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">use_cc0_license</span>()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">use_ccby_license</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="create-a-first-mock-function" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="create-a-first-mock-function"><span class="header-section-number">4.3</span> Create a first mock function</h2>
-<p>The <code>R</code> folder contains the relevant files for your package</p>
-</section>
-<section id="check-the-package" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="check-the-package"><span class="header-section-number">4.4</span> Check the package</h2>
-</section>
-<section id="create-a-simple-test" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="create-a-simple-test"><span class="header-section-number">4.5</span> Create a simple test</h2>
-<p>We will see</p>
-<p>After adding the test we should check the test works properly. You can run the tests of the active file using:</p>
+<section id="create-a-first-function" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="create-a-first-function"><span class="header-section-number">4.3</span> Create a first function</h2>
+<p>All R source files live in the <code>R/</code> folder. Each file can contain one or more functions — the typical convention is one file per function or per closely related group of functions, named to match.</p>
+<p>Create a new R file with:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_active_file</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_r</span>(<span class="st">"myFunction"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Or you can run all the tests of the package:</p>
+<p>This creates <code>R/myFunction.R</code> and opens it. Write your function there:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>myFunction <span class="ot">&lt;-</span> <span class="cf">function</span>(cohort, <span class="at">overlap =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># your code here</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  cohort</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-<section id="create-readme.rmd" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="create-readme.rmd"><span class="header-section-number">4.6</span> Create <code>README.Rmd</code></h2>
-</section>
-<section id="create-website" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="create-website"><span class="header-section-number">4.7</span> Create website</h2>
-</section>
-<section id="set-up-github" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="set-up-github"><span class="header-section-number">4.8</span> Set up GitHub</h2>
-<p>GitHub actions are very useful to ensure the continuous integration workflow. The fifth part of the book is dedicated to <a href="../github/index.html">GitHub and GitHub Actions</a> at that stage you will learn how to use github for:</p>
-<ul>
-<li><a href="../github/automatic_checks.html">Automatic checking your package</a></li>
-<li><a href="../github/automatic_website.html">Automatic deployment of a documentation website for your package</a></li>
-<li><a href="../github/test_coverage.html">Automatic assessment of test coverage</a></li>
-<li><a href="../github/testing_multiple_dbms.html">Automatic testing across multiple sources</a></li>
-</ul>
-</section>
-<section id="package-template" class="level2" data-number="4.9">
-<h2 data-number="4.9" class="anchored" data-anchor-id="package-template"><span class="header-section-number">4.9</span> Package template</h2>
-<p>Although the first time it is quite nice to do all the steps one by one there is a template with all those steps done, you can create a new package repo using this <a href="https://github.com/new?template_name=EmptyPackageTemplate&amp;template_owner=oxford-pharmacoepi">link</a>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Template link
+<span class="screen-reader-only">Tip</span>Add a roxygen skeleton immediately
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before writing the body, add a roxygen2 documentation skeleton with <strong>Code → Insert Roxygen Skeleton</strong> in RStudio (or <code>Ctrl+Alt+Shift+R</code>). Fill in the <code>@title</code>, <code>@description</code>, <code>@param</code>, and <code>@return</code> tags as you write the function. Doing this from the start is much easier than adding it later. Documentation is covered fully in <span class="quarto-unresolved-ref">?sec-functions</span>.</p>
+</div>
+</div>
+<p>Once you have written a function, load the whole package into your session with:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">load_all</span>()  <span class="co"># Ctrl+Shift+L in RStudio</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>load_all()</code> simulates what happens when the package is installed and loaded — it makes all your functions available without having to restart R. Use it constantly during development.</p>
+</section>
+<section id="check-the-package" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="check-the-package"><span class="header-section-number">4.4</span> Check the package</h2>
+<p><code>devtools::check()</code> runs <code>R CMD check</code>, which is the official test that CRAN and you should run to verify your package is correct. It checks documentation, dependencies, examples, and tests.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">check</span>()  <span class="co"># Ctrl+Shift+E in RStudio</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A clean check produces output ending with:</p>
+<pre><code>── R CMD check results ─────────────────────────────────────────────────
+Duration: 30s
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔</code></pre>
+<p>Aim to keep your package at <strong>0 errors, 0 warnings, 0 notes</strong> at all times — not just before a release. It is much easier to fix one new note immediately than to diagnose five notes that accumulated over months.</p>
+<p>Common things to fix early:</p>
+<ul>
+<li>A missing <code>@export</code> tag on a function that should be public.</li>
+<li>An undocumented argument (<code>@param</code> entry missing).</li>
+<li>A package used in code but not listed in <code>DESCRIPTION</code> under <code>Imports</code> or <code>Suggests</code>.</li>
+<li>An example that fails because it requires a real database.</li>
+</ul>
+</section>
+<section id="create-a-simple-test" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="create-a-simple-test"><span class="header-section-number">4.5</span> Create a simple test</h2>
+<p>Tests live in <code>tests/testthat/</code>. Set up the testing infrastructure with:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_testthat</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then create a test file for your function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_test</span>(<span class="st">"myFunction"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This creates <code>tests/testthat/test-myFunction.R</code>. A minimal test looks like:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"myFunction returns a cohort table"</span>, {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  cdm <span class="ot">&lt;-</span> <span class="fu">mockPatientProfiles</span>()</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">myFunction</span>(cdm<span class="sc">$</span>cohort1)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_s3_class</span>(result, <span class="st">"cohort_table"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  CDMConnector<span class="sc">::</span><span class="fu">cdmDisconnect</span>(cdm)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Run the tests for the file you are currently editing:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">test_active_file</span>()  <span class="co"># Ctrl+Shift+T in RStudio (for active file)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Or run all tests in the package:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">test</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Testing with OMOP data is covered in detail in <span class="quarto-unresolved-ref">?sec-test-omop</span>. For now, the important habit is: every function you write should have at least one test file created for it before you move on.</p>
+</section>
+<section id="create-a-readme" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="create-a-readme"><span class="header-section-number">4.6</span> Create a README</h2>
+<p>The README is the first thing people see when they visit your package on GitHub. Create one with:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_readme_rmd</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This creates <code>README.Rmd</code>, which is an R Markdown file that can contain executable code chunks. After editing it, render it to produce <code>README.md</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">build_readme</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Always commit both <code>README.Rmd</code> and <code>README.md</code>. GitHub displays <code>README.md</code> automatically on the repository front page.</p>
+<p>A good README for an ecosystem package should include: a one-paragraph description, an installation code block, a minimal usage example using a <code>mock*</code> function (no real database needed), and links to the documentation website. The full README conventions are covered in <span class="quarto-unresolved-ref">?sec-readme</span>.</p>
+</section>
+<section id="create-a-documentation-website" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="create-a-documentation-website"><span class="header-section-number">4.7</span> Create a documentation website</h2>
+<p>A <a href="https://pkgdown.r-lib.org">pkgdown</a> website gives your package a searchable, browsable reference site generated automatically from your roxygen2 documentation and vignettes. Set it up with:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_pkgdown</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Build the site locally to preview it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pkgdown<span class="sc">::</span><span class="fu">build_site</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This creates a <code>docs/</code> folder. Open <code>docs/index.html</code> in your browser to see it.</p>
+<p>The ecosystem uses a shared pkgdown theme for visual consistency. Configuration and automated deployment via GitHub Actions are covered in <span class="quarto-unresolved-ref">?sec-automatic-website</span>.</p>
+</section>
+<section id="set-up-github" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="set-up-github"><span class="header-section-number">4.8</span> Set up GitHub</h2>
+<p>Once your package is working locally, push it to GitHub so it can benefit from continuous integration: automated checks, test coverage reporting, and website deployment on every push.</p>
+<p>The fifth part of this book covers GitHub and GitHub Actions in full:</p>
+<ul>
+<li><a href="../github/automatic_checks.html">Automatic checking your package</a></li>
+<li><a href="../github/automatic_website.html">Automatic deployment of a documentation website</a></li>
+<li><a href="../github/test_coverage.html">Automatic assessment of test coverage</a></li>
+<li><a href="../github/testing_multiple_dbms.html">Testing across multiple database backends</a></li>
+</ul>
+</section>
+<section id="using-the-package-template" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="using-the-package-template"><span class="header-section-number">4.9</span> Using the package template</h2>
+<p>Although it is instructive to follow these steps manually the first time, the ecosystem provides a GitHub template repository that does all of this setup for you. Use it to create a new repository with the full scaffold already in place — license, GitHub Actions, pkgdown configuration, and lintr — by clicking the link below:</p>
+<p>👉 <a href="https://github.com/new?template_name=EmptyPackageTemplate&amp;template_owner=oxford-pharmacoepi">Create a new package from the template</a></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Template repository
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The GitHub template link can be found: <a href="https://github.com/oxford-pharmacoepi/EmptyPackageTemplate" class="uri">https://github.com/oxford-pharmacoepi/EmptyPackageTemplate</a>.</p>
+<p>The source for the template is at <a href="https://github.com/oxford-pharmacoepi/EmptyPackageTemplate" class="uri">https://github.com/oxford-pharmacoepi/EmptyPackageTemplate</a>. You can inspect it to see exactly what files are included.</p>
 </div>
 </div>
 </div>

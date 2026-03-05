@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -39,10 +74,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -322,7 +357,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../maintainance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maintaing a package</span></a>
+ <span class="menu-text">Maintaining a package</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -341,15 +376,26 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-visomopresults-api" id="toc-the-visomopresults-api" class="nav-link active" data-scroll-target="#the-visomopresults-api"><span class="header-section-number">10.1</span> The <code>visOmopResults</code> API</a></li>
+  <li><a href="#adding-table-functions" id="toc-adding-table-functions" class="nav-link" data-scroll-target="#adding-table-functions"><span class="header-section-number">10.2</span> Adding <code>table*</code> functions</a></li>
+  <li><a href="#adding-plot-functions" id="toc-adding-plot-functions" class="nav-link" data-scroll-target="#adding-plot-functions"><span class="header-section-number">10.3</span> Adding <code>plot*</code> functions</a></li>
+  <li><a href="#checking-what-is-already-available" id="toc-checking-what-is-already-available" class="nav-link" data-scroll-target="#checking-what-is-already-available"><span class="header-section-number">10.4</span> Checking what is already available</a></li>
+  <li><a href="#what-not-to-do" id="toc-what-not-to-do" class="nav-link" data-scroll-target="#what-not-to-do"><span class="header-section-number">10.5</span> What not to do</a></li>
+  <li><a href="#suggesting-vs-importing-visomopresults" id="toc-suggesting-vs-importing-visomopresults" class="nav-link" data-scroll-target="#suggesting-vs-importing-visomopresults"><span class="header-section-number">10.6</span> Suggesting vs importing <code>visOmopResults</code></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../principles/index.html">Principles</a></li><li class="breadcrumb-item"><a href="../principles/visualisations.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualisations</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualisations</span></h1>
+<h1 class="title"><span id="sec-visualisations" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualisations</span></span></h1>
 </div>
 
 
@@ -366,8 +412,93 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>All visualisation in the ecosystem is built on top of <code>visOmopResults</code>. This package provides a consistent API for transforming <code>summarised_result</code> objects into formatted tables and <code>ggplot2</code> plots. By using it rather than writing bespoke formatting code, your package inherits consistent output across all result types and avoids duplicating logic that is already maintained centrally.</p>
+<p>This chapter explains the conventions for adding <code>table*</code> and <code>plot*</code> functions to your package.</p>
+<section id="the-visomopresults-api" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="the-visomopresults-api"><span class="header-section-number">10.1</span> The <code>visOmopResults</code> API</h2>
+<p><code>visOmopResults</code> exposes two main families of functions:</p>
+<ul>
+<li><strong><code>visOmopTable()</code></strong> and its wrappers produce formatted tables. The output format (gt, flextable, tibble, or datatable) is controlled by a <code>type</code> argument.</li>
+<li><strong><code>visOmopPlot()</code></strong> and specific plot helpers produce <code>ggplot2</code> objects that can be further customised.</li>
+</ul>
+<p>Most packages do not call these low-level functions directly. Instead they implement thin <code>table*</code> and <code>plot*</code> wrapper functions that call into <code>visOmopResults</code> with sensible defaults.</p>
+</section>
+<section id="adding-table-functions" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="adding-table-functions"><span class="header-section-number">10.2</span> Adding <code>table*</code> functions</h2>
+<p>Every <code>summarise*</code> function should have a corresponding <code>table*</code> function that formats its output for display. The convention is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tableMyResult <span class="ot">&lt;-</span> <span class="cf">function</span>(result, <span class="at">type =</span> <span class="st">"gt"</span>, ...) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># optionally filter/reshape result before passing to visOmopResults</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  visOmopResults<span class="sc">::</span><span class="fu">visOmopTable</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">result =</span> result,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">type   =</span> type,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Key points:</p>
+<ul>
+<li>The first argument is always a <code>summarised_result</code>, typically the output of the matching <code>summarise*</code> function.</li>
+<li><code>type</code> defaults to <code>"gt"</code> in function signatures but <strong>use <code>type = "flextable"</code> in README examples</strong> — flextable renders better in GitHub Markdown.</li>
+<li>Pass <code>...</code> through to <code>visOmopResults::visOmopTable()</code> to expose column renaming, formatting, and other options without duplicating them in your own function signature.</li>
+<li>Validate the <code>result</code> argument using <code>omopgenerics::validateResultArgument()</code>.</li>
+</ul>
+<p>A minimal example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Format summarised characteristics as a table</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param result A \code{summarised_result} object as returned by</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'   \code{summariseCharacteristics()}.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param type Output format. One of \code{"gt"} (default), \code{"flextable"},</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#'   \code{"tibble"}, or \code{"datatable"}.</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param ... Additional arguments passed to</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#'   \code{\link[visOmopResults]{visOmopTable}}.</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A formatted table object of the class determined by \code{type}.</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>tableCharacteristics <span class="ot">&lt;-</span> <span class="cf">function</span>(result, <span class="at">type =</span> <span class="st">"gt"</span>, ...) {</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> omopgenerics<span class="sc">::</span><span class="fu">validateResultArgument</span>(result)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  visOmopResults<span class="sc">::</span><span class="fu">visOmopTable</span>(<span class="at">result =</span> result, <span class="at">type =</span> type, ...)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="adding-plot-functions" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="adding-plot-functions"><span class="header-section-number">10.3</span> Adding <code>plot*</code> functions</h2>
+<p>Similarly, <code>plot*</code> functions wrap <code>visOmopResults</code> plot helpers:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Plot incidence estimates</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param result A \code{summarised_result} object as returned by</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'   \code{estimateIncidence()}.</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param ... Additional arguments passed to the underlying plot function.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A \code{ggplot2} object.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plotIncidence <span class="ot">&lt;-</span> <span class="cf">function</span>(result, ...) {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> omopgenerics<span class="sc">::</span><span class="fu">validateResultArgument</span>(result)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  visOmopResults<span class="sc">::</span><span class="fu">plotEstimates</span>(<span class="at">result =</span> result, ...)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Because <code>plot*</code> functions return <code>ggplot2</code> objects, users can add layers, change themes, and save the plot using standard ggplot2 idioms. Do not apply a custom theme inside your package’s plot functions — leave theming to the user.</p>
+</section>
+<section id="checking-what-is-already-available" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="checking-what-is-already-available"><span class="header-section-number">10.4</span> Checking what is already available</h2>
+<p>Before writing any visualisation code, check the <a href="https://darwin-eu.github.io/visOmopResults/reference/index.html">visOmopResults function reference</a>. The package is actively extended, and the function you need may already exist. Duplicating it in your own package creates a maintenance burden and means your users get a subtly different experience.</p>
+</section>
+<section id="what-not-to-do" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="what-not-to-do"><span class="header-section-number">10.5</span> What not to do</h2>
+<ul>
+<li>Do not return raw <code>gt</code> or <code>flextable</code> objects directly from <code>table*</code> functions — always go through <code>visOmopResults::visOmopTable()</code> so that the <code>type</code> argument works consistently.</li>
+<li>Do not hard-code column names or formatting inside your package — use the <code>visOmopResults</code> API so that changes to the formatting logic can be made in one place.</li>
+<li>Do not depend on <code>ggplot2</code> directly unless your package needs to construct plots from scratch (i.e.&nbsp;not from a <code>summarised_result</code>). For <code>summarised_result</code>-based plots, use <code>visOmopResults</code>.</li>
+</ul>
+</section>
+<section id="suggesting-vs-importing-visomopresults" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="suggesting-vs-importing-visomopresults"><span class="header-section-number">10.6</span> Suggesting vs importing <code>visOmopResults</code></h2>
+<p>For most packages, <code>visOmopResults</code> should be listed under <code>Imports</code> rather than <code>Suggests</code>, because the <code>table*</code> and <code>plot*</code> functions are part of the package’s exported API and will fail if <code>visOmopResults</code> is not installed. If your package only uses <code>visOmopResults</code> in vignettes or optional code paths, <code>Suggests</code> is appropriate.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

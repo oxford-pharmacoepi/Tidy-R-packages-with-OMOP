@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,10 +39,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -322,7 +322,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../maintainance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Maintaing a package</span></a>
+ <span class="menu-text">Maintaining a package</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -366,6 +366,16 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>GitHub is the central platform for developing, testing, and distributing packages in the Tidy R OMOP CDM ecosystem. Beyond version control, it provides the infrastructure for continuous integration: automatically running checks, building the documentation website, measuring test coverage, and testing against multiple database backends — all triggered on every push or pull request.</p>
+<p>Setting this infrastructure up correctly from the beginning pays dividends throughout the life of a package. It ensures that regressions are caught immediately, that the documentation is always up to date, and that contributors can trust that their changes have been properly validated before merging.</p>
+<p>This part of the book covers the GitHub setup used across the ecosystem. The chapters are organised as follows:</p>
+<ul>
+<li><p><a href="../github/setup_github.html">Set up GitHub</a> walks through the initial steps for connecting a package repository to GitHub: repository settings, branch protection, issue and pull request templates, and the conventions used across the ecosystem.</p></li>
+<li><p><a href="../github/automatic_checks.html">Automatic R-CDM checks</a> explains how to configure a GitHub Actions workflow that runs <code>R CMD check</code> on every push and pull request, including checks specific to OMOP CDM packages.</p></li>
+<li><p><a href="../github/automatic_website.html">Website deployment</a> covers the GitHub Actions workflow for automatically building and deploying your pkgdown documentation website whenever changes are pushed to the main branch.</p></li>
+<li><p><a href="../github/test_coverage.html">Test coverage</a> describes how to integrate Codecov with GitHub Actions to automatically measure and report test coverage on every pull request.</p></li>
+<li><p><a href="../github/testing_multiple_dbms.html">Testing multiple DBMS</a> explains how to configure GitHub Actions workflows that test your package against multiple database management systems — DuckDB, PostgreSQL, SQL Server — to ensure consistent behaviour across backends.</p></li>
+</ul>
 
 
 
