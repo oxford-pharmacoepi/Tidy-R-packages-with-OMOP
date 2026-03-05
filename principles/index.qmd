@@ -1,1 +1,23 @@
 # Principles
+
+This part of the book is the most important. It sets out the conventions and design principles that all packages in the Tidy R OMOP CDM ecosystem follow. Adhering to these principles is what makes the ecosystem feel coherent: a developer who has worked with one package will find the next one immediately familiar, and an end user can compose functions from different packages into a single pipeline without friction.
+
+These principles are not arbitrary. Each one exists because of a concrete problem encountered as the ecosystem grew: inconsistent naming caused confusion, ad-hoc result formats made downstream visualisation impossible, duplicated validation logic introduced divergent behaviour. The goal of this part is to give you the reasoning behind each convention, not just the rule.
+
+The chapters are organised as follows:
+
+- [Core dependencies](core_dependencies.qmd) describes the packages that sit at the foundation of the ecosystem — above all `omopgenerics` — and explains the classes, methods, and utilities they provide. Knowing what is already available prevents you from reimplementing it.
+
+- [Function interfaces](function_interfaces.qmd) covers the naming conventions for functions and arguments, the standard function prefixes used across the ecosystem, and the design principles that make functions easy to compose.
+
+- [Conventions](conventions.qmd) describes lower-level code style conventions: casing, argument naming, and the rules that apply consistently across all packages.
+
+- [Error messages and input validation](error_and_validation.qmd) explains how to validate function inputs in a consistent and user-friendly way, making use of the validation helpers provided by `omopgenerics`.
+
+- [Function outputs](function_outputs.qmd) introduces the `summarised_result` object — the standard result format returned by all analytics functions in the ecosystem — and explains how to create, populate, and register result types correctly.
+
+- [Visualisations](visualisations.qmd) covers how to produce tables and plots from `summarised_result` objects using `visOmopResults`, and the conventions packages should follow when adding `table*` and `plot*` functions.
+
+- [Styling your code](styling.qmd) describes the code formatting standards used across the ecosystem and the tools used to enforce them.
+
+- [Reexporting from other packages](reexports.qmd) explains when and how to re-export functions from upstream packages, and the implications of doing so.

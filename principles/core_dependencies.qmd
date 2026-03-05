@@ -1,27 +1,172 @@
-# Core dependencies
+# Core dependencies {#sec-core-dependencies}
 
-The *Tidy R OMOP CDM* packages rely on [dplyr](https://dplyr.tidyverse.org) and the [tidyverse](https://www.tidyverse.org) packages to manipulate the data from the `cdm` object. The `cdm` object is an object that contains all the tables available and is central for the data manipulation. This `cdm` object is defined in [omopgenerics](https://darwin-eu.github.io/omopgenerics/).
+The *Tidy R OMOP CDM* packages rely on [dplyr](https://dplyr.tidyverse.org) and [dbplyr](https://dbplyr.tidyverse.org) to manipulate data from a `cdm_reference` object. The `cdm_reference` is the central object in the ecosystem — a named list of lazy database table references, all pointing to the same underlying data source. It is defined in [omopgenerics](https://darwin-eu.github.io/omopgenerics/), the package that every other package in the ecosystem depends on.
+
+This chapter describes what `omopgenerics` provides and which other core packages are useful enough to consider importing or suggesting.
 
 ## omopgenerics
 
+`omopgenerics` defines the classes and methods that give the ecosystem its coherence. It is a deliberately minimal package: its only external dependencies are `dplyr`, `dbplyr`, `cli`, `glue`, and `rlang`. This keeps its footprint small so that depending on it does not burden downstream packages.
+
 ### Classes
+
+The four main classes defined by `omopgenerics` are:
+
+**`cdm_reference`** is the central object of the whole ecosystem. It is a named list whose elements are lazy table references pointing to OMOP CDM tables in a database, along with any cohort or other tables associated with the CDM. The `cdm_reference` knows which database back-end it is connected to, what the CDM name is, and what schema to write results into. Every analytical function in the ecosystem takes a `cdm_reference` (or a table derived from one) as its first argument.
+
+```{r, eval=FALSE}
+library(omopgenerics)
+
+# Access CDM properties
+cdmName(cdm)
+cdmVersion(cdm)
+cdmSource(cdm)
+sourceType(cdm)
+
+# Insert, read, list, and drop tables in the write schema
+cdm <- insertTable(cdm, name = "my_table", table = my_data)
+cdm <- readSourceTable(cdm, name = "my_table")
+listSourceTables(cdm)
+cdm <- dropSourceTable(cdm, name = "my_table")
+```
+
+**`cdm_table`** is the class of any table that belongs to a `cdm_reference`. All CDM tables carry a back-reference to their parent `cdm_reference`, which means you can always navigate from a table back to the full CDM:
+
+```{r, eval=FALSE}
+cdmReference(cdm$person)   # returns the full cdm_reference
+cdmName(cdm$person)        # works just like cdmName(cdm)
+tableName(cdm$person)      # returns "person"
+```
+
+**`omop_table`** is a subclass of `cdm_table` that protects the integrity of the standard OMOP CDM tables. It prevents removal of required columns and enforces that a table assigned to `cdm$person` must actually be named `person`. Filtering, mutating, and adding columns are all permitted — only operations that would break the CDM schema are blocked.
+
+```{r, eval=FALSE}
+# This is blocked — person_id is required
+cdm$person <- cdm$person |> select(-person_id)
+#> Error: person_id is not present in table person
+
+# This is fine — adding a column is allowed
+cdm$person <- cdm$person |> mutate(extra_col = "my_content")
+```
+
+**`cohort_table`** extends `cdm_table` with the structure required for a study cohort. A cohort table has exactly four columns (`cohort_definition_id`, `subject_id`, `cohort_start_date`, `cohort_end_date`) and carries three mandatory attributes stored as database tables: the cohort set (metadata per cohort), the attrition log (a record of how many records and subjects were retained at each step), and the cohort codelist (the clinical codes used to define each cohort).
+
+```{r, eval=FALSE}
+settings(cdm$my_cohort)      # cohort set: name, cdm_version, vocabulary_version
+cohortCount(cdm$my_cohort)   # records and subjects per cohort
+attrition(cdm$my_cohort)     # full attrition table
+
+# Record a new attrition step after filtering
+cdm$my_cohort <- cdm$my_cohort |>
+  filter(subject_id %% 2 == 0) |>
+  compute(name = "my_cohort") |>
+  recordCohortAttrition("Only even subjects")
+```
+
+### Codelists
+
+`omopgenerics` defines three classes for representing clinical code lists:
+
+- **`codelist`**: a named list of integer vectors, one per concept set.
+- **`codelist_with_details`**: a named list of tibbles, where each tibble contains `concept_id` alongside additional properties (e.g. `concept_name`, `domain_id`).
+- **`concept_set_expression`**: a named list of tibbles with `concept_id`, `excluded`, `descendants`, and `mapped` columns — matching the ATLAS JSON format and the OHDSI TAB guidelines.
+
+```{r, eval=FALSE}
+# Create a simple codelist
+cl <- newCodelist(list(hypertension = c(316866L, 320128L), diabetes = c(201826L)))
+
+# Combine and subset
+c(cl, newCodelist(list(asthma = 317009L)))
+cl["hypertension"]
+
+# Export and import (JSON is compatible with ATLAS)
+exportCodelist(cl, path = here::here(), type = "json")
+cl <- importCodelist(path = here::here(), type = "json")
+```
+
+In general, analytical functions in the ecosystem accept a `conceptSet` argument that can be any of these three classes (or a plain named list of integers that will be coerced to a `codelist`).
+
+### The `summarised_result` class
+
+`summarised_result` is the standard result format for all analytics functions in the ecosystem. It is a tibble with 13 compulsory columns. See @sec-function-outputs for a full description and guidance on how to create and populate it.
 
 ### Methods
 
+`omopgenerics` exports a set of generic S3 methods that packages implement for their own classes:
+
+| Generic | Purpose |
+|---|---|
+| `cdmName()` | Return the name of the CDM instance |
+| `cdmVersion()` | Return the CDM version |
+| `cdmSource()` | Return the `cdm_source` object |
+| `sourceType()` | Return the back-end type (e.g. `"duckdb"`) |
+| `tableName()` | Return the name of a `cdm_table` |
+| `settings()` | Return cohort set metadata |
+| `cohortCount()` | Return record/subject counts per cohort |
+| `attrition()` | Return the attrition log |
+| `cohortCodelist()` | Return the codelist used to build a cohort |
+| `recordCohortAttrition()` | Append a step to the attrition log |
+| `bind()` | Bind two `summarised_result` objects together |
+| `suppress()` | Apply small-number suppression to a `summarised_result` |
+
 ### Input validation functions
 
-### Manipulate a `cdm_reference` object
+`omopgenerics` provides `validate*` functions for the arguments that appear repeatedly across the ecosystem. Using these instead of writing bespoke validation code keeps error messages consistent across packages. See @sec-error-and-validation for full details and examples. The available validators are:
 
-### Manipulate a `summarised_result` object
+`validateCdmArgument()`, `validateCohortArgument()`, `validateCohortIdArgument()`, `validateConceptSetArgument()`, `validateNameArgument()`, `validateNameStyle()`, `validateResultArgument()`, `validateStrataArgument()`, `validateWindowArgument()`, `validateAgeGroupArgument()`.
+
+There are also `assert*` helpers for simpler type checks: `assertCharacter()`, `assertNumeric()`, `assertLogical()`, `assertDate()`, `assertList()`, `assertClass()`.
+
+### Manipulating a `cdm_reference`
+
+In addition to the methods above, `omopgenerics` provides utilities for working with CDM table collections:
+
+```{r, eval=FALSE}
+# List tables by type
+omopTables(cdm)       # standard OMOP CDM tables
+cohortTables(cdm)     # cohort tables in the write schema
+achillesTables(cdm)   # Achilles result tables
+
+# Insert and drop
+cdm <- insertTable(cdm, name = "temp", table = my_tibble)
+cdm <- dropSourceTable(cdm, name = "temp")
+```
+
+### Manipulating a `summarised_result`
+
+A `summarised_result` object has its own set of helper functions:
+
+```{r, eval=FALSE}
+# Inspect
+settings(result)          # result-level metadata (result_type, package_name, ...)
+groupColumns(result)      # columns encoded in group_name / group_level
+strataColumns(result)     # columns encoded in strata_name / strata_level
+
+# Transform
+tidy(result)              # pivot to wide format — useful for internal computation
+bind(result1, result2)    # combine two summarised_result objects
+suppress(result, minCellCount = 5)  # apply cell suppression
+```
 
 ## Other useful packages
 
-The *omopverse* has some core packages that will be useful to simplify the scope of your package:
+Beyond `omopgenerics`, several other core packages are commonly useful. Unlike `omopgenerics`, these should generally be listed under `Suggests` unless your package's primary purpose depends on them.
 
-- [PatientProfiles](https://darwin-eu.github.io/PatientProfiles/): this package is very useful for data manipulation, you can find extract basic demographic information, intersections of cohorts and summarise data in a standard format. Take a look at the [list](https://darwin-eu.github.io/PatientProfiles/reference/index.html) of functions in PatientProfiles to prevent you from duplicating code.
+**[PatientProfiles](https://darwin-eu.github.io/PatientProfiles/)** adds columns to cohort tables: demographics (age, sex, prior observation, future observation), intersection flags and values (e.g. "was the patient on drug X at cohort start?"), and date-relative summaries. Browse the [function reference](https://darwin-eu.github.io/PatientProfiles/reference/index.html) before implementing any feature-derivation logic — it is very likely already there.
 
-- [visOmopResults](https://darwin-eu.github.io/visOmopResults/): this package is very useful to create data visualisations (tables and plots) from standardised data. There are many different supported types of tables (`r visOmopResults::tableType()`) and with little customisation you can get quite pretty tables. For plots the support is a bit more limited but it creates some simple [ggplot2](https://ggplot2.tidyverse.org) visualisations with very little effort. Take a look at the [list](https://darwin-eu.github.io/visOmopResults/reference/index.html) of functions in visOmopResults to prevent you from duplicating code.
+**[visOmopResults](https://darwin-eu.github.io/visOmopResults/)** transforms `summarised_result` objects into formatted tables and `ggplot2` plots. The package supports multiple output formats for tables (gt, flextable, tibble) with a consistent API. See @sec-visualisations for guidance on how to use it in your package. Browse the [function reference](https://darwin-eu.github.io/visOmopResults/reference/index.html) before adding any result-formatting code.
 
-- [CodelistGenerator](https://darwin-eu.github.io/CodelistGenerator/): this package can be useful to query the vocabularies. Take a look at the [list](https://darwin-eu.github.io/CodelistGenerator/reference/index.html) of functions in CodelistGenerator to prevent you from duplicating code.
+**[CodelistGenerator](https://darwin-eu.github.io/CodelistGenerator/)** generates codelists by searching the OMOP vocabulary, and provides utilities for subsetting, stratifying, comparing, and diagnosing codelists. If your package works with clinical concepts, check the [function reference](https://darwin-eu.github.io/CodelistGenerator/reference/index.html) first.
 
-- [omock](https://ohdsi.github.io/omock/): this package can be very useful for testing. With very few lines of code you can create a mock CDM object with your desired specifications, specially useful can be the function [`mockCdmFromTables()`](https://ohdsi.github.io/omock/reference/mockCdmFromTables.html) that will create a viable CDM object from the supplied information. Take a look at the [list](https://ohdsi.github.io/omock/reference/index.html) of functions in omock to prevent you from duplicating code. This package is quite useful, but usually listed in Suggests as you will only need this package for testing purposes.
+**[omock](https://ohdsi.github.io/omock/)** creates synthetic OMOP CDM datasets for testing. It should almost always be listed under `Suggests`, not `Imports`. See @sec-test-omop for detailed guidance on using it in your test suite.
+
+## Imports vs Suggests
+
+A package listed under `Imports` is loaded automatically when your package is loaded. A package listed under `Suggests` is not — it must be available but is only used in specific circumstances (tests, vignettes, or optional code paths guarded by `requireNamespace()`).
+
+The key rule for this ecosystem:
+
+- **Always `Imports`**: `omopgenerics`, any package whose classes or generics you use in exported functions.
+- **Usually `Suggests`**: `omock` (tests only), `CDMConnector` / back-end packages (tests only), `visOmopResults` (unless your package's core output is visualisation), `PatientProfiles` (unless your package is built on top of it).
+
+When in doubt, prefer `Suggests`. A lighter `Imports` list means fewer forced transitive dependencies for your users.

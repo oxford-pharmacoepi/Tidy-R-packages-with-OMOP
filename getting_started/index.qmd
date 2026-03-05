@@ -1,3 +1,13 @@
 # Getting started
 
-In this first part it is covered how to ...
+This first part of the book covers the decisions and steps that come before writing any package code. There are two distinct situations you might be in: starting a new package from scratch, or contributing to a package that already exists. Both are covered here.
+
+The chapters are organised as follows:
+
+- [Scope](scope.qmd) asks the most important question of all: is this package actually needed? It walks through how to evaluate whether new functionality warrants a new package, whether it belongs inside an existing one, or whether it is already covered by the ecosystem.
+
+- [Ecosystem](ecosystem.qmd) gives an overview of the full set of packages in the Tidy R OMOP CDM ecosystem. Understanding the landscape — which packages exist, what they do, and how they depend on each other — is essential before making scope decisions or choosing what to import.
+
+- [Contributing to a package](contributing.qmd) covers the workflow for contributing to an existing package: how to open and respond to GitHub issues, how to write good pull requests, and what to expect from code review.
+
+- [Set up your environment](setup.qmd) walks through the practical steps to get a new package off the ground: creating the package skeleton, adding a licence, writing a first function, setting up tests, a README, a documentation website, and GitHub.

@@ -1,1 +1,17 @@
 # GitHub
+
+GitHub is the central platform for developing, testing, and distributing packages in the Tidy R OMOP CDM ecosystem. Beyond version control, it provides the infrastructure for continuous integration: automatically running checks, building the documentation website, measuring test coverage, and testing against multiple database backends — all triggered on every push or pull request.
+
+Setting this infrastructure up correctly from the beginning pays dividends throughout the life of a package. It ensures that regressions are caught immediately, that the documentation is always up to date, and that contributors can trust that their changes have been properly validated before merging.
+
+This part of the book covers the GitHub setup used across the ecosystem. The chapters are organised as follows:
+
+- [Set up GitHub](setup_github.qmd) walks through the initial steps for connecting a package repository to GitHub: repository settings, branch protection, issue and pull request templates, and the conventions used across the ecosystem.
+
+- [Automatic R-CDM checks](automatic_checks.qmd) explains how to configure a GitHub Actions workflow that runs `R CMD check` on every push and pull request, including checks specific to OMOP CDM packages.
+
+- [Website deployment](automatic_website.qmd) covers the GitHub Actions workflow for automatically building and deploying your pkgdown documentation website whenever changes are pushed to the main branch.
+
+- [Test coverage](test_coverage.qmd) describes how to integrate Codecov with GitHub Actions to automatically measure and report test coverage on every pull request.
+
+- [Testing multiple DBMS](testing_multiple_dbms.qmd) explains how to configure GitHub Actions workflows that test your package against multiple database management systems — DuckDB, PostgreSQL, SQL Server — to ensure consistent behaviour across backends.

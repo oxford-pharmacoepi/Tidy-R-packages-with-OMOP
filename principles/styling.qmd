@@ -1,1 +1,96 @@
 # Styling your code
+
+Consistent code style across the ecosystem means that any contributor can read and navigate any package without having to mentally re-parse a different formatting convention. This chapter describes the style rules used and the tools that enforce them.
+
+## Code style
+
+The ecosystem follows the [tidyverse style guide](https://style.tidyverse.org) with one important modification: **function and argument names use camelCase**, not snake_case. This applies to all exported functions, unexported functions, and arguments. Object names inside function bodies should also use camelCase.
+
+```{r, eval=FALSE}
+# Correct
+summariseCohortOverlap <- function(cohort, cohortId = NULL, minCellCount = 5) {
+  resultData <- computeOverlap(cohort, cohortId)
+  resultData |> formatOutput(minCellCount = minCellCount)
+}
+
+# Incorrect — snake_case names
+summarise_cohort_overlap <- function(cohort, cohort_id = NULL, min_cell_count = 5) {
+  result_data <- compute_overlap(cohort, cohort_id)
+}
+```
+
+The rationale for camelCase over snake_case is historical consistency: the earliest packages in the ecosystem (including `omopgenerics` and `PatientProfiles`) used camelCase, and changing convention mid-ecosystem would introduce more confusion than it resolves.
+
+## Linting
+
+All packages in the ecosystem use [`lintr`](https://lintr.r-lib.org) to enforce style. The standard configuration is:
+
+```{r, eval=FALSE}
+lintr::lint_package(
+  linters = lintr::linters_with_defaults(
+    lintr::object_name_linter(styles = "camelCase")
+  )
+)
+```
+
+This checks all camelCase naming conventions, line length, spacing, and other tidyverse style rules, with the camelCase override for names.
+
+You should run `lint_package()` before opening any pull request. The GitHub Actions CI workflow (see @sec-automatic-checks) runs linting automatically on every push.
+
+To add lintr configuration to your package so that the linter settings are stored in the repository:
+
+```{r, eval=FALSE}
+usethis::use_lintr()
+```
+
+This creates a `.lintr` file at the root of your package. Edit it to match the ecosystem configuration:
+
+```
+linters: linters_with_defaults(
+  object_name_linter(styles = "camelCase")
+)
+```
+
+## Formatting
+
+Use [`styler`](https://styler.r-lib.org) to automatically format code. The standard command is:
+
+```{r, eval=FALSE}
+styler::style_pkg()
+```
+
+::: {.callout-important}
+When contributing to an existing package, **do not restyle code that you have not otherwise modified**. Reformatting unrelated lines makes diffs harder to review and is a common source of merge conflicts. Only restyle the lines you have actively changed.
+:::
+
+## Line length
+
+The maximum line length is 80 characters. Long function calls should be broken across lines with one argument per line, with the closing parenthesis on its own line:
+
+```{r, eval=FALSE}
+# Correct
+result <- summariseCharacteristics(
+  cohort = cdm$my_cohort,
+  strata = list(c("sex"), c("age_group")),
+  minCellCount = 5
+)
+
+# Avoid — too long for a single line
+result <- summariseCharacteristics(cohort = cdm$my_cohort, strata = list(c("sex"), c("age_group")), minCellCount = 5)
+```
+
+## Pipes
+
+Use the native pipe `|>` introduced in R 4.1. The `%>%` pipe from magrittr should not be used in new code. The native pipe is imported automatically and requires no additional dependency.
+
+## Assignment
+
+Use `<-` for assignment, not `=`. Reserve `=` for argument passing inside function calls.
+
+## Spacing
+
+- Put spaces around all binary operators (`<-`, `+`, `-`, `==`, `|>`, etc.).
+- Put a space after commas but not before.
+- Do not put spaces inside parentheses: `f(x, y)` not `f( x, y )`.
+
+These rules are enforced by `lintr` and will be flagged automatically.

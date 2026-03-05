@@ -1,1 +1,60 @@
 # Reexporting from other packages
+
+Re-exporting a function from another package means making it available as if it were part of your own package. When a user attaches your package with `library(myPackage)`, re-exported functions appear in the namespace and can be called without a package prefix.
+
+This is a feature that should be used sparingly and deliberately. This chapter explains when re-exporting is appropriate, how to do it, and what the implications are.
+
+## When to re-export
+
+Re-exporting is appropriate in a small number of situations:
+
+**You are implementing a generic defined in `omopgenerics`.** If `omopgenerics` defines a generic (e.g. `settings()`, `cohortCount()`, `attrition()`) and your package provides a method for it, you should re-export the generic so users can call it without loading `omopgenerics` explicitly. This is the most common legitimate use of re-exports in this ecosystem.
+
+**Your package is a high-level wrapper.** If your package intentionally acts as a one-stop interface (e.g. a meta-package or a workflow package) and re-exports functions to save users from loading multiple packages, that is reasonable — but document the choice explicitly.
+
+**You re-export the pipe.** Re-exporting `|>` is not necessary since R 4.1, as it is a base R operator. Do not re-export `%>%` from magrittr.
+
+## When not to re-export
+
+- Do not re-export functions simply because your package depends on them internally. That they are in `Imports` does not mean they belong in your namespace.
+- Do not re-export large swaths of another package's API. This creates namespace pollution for your users and tightly couples your package's public interface to the internals of another package.
+- Do not re-export functions that are likely to change in upstream packages — every breaking change upstream becomes a breaking change in your package too.
+
+## How to re-export
+
+Use the `@importFrom` and `@export` roxygen2 tags together:
+
+```{r, eval=FALSE}
+#' @importFrom omopgenerics settings
+#' @export
+omopgenerics::settings
+```
+
+This pattern tells roxygen2 to import the function from `omopgenerics` and re-export it from your package's namespace. After running `devtools::document()`, the function will appear in your `NAMESPACE` file with both `importFrom` and `export` entries.
+
+Alternatively, for generics you implement, you can use the `@rdname` tag to link your method to the upstream documentation:
+
+```{r, eval=FALSE}
+#' @rdname omopgenerics::settings
+#' @export
+settings.myClass <- function(x, ...) {
+  # your implementation
+}
+```
+
+## Implications of re-exporting
+
+Re-exporting creates a **public commitment**. If `omopgenerics` changes or removes `settings()`, your package will break at the namespace level — not just internally. Users loading your package will see `settings()` in your namespace, and if it disappears, they will blame your package.
+
+For this reason, only re-export functions from packages whose stability you trust and whose interfaces are unlikely to change in breaking ways. `omopgenerics` generics are the safest candidates because the package is deliberately stable and versioned.
+
+## Checking your exports
+
+After calling `devtools::document()`, inspect your `NAMESPACE` file to confirm that only the functions you intended to export appear there. An unexpectedly large export list is a sign that re-exports have been added too liberally.
+
+You can also use:
+
+```{r, eval=FALSE}
+# List all exports from your package
+getNamespaceExports("myPackage")
+```
